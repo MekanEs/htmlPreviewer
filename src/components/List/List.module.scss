@@ -1,0 +1,14 @@
+.List {
+  width: 97%;
+  padding: 5px 10px;
+  border: 1px solid #404040;
+}
+.item {
+  cursor: pointer;
+  padding: 2px 4px;
+  border: 1px solid #949494;
+  background-color: #080c2c;
+  &:hover {
+    opacity: 0.9;
+  }
+}

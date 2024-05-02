@@ -1,0 +1,38 @@
+.Frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile {
+  width: 320px;
+  height: 800px;
+  min-width: 320px;
+}
+
+.borderedFrame {
+  div {
+    outline: 1px solid #000;
+    box-shadow: 0 0 2px #fff;
+  }
+}
+
+.def {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.buttonGroup {
+  padding: 5px 10px;
+  border: 1px solid #1e3300c3;
+}
