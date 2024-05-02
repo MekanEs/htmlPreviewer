@@ -2,14 +2,13 @@ import { EditorView, useCodeMirror } from '@uiw/react-codemirror';
 import { copilot } from '@uiw/codemirror-theme-copilot';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { FC, SetStateAction, useEffect, useRef, useState } from 'react';
-import { historyField } from '@codemirror/commands';
 import { Diagnostic } from '@codemirror/lint';
 type EditorProps = {
   onChange: (val: string) => void;
   value: string;
   setJSON: React.Dispatch<SetStateAction<object>>;
 };
-const stateFields = { history: historyField };
+// const stateFields = { history: historyField };
 const JSONEditor: FC<EditorProps> = ({ onChange, value }) => {
   const editor = useRef(null);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +43,7 @@ const JSONEditor: FC<EditorProps> = ({ onChange, value }) => {
           setError('error');
         } else [setError(null)];
       }
-
+      console.log(state, viewUpdate);
       // localStorage.setItem('myValue', value);
       // const state = viewUpdate.state.toJSON(stateFields);
       // localStorage.setItem('myEditorState', JSON.stringify(state));
