@@ -77,7 +77,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
         defaultLanguage='html'
         defaultValue={value}
         onChange={changeHandler}
-        language='handlebars'
+        language='html'
         onMount={handleMount}
         options={{
           wordWrap: 'on',

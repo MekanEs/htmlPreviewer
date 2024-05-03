@@ -5,8 +5,8 @@ export const HTMLOptionsSetter = (monaco: Monaco) => {
     format: {
       contentUnformatted: 'pre,code,textarea,style',
       endWithNewline: false,
-      extraLiners: 'head, body, /html',
-      indentHandlebars: false,
+      extraLiners: ' /html',
+      indentHandlebars: true,
       indentInnerHtml: false,
       insertSpaces: false,
       maxPreserveNewLines: undefined,
