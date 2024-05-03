@@ -10,7 +10,7 @@ export const HTMLOptionsSetter = (monaco: Monaco) => {
       indentInnerHtml: false,
       insertSpaces: false,
       maxPreserveNewLines: undefined,
-      preserveNewLines: false,
+      preserveNewLines: true,
       tabSize: 4,
       unformatted: 'pre,code,textarea,style',
       wrapAttributes: 'auto',
