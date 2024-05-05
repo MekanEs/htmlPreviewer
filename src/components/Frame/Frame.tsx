@@ -34,8 +34,8 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   useEffect(() => {
     const frame = ref.current;
     function loadHandler() {
+      console.log('loaded');
       if (frame.contentDocument) {
-        // frame.contentDocument.body.style['transform'] = 'scale(0.9)';
         frame.contentDocument.addEventListener('click', (e: Event) => {
           e.preventDefault();
           const el = e.target as HTMLElement;
@@ -65,8 +65,16 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
     frame.addEventListener('load', loadHandler);
     return () => frame.removeEventListener('load', loadHandler);
   }, [setSelection, newTxt, bordered]);
+
   useEffect(() => {
     const frame = ref.current;
+    if (frame.contentDocument) {
+      frame.srcdoc = html;
+    }
+  }, [source, testData, html]);
+  useEffect(() => {
+    const frame = ref.current;
+
     if (frame.contentDocument) {
       if (bordered) {
         let style = frame.contentDocument.querySelector('#style123');
@@ -98,7 +106,14 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
         </div>
       </div>
 
-      <iframe sandbox='allow-same-origin' width={'100%'} height={'100%'} ref={ref} srcDoc={html} />
+      <iframe
+        sandbox='allow-same-origin'
+        width={'100%'}
+        height={'100%'}
+        ref={ref}
+        srcDoc='<html></html>'
+      />
+
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>
         {dom}
       </iframe> */}

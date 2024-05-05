@@ -7,6 +7,7 @@ import { str } from '../../constants';
 import { SelectRange } from '../../utils/setSelection';
 import { editor } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
+import { useDebounce } from '../../utils/useDebounce';
 interface EditorPageProps {
   className?: string;
 }
@@ -18,6 +19,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
     "name":"Mekan"
   }
   `);
+  const value = useDebounce(text, 500);
   const [editorMode, setEditorMode] = useState(true);
   const [mode, setMode] = useState(false);
   const [, setParsedJSON] = useState({});
@@ -63,7 +65,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
             {mode ? 'show Stats' : 'show Preview'}
           </button>
           {mode ? (
-            <Frame source={text} setSelection={setSel} testData={testJSON} />
+            <Frame source={value} setSelection={setSel} testData={testJSON} />
           ) : (
             <Stats source={text} />
           )}

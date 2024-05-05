@@ -26,7 +26,6 @@ export const Stats: FC<StatsProps> = ({ className, source }) => {
   const lang1 = useRegMatcher({ regs: RegLangs, text: source });
   const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
   const err = useRegMatcher({ regs: RegErrors, text: source });
-  console.log(regCampaign, regContent, regRedir);
   return (
     <div className={classNames(styles.Stats, {}, [className])}>
       <List list={regCampaign} name='utm_campaign' />
