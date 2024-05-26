@@ -32,6 +32,7 @@ export const RegLangs = [
   /lang%3Dfr/gm,
   /lang%3Dpl/gm,
   /lang%3Dkz/gm,
+  /lang%3Dja/gm,
 ];
 export const RegLangs2 = [
   /lang=ru/gm,
@@ -45,6 +46,7 @@ export const RegLangs2 = [
   /lang=fr/gm,
   /lang=pl/gm,
   /lang=kz/gm,
+  /lang=ja/gm,
 ];
 
 export const RegRedirect = [/redirect_url=\/([^%3Futm]+)/gm];
