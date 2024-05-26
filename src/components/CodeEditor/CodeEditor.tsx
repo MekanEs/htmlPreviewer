@@ -43,7 +43,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
 
   useEffect(() => {
     const newDecorations = verify(value);
-    console.log(newDecorations);
     if (editorRef.current) {
       const ed = editorRef.current;
       decorations.current = ed
@@ -65,7 +64,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
   }, [selection, editorRef]);
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
-
+    console.log(editor);
     HTMLOptionsSetter(monaco);
   };
   return (
@@ -81,7 +80,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
         onMount={handleMount}
         options={{
           wordWrap: 'on',
-          minimap: { enabled: true, showSlider: 'mouseover', size: 'proportional' },
+          minimap: { enabled: true, size: 'proportional' },
         }}
       />
     </div>

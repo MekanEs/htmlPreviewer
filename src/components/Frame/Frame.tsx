@@ -17,6 +17,7 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   const [mode, setMode] = useState(true);
   const [bordered, setBordered] = useState(false);
   // const [dom, setDom] = useState<Document | null>(null);
+
   const ref = useRef() as React.MutableRefObject<HTMLIFrameElement>;
   // const handleFrameLoad: React.ReactEventHandler<HTMLIFrameElement> = (e) => {
   //   iframe.current = e.target;
@@ -34,7 +35,6 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   useEffect(() => {
     const frame = ref.current;
     function loadHandler() {
-      console.log('loaded');
       if (frame.contentDocument) {
         frame.contentDocument.addEventListener('click', (e: Event) => {
           e.preventDefault();
@@ -106,13 +106,7 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
         </div>
       </div>
 
-      <iframe
-        sandbox='allow-same-origin'
-        width={'100%'}
-        height={'100%'}
-        ref={ref}
-        srcDoc='<html></html>'
-      />
+      <iframe sandbox='allow-same-origin' width={'100%'} height={'100%'} ref={ref} />
 
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>
         {dom}

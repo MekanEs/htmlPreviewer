@@ -16,8 +16,9 @@ const JSONEditor: FC<EditorProps> = ({ onChange, value }) => {
     value: value,
     height: '90vh',
     width: '100%',
-    extensions: [copilot, json()],
+    extensions: [copilot, json(), EditorView.lineWrapping],
     theme: 'dark',
+
     basicSetup: {
       foldGutter: false,
       dropCursor: false,
@@ -33,6 +34,7 @@ const JSONEditor: FC<EditorProps> = ({ onChange, value }) => {
       syntaxHighlighting: true,
       crosshairCursor: true,
     },
+
     onChange: (value, viewUpdate) => {
       onChange(value);
       const lint: (view: EditorView) => Diagnostic[] = jsonParseLinter();
@@ -47,6 +49,9 @@ const JSONEditor: FC<EditorProps> = ({ onChange, value }) => {
       // localStorage.setItem('myValue', value);
       // const state = viewUpdate.state.toJSON(stateFields);
       // localStorage.setItem('myEditorState', JSON.stringify(state));
+    },
+    onCreateEditor: (view, state) => {
+      console.log(view, state);
     },
   });
 
