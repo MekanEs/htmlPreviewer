@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 
 Handlebars.registerHelper('equals', (orig: unknown, val: unknown, options) => {
-  return orig == val ? options.fn(this) : options.inverse(this);
+  return orig === val ? options.fn(this) : options.inverse(this);
 });
 export const compileHbs = (str: string, testData: string) => {
   const template = Handlebars.compile(str);
