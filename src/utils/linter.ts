@@ -15,6 +15,7 @@ export const verify = (code: string) => {
     'attr-value-double-quotes': true,
     'alt-require': true,
     'src-not-empty': true,
+    "title-require": true,
   };
   const results = HTMLHint.verify(code, rulesets);
   const newDecorations: editor.IModelDeltaDecoration[] = results.map((e) => {
