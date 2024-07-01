@@ -2,7 +2,7 @@ export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
   /target="blank"/gm,
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
-  /[A-Za-z0-9А-Яа-я]\s+<\//gm,
+ /[A-Za-z0-9А-Яа-я]\s+<\//gm,
   /^\s*$/gm,
   /[A-Za-z0-9А-Яа-я]\s+\s+\s*[A-Za-z0-9А-Яа-я]/gm,
   /(\s+&nbsp;)|&nbsp;\s+/gm,
