@@ -8,6 +8,7 @@ export const RegErrors = [
   /(\s+&nbsp;)|&nbsp;\s+/gm,
   /alt=""|alt=''/gm,
   /style='/gm,
+  /[0-9][0-9][0-9][0-9]&/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -19,6 +20,7 @@ export const RegErrorDesc = [
   'пробел рядом с неразрывным',
   'пустой alt',
   'кавычки тэга style',
+  '4 числа подряд (необработанная вал формула)',
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
