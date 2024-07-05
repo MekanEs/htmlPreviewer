@@ -119,8 +119,8 @@ setHeight(ref.current.style['height'])
           </button>
         </div>
         <div className={styles.inputContainer}>
-          {!mode && <><input style={{'width':"50px"}} type="text"  value={ref.current.style['width']}/>
-          <input style={{'width':"50px"}} type="text"  value={ref.current.style['height']}/></>}
+          {!mode && <><input style={{'width':"50px"}} type="text"  value={width}/>
+          <input style={{'width':"50px"}} type="text"  value={height}/></>}
         </div>
       </div>
 
