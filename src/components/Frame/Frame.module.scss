@@ -4,12 +4,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .mobile {
   width: 320px;
-  height: 800px;
   min-width: 320px;
 }
 
@@ -35,4 +33,18 @@
 .buttonGroup {
   padding: 5px 10px;
   border: 1px solid #1e3300c3;
+}
+
+.resizable{
+  resize: both;
+  overflow: auto;
+}
+.full{
+  width: 100% !important;
+  height: 100% !important;
+}
+.inputContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
