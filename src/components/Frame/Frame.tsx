@@ -124,7 +124,7 @@ setHeight(ref.current.style['height'])
         </div>
       </div>
 
-      <iframe onMouseUp={updateSize} className={classNames({[styles.resizable]:!mode,[styles.full]:mode})} sandbox='allow-same-origin' width={'100%'} height={'100%'} ref={ref} />
+      <iframe onMouseUp={updateSize} className={classNames({[styles.resizable]:!mode,[styles.full]:mode})} sandbox='allow-same-origin allow-scripts' width={'100%'} height={'100%'} ref={ref} />
 
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>
         {dom}
