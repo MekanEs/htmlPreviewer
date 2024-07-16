@@ -20,8 +20,8 @@ export const useRegContent = (text: string = '') => {
     });
 
     setMatches({
-      'utm_content%3D': [...new Set(utmContentValues)],
-      'utm_content=': [...new Set(utmContentValues2)],
+      'utm_content': [...new Set(utmContentValues)],
+      'utm_content': [...new Set(utmContentValues2)],
     });
   }, [text]);
 
@@ -47,8 +47,8 @@ export const useRegCampaign = (text: string = '') => {
     });
 
     setMatches({
-      'utm_campaign%3D': [...new Set(utmContentValues)],
-      'utm_campaign=': [...new Set(utmContentValues2)],
+      'utm_campaign': [...new Set(utmContentValues)],
+      'utm_campaign': [...new Set(utmContentValues2)],
     });
   }, [text]);
   return matches;
