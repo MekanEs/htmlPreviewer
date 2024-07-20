@@ -1,7 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import Handlebars from 'handlebars';
 
-Handlebars.registerHelper('equals', (orig: unknown, val: unknown, options) => {
-  return orig == val ? options.fn(this) : options.inverse(this);
+Handlebars.registerHelper('equals', function(orig: unknown, val: unknown, options) {
+if(orig!==val && !options.hash.includeZero){
+return options.inverse(this)
+}else{
+return options.fn(this)
+}
 });
 export const compileHbs = (str: string, testData: string) => {
   const template = Handlebars.compile(str);

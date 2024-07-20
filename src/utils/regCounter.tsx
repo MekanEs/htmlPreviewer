@@ -11,11 +11,11 @@ export const useRegContent = (text: string = '') => {
     const matches2 = text.match(regex2) || [];
     // Extract the captured group (the utm_content value) from each match
     const utmContentValues = matches.map((match) => {
-      const matchWithoutPrefix = match.replace('utm_content%3D', '');
+      const matchWithoutPrefix = match.replace('utm_content', '');
       return matchWithoutPrefix.split('"')[0];
     });
     const utmContentValues2 = matches2.map((match) => {
-      const matchWithoutPrefix = match.replace('utm_content=', '');
+      const matchWithoutPrefix = match.replace('utm_content', '');
       return matchWithoutPrefix.split('"')[0];
     });
 
@@ -38,11 +38,11 @@ export const useRegCampaign = (text: string = '') => {
 
     // Extract the captured group (the utm_content value) from each match
     const utmContentValues = matches.map((match) => {
-      const matchWithoutPrefix = match.replace('utm_campaign%3D', '');
+      const matchWithoutPrefix = match.replace('utm_campaign', '');
       return matchWithoutPrefix.split('"')[0];
     });
     const utmContentValues2 = matches2.map((match) => {
-      const matchWithoutPrefix = match.replace('utm_campaign=', '');
+      const matchWithoutPrefix = match.replace('utm_campaign', '');
       return matchWithoutPrefix.split('"')[0];
     });
 

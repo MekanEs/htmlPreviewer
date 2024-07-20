@@ -16,6 +16,8 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   const [html, setHtml] = useState('');
   const [mode, setMode] = useState(true);
   const [bordered, setBordered] = useState(false);
+  const [width, setWidth]=useState('')
+  const [height, setHeight]=useState('')
   // const [dom, setDom] = useState<Document | null>(null);
 
   const ref = useRef() as React.MutableRefObject<HTMLIFrameElement>;
@@ -94,19 +96,35 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
       }
     }
   }, [bordered, source, testData]);
+
+const updateSize =()=>{
+setWidth(ref.current.style['width'])
+setHeight(ref.current.style['height'])
+}
   return (
     <div className={classNames(styles.Frame, { [styles.mobile]: !mode })}>
       <div className={styles.buttonContainer}>
         <div className={styles.buttonGroup}>
-          <button onClick={() => setMode(true)}>full</button>
-          <button onClick={() => setMode(false)}>mobile</button>
+          <button onClick={() =>{setMode((prev)=>!prev)
+          if(mode){
+            ref.current.style['width'] = '320px'
+            ref.current.style['height'] = '800px'
+          }
+            updateSize()
+          } }>
+            {mode?'responsive' :'full'}
+            </button>
           <button onClick={() => setBordered((prev) => !prev)}>
             {bordered ? 'hide border' : 'show border'}
           </button>
         </div>
+        <div className={styles.inputContainer}>
+          {!mode && <><input style={{'width':"50px"}} type="text"  value={width}/>
+          <input style={{'width':"50px"}} type="text"  value={height}/></>}
+        </div>
       </div>
 
-      <iframe sandbox='allow-same-origin' width={'100%'} height={'100%'} ref={ref} />
+      <iframe onMouseUp={updateSize} className={classNames({[styles.resizable]:!mode,[styles.full]:mode})} sandbox='allow-same-origin allow-scripts' width={'100%'} height={'100%'} ref={ref} />
 
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>
         {dom}

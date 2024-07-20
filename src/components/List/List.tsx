@@ -26,7 +26,7 @@ export const List: FC<ListProps> = ({ className, list, name }) => {
                       navigator.clipboard.writeText(el);
                     }}
                   >
-                    {el}
+                    {el.toString()}
                   </li>
                 );
               })}
