@@ -1,17 +1,12 @@
 import { FC } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
-import {
-  useRegCampaign,
-  useRegContent,
-  useRegRedir,
-  useSubscription,
-} from '../../utils/regCounter';
+import { RegKeys, useRedirectCounter, useRegCampaign, useRegContent } from '../../utils/regCounter';
 import { List } from '../List/List';
-import { RedirectList } from '../List/redirectList';
 import useRegMatcher from '../../utils/regMatcher';
 import { RegErrors, RegLangs, RegLangs2 } from '../../constants';
 import { LangList } from '../List/langList';
+import { RedirList } from '../List/RedirList';
 
 interface StatsProps {
   className?: string;
@@ -21,8 +16,8 @@ interface StatsProps {
 export const Stats: FC<StatsProps> = ({ className, source }) => {
   const regContent = useRegContent(source);
   const regCampaign = useRegCampaign(source);
-  const regRedir = useRegRedir(source);
-  const regSubscription = useSubscription(source);
+  const regRedir = useRedirectCounter(source, RegKeys.redirectUtm);
+  const regSubscription = useRedirectCounter(source, RegKeys.subscription);
   const lang1 = useRegMatcher({ regs: RegLangs, text: source });
   const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
   const err = useRegMatcher({ regs: RegErrors, text: source });
@@ -30,8 +25,8 @@ export const Stats: FC<StatsProps> = ({ className, source }) => {
     <div className={classNames(styles.Stats, {}, [className])}>
       <List list={regCampaign} name='utm_campaign' />
       <List list={regContent} name='utm_content' />
-      <RedirectList list={regRedir} />
-      <RedirectList list={regSubscription} />
+      <RedirList regMatches={regRedir} />
+      <RedirList regMatches={regSubscription} />
       <div style={{ display: 'flex' }}>
         <LangList regMatches={lang1} />
         <LangList regMatches={lang2} />

@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './Frame.module.scss';
 import classNames from 'classnames';
-import { compileHbs } from '../../utils/newFile';
-import { addDataAttribute } from '../../utils/DataAttributeAdder';
-import { borderStyle } from '../../constants';
+import { loadHandler, toggleFrameBorder, addDataAttribute, compileHbs } from '../../utils';
+
 interface FrameProps {
   className?: string;
   source: string;
@@ -16,15 +15,10 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   const [html, setHtml] = useState('');
   const [mode, setMode] = useState(true);
   const [bordered, setBordered] = useState(false);
-  const [width, setWidth]=useState('')
-  const [height, setHeight]=useState('')
-  // const [dom, setDom] = useState<Document | null>(null);
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
 
   const ref = useRef() as React.MutableRefObject<HTMLIFrameElement>;
-  // const handleFrameLoad: React.ReactEventHandler<HTMLIFrameElement> = (e) => {
-  //   iframe.current = e.target;
-
-  // };
 
   useEffect(() => {
     try {
@@ -36,95 +30,67 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
   }, [newTxt, testData]);
   useEffect(() => {
     const frame = ref.current;
-    function loadHandler() {
-      if (frame.contentDocument) {
-        frame.contentDocument.addEventListener('click', (e: Event) => {
-          e.preventDefault();
-          const el = e.target as HTMLElement;
-          const from = Number(el.dataset.startIndex) || 0;
-          const to = Number(el.dataset.endIndex) || 0;
-          setSelection(from, to);
-        });
-
-        if (bordered) {
-          let style = frame.contentDocument.querySelector('#style123');
-          if (style === null) {
-            style = document.createElement('style');
-            style.setAttribute('type', 'text/css');
-            style.setAttribute('id', 'style123');
-          }
-
-          style.innerHTML = borderStyle;
-          frame.contentDocument.querySelector('head')?.prepend(style);
-        } else {
-          const style = frame.contentDocument.querySelector('#style123');
-          if (style) {
-            style.innerHTML = '';
-          }
-        }
-      }
-    }
-    frame.addEventListener('load', loadHandler);
-    return () => frame.removeEventListener('load', loadHandler);
+    const loadHandlerFunc = () => loadHandler(frame, setSelection, bordered);
+    frame.addEventListener('load', loadHandlerFunc);
+    return () => frame.removeEventListener('load', loadHandlerFunc);
   }, [setSelection, newTxt, bordered]);
 
+  // useEffect(() => {
+  //   const frame = ref.current;
+  //   if (frame.contentDocument) {
+  //     frame.srcdoc = html;
+  //   }
+  // }, [source, testData, html]);
   useEffect(() => {
     const frame = ref.current;
-    if (frame.contentDocument) {
-      frame.srcdoc = html;
-    }
-  }, [source, testData, html]);
-  useEffect(() => {
-    const frame = ref.current;
 
-    if (frame.contentDocument) {
-      if (bordered) {
-        let style = frame.contentDocument.querySelector('#style123');
-        if (style === null) {
-          style = document.createElement('style');
-          style.setAttribute('type', 'text/css');
-          style.setAttribute('id', 'style123');
-        }
+    toggleFrameBorder(bordered, frame);
+  }, [bordered, testData, newTxt]);
 
-        style.innerHTML = borderStyle;
-        frame.contentDocument.querySelector('head')?.prepend(style);
-      } else {
-        const style = frame.contentDocument.querySelector('#style123');
-        if (style) {
-          style.innerHTML = '';
-        }
-      }
-    }
-  }, [bordered, source, testData]);
-
-const updateSize =()=>{
-setWidth(ref.current.style['width'])
-setHeight(ref.current.style['height'])
-}
+  const updateSize = () => {
+    const { width, height } = ref.current.style;
+    setWidth(width);
+    setHeight(height);
+  };
   return (
     <div className={classNames(styles.Frame, { [styles.mobile]: !mode })}>
       <div className={styles.buttonContainer}>
         <div className={styles.buttonGroup}>
-          <button onClick={() =>{setMode((prev)=>!prev)
-          if(mode){
-            ref.current.style['width'] = '320px'
-            ref.current.style['height'] = '800px'
-          }
-            updateSize()
-          } }>
-            {mode?'responsive' :'full'}
-            </button>
+          <button
+            onClick={() => {
+              setMode((prev) => !prev);
+              if (mode) {
+                ref.current.style['width'] = '320px';
+                ref.current.style['height'] = '800px';
+              }
+              updateSize();
+            }}
+          >
+            {mode ? 'responsive' : 'full'}
+          </button>
           <button onClick={() => setBordered((prev) => !prev)}>
             {bordered ? 'hide border' : 'show border'}
           </button>
         </div>
         <div className={styles.inputContainer}>
-          {!mode && <><input style={{'width':"50px"}} type="text"  value={width}/>
-          <input style={{'width':"50px"}} type="text"  value={height}/></>}
+          {!mode && (
+            <>
+              <input style={{ width: '50px' }} type='text' value={width} />
+              <input style={{ width: '50px' }} type='text' value={height} />
+            </>
+          )}
         </div>
       </div>
 
-      <iframe onMouseUp={updateSize} className={classNames({[styles.resizable]:!mode,[styles.full]:mode})} sandbox='allow-same-origin allow-scripts' width={'100%'} height={'100%'} ref={ref} />
+      <iframe
+        onMouseUp={updateSize}
+        className={classNames({ [styles.resizable]: !mode, [styles.full]: mode })}
+        sandbox='allow-same-origin allow-scripts'
+        width={'100%'}
+        height={'100%'}
+        ref={ref}
+        srcDoc={html}
+      />
 
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>
         {dom}

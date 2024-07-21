@@ -4,10 +4,10 @@ import { CodeEditor, Frame } from '../../components';
 import classNames from 'classnames';
 import JSONEditor from '../../components/editorWithInitState/JSONEditor';
 import { str } from '../../constants';
-import { SelectRange } from '../../utils/setSelection';
+
 import { editor } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
-import { useDebounce } from '../../utils/useDebounce';
+import { SelectRange, useDebounce } from '../../utils';
 interface EditorPageProps {
   className?: string;
 }
@@ -16,7 +16,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [text, setText] = useState(str);
   const [testJSON, setTestJSON] = useState(`{
-    "name":"Mekan"
+    "locales":"ru"
   }
   `);
   const value = useDebounce(text, 500);

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Layout } from '../components';
-import { EditorPage } from '../pages/Editor/Editor';
+import { EditorPage } from '../pages';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
