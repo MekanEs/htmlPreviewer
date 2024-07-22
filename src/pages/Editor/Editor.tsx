@@ -16,7 +16,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [text, setText] = useState(str);
   const [testJSON, setTestJSON] = useState(`{
-    "locales":"ru"
+    "locales":{"ru":true}
   }
   `);
   const value = useDebounce(text, 500);
