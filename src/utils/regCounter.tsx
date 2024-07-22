@@ -120,6 +120,11 @@ export const useRedirectCounter = (text: string = '', regex: RegKeys) => {
       redirectUtm: { regex: /redirect_url=(.*?)utm/gm, replace: 'utm' },
       subsciption: { regex: /subscription_type=(.*?)"/gm, replace: '' },
     };
+
+     if(regex==RegKeys.redirectUtm ){
+      
+     text = text.replace(/redirect_url=\{\{/gm,'')
+    }
     // Find matches
     const matches = text.match(RegularExpressions[regex].regex) || [];
 
