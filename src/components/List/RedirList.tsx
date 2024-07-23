@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { RegErrorDesc } from '../../constants';
 import styles from './List.module.scss';
 interface langListProps {
   className?: string;
@@ -7,7 +6,7 @@ interface langListProps {
   hasDesc?: boolean;
 }
 
-export const RedirList: FC<langListProps> = ({ regMatches, hasDesc = false }) => {
+export const RedirList: FC<langListProps> = ({ regMatches }) => {
   return (
     <div>
       <ul>
@@ -15,12 +14,9 @@ export const RedirList: FC<langListProps> = ({ regMatches, hasDesc = false }) =>
           <li
             key={el}
             className={styles.item}
-           
             onClick={() => {
               navigator.clipboard.writeText(el);
-            }}
-            
-          >
+            }}>
             {el + ': ' + regMatches[el]}
           </li>
         ))}
