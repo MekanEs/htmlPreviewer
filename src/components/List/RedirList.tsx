@@ -11,7 +11,7 @@ export const RedirList: FC<langListProps> = ({ regMatches, hasDesc = false }) =>
   return (
     <div>
       <ul>
-        {Object.keys(regMatches).map((el, i) => (
+        {Object.keys(regMatches).map((el) => (
           <li
             key={el}
             className={styles.item}
