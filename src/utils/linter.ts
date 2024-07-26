@@ -33,7 +33,7 @@ export const verify = (code: string) => {
         inlineClassName: e.type === 'error' ? 'errorBackground' : 'warningBackground',
         className: e.type === 'error' ? 'errorBackground' : 'warningBackground',
         hoverMessage: {
-          value: e.message.replace('<', '').replace('>', ''),
+          value: e.message.replace(/</gm, '').replace(/>/gm, ''),
           supportHtml: true,
         },
         zIndex: 1000,
