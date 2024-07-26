@@ -9,6 +9,8 @@ export const RegErrors = [
   /alt=""|alt=''/gm,
   /style='/gm,
   /[0-9][0-9][0-9][0-9]&/gm,
+   /\?title={/gm,
+  /\?title='/gm
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -21,6 +23,8 @@ export const RegErrorDesc = [
   'пустой alt',
   'кавычки тэга style',
   '4 числа подряд (необработанная вал формула)',
+  "title для ежедневок",
+  "title для техничек"
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
