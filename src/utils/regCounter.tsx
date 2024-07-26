@@ -54,7 +54,8 @@ export const useRegCampaign = (text: string = '') => {
   return matches;
 };
 export const useRegRedir = (text: string = '') => {
-  const [matches, setMatches] = useState<string[]>([]);
+  const [regMatches, setRegObjs] = useState({});
+
   useEffect(() => {
     const regex = /redirect_url=(.*?)utm/gm;
 
@@ -68,9 +69,24 @@ export const useRegRedir = (text: string = '') => {
       return matchWithoutPrefix2.split('"')[0];
     });
 
-    setMatches([...new Set(utmContentValues)]);
+    const check: Record<string, number> = utmContentValues.reduce(
+      (acc: Record<string, number>, el: string) => {
+        const match = el.replace('utm', '').split('"')[0];
+
+        if (acc[match]) {
+          acc[match] += 1;
+        } else {
+          acc[match] = 1;
+        }
+
+        return acc;
+      },
+      {},
+    );
+    setRegObjs(check);
   }, [text]);
-  return matches;
+
+  return regMatches;
 };
 export const useSubscription = (text: string = '') => {
   const [matches, setMatches] = useState<string[]>([]);
@@ -90,4 +106,46 @@ export const useSubscription = (text: string = '') => {
     setMatches([...new Set(utmContentValues)]);
   }, [text]);
   return matches;
+};
+export enum RegKeys {
+  redirectUtm = 'redirectUtm',
+  subscription = 'subsciption',
+}
+
+export const useRedirectCounter = (text: string = '', regex: RegKeys) => {
+  const [regMatches, setRegObjs] = useState({});
+
+  useEffect(() => {
+    const RegularExpressions: Record<string, { regex: RegExp; replace: string }> = {
+      redirectUtm: { regex: /redirect_url=(.*?)utm/gm, replace: 'utm' },
+      subsciption: { regex: /subscription_type=(.*?)"/gm, replace: '' },
+    };
+
+     if(regex==RegKeys.redirectUtm ){
+      
+     text = text.replace(/redirect_url=\{\{/gm,'')
+    }
+    // Find matches
+    const matches = text.match(RegularExpressions[regex].regex) || [];
+
+    // Extract the captured group (the utm_content value) from each match
+
+    const check: Record<string, number> = matches.reduce(
+      (acc: Record<string, number>, el: string) => {
+        const match = el.replace(RegularExpressions[regex].replace, '').split('"')[0];
+
+        if (acc[match]) {
+          acc[match] += 1;
+        } else {
+          acc[match] = 1;
+        }
+
+        return acc;
+      },
+      {},
+    );
+    setRegObjs(check);
+  }, [text, regex]);
+
+  return regMatches;
 };

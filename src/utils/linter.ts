@@ -15,11 +15,10 @@ export const verify = (code: string) => {
     'attr-value-double-quotes': true,
     'alt-require': true,
     'src-not-empty': true,
-    "title-require": true,
+    'title-require': true,
   };
   const results = HTMLHint.verify(code, rulesets);
   const newDecorations: editor.IModelDeltaDecoration[] = results.map((e) => {
-    console.log(e);
     return {
       range: {
         startLineNumber: e.line,
@@ -29,11 +28,14 @@ export const verify = (code: string) => {
       },
       options: {
         glyphMarginClassName: e.type === 'error' ? 'errorIcon' : 'warningIcon',
-        glyphMarginHoverMessage: { value: e.message, supportHtml: true },
-        linesDecorationsTooltip: e.message.normalize('NFC'),
+        // glyphMarginHoverMessage: { value: e.message + '123', supportHtml: true },
+        // linesDecorationsTooltip: e.message.normalize('NFC') + '321',
         inlineClassName: e.type === 'error' ? 'errorBackground' : 'warningBackground',
         className: e.type === 'error' ? 'errorBackground' : 'warningBackground',
-        hoverMessage: { value: e.message },
+        hoverMessage: {
+          value: e.message.replace(/</gm, '').replace(/>/gm, ''),
+          supportHtml: true,
+        },
         zIndex: 1000,
       },
     };

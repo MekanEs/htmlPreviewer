@@ -3,10 +3,8 @@ import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
-import { verify } from '../../utils/linter';
 import '../../App.css';
-import { HTMLOptionsSetter } from '../../utils/htmlOptionsSetter';
-import { createRange } from '../../utils/createRange';
+import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 
 interface CodeEditorProps {
   onChange: (str: string) => void;
@@ -50,7 +48,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
         ?.deltaDecorations(decorations.current || [], newDecorations);
     }
     return () => {
-      editorRef.current?.getModel()?.deltaDecorations(decorations.current || [], newDecorations);
+      // editorRef.current?.getModel()?.deltaDecorations(decorations.current || [], newDecorations);
+      editorRef.current?.getModel()?.deltaDecorations([], []);
     };
   }, [editorRef, value]);
   useEffect(() => {
@@ -64,7 +63,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
   }, [selection, editorRef]);
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
-    console.log(editor);
     HTMLOptionsSetter(monaco);
   };
   return (
