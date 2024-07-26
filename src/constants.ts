@@ -9,7 +9,7 @@ export const RegErrors = [
   /alt=""|alt=''/gm,
   /style='/gm,
   /[0-9][0-9][0-9][0-9]&/gm,
-   /\?title={/gm,
+   /\?title=\{/gm,
   /\?title='/gm
 ];
 export const RegErrorDesc = [
