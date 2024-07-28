@@ -7,13 +7,15 @@ import useRegMatcher from '../../utils/regMatcher';
 import { RegErrors, RegLangs, RegLangs2 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
+import { HtmlHintList } from '../List/htmlHintList';
 
 interface StatsProps {
   className?: string;
   source: string;
+  setSelection: (from: number, to: number) => void;
 }
 
-export const Stats: FC<StatsProps> = ({ className, source }) => {
+export const Stats: FC<StatsProps> = ({ className, source, setSelection }) => {
   const regContent = useRegContent(source);
   const regCampaign = useRegCampaign(source);
   const regRedir = useRedirectCounter(source, RegKeys.redirectUtm);
@@ -23,14 +25,17 @@ export const Stats: FC<StatsProps> = ({ className, source }) => {
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
     <div className={classNames(styles.Stats, {}, [className])}>
-      <List list={regCampaign} name='utm_campaign' />
-      <List list={regContent} name='utm_content' />
+      <List list={regCampaign}  />
+      <List list={regContent}  />
       <RedirList regMatches={regRedir} />
       <RedirList regMatches={regSubscription} />
       <div style={{ display: 'flex' }}>
         <LangList regMatches={lang1} />
         <LangList regMatches={lang2} />
         <LangList regMatches={err} hasDesc />
+      </div>
+      <div>
+        <HtmlHintList source={source} setSelection={setSelection} />
       </div>
     </div>
   );

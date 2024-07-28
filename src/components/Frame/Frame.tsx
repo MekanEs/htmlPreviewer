@@ -85,7 +85,7 @@ export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
       <iframe
         onMouseUp={updateSize}
         className={classNames({ [styles.resizable]: !mode, [styles.full]: mode })}
-        sandbox='allow-same-origin allow-scripts'
+        sandbox='allow-same-origin allow-popups allow-scripts'
         width={'100%'}
         height={'100%'}
         ref={ref}
