@@ -13,7 +13,7 @@ export const RegErrors = [
   /[0-9][0-9][0-9][0-9]&/gm,
   /\?title='\{/gm,
   /\?title=\{/gm,
-  /(?!.\?title='\{).\?title='([^]+)'/gm,
+/(?!.\?title='\{).\?title='([^']+)'/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
