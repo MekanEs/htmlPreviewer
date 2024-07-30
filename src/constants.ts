@@ -10,7 +10,7 @@ export const RegErrors = [
   /(\s+&nbsp;)|&nbsp;\s+/gm,
   /alt=""|alt=''/gm,
   /style='/gm,
-   /}[0-9][0-9][0-9][0-9]&/gm,
+  /\}[0-9][0-9][0-9][0-9]&/gm,
   /\?title='\{/gm,
   /\?title=\{/gm,
 /(?!.\?title='\{).\?title='([^']+)'/gm,
