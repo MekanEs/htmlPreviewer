@@ -1,16 +1,16 @@
 import { Ruleset } from 'htmlhint/types';
 
 export const RegErrors = [
-  /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
+   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
   /target="blank"/gm,
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
-  /[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
+/[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
   /^\s*$\n/gm,
   /[A-Za-z0-9А-Яа-я]\s+\s+\s*[A-Za-z0-9А-Яа-я]/gm,
-  /(\s+&nbsp;)|&nbsp;\s+/gm,
+   /(\s+&nbsp;)+|&nbsp;[\t\f\cK ]+/gm,
   /alt=""|alt=''/gm,
   /style='/gm,
-  /\}[0-9][0-9][0-9][0-9]&/gm,
+ /\}[0-9][0-9][0-9][0-9]&/gm,
   /\?title='\{/gm,
   /\?title=\{/gm,
 /(?!.\?title='\{).\?title='([^']+)'/gm,
