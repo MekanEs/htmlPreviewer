@@ -36,7 +36,7 @@ export const JSONEditor2: FC<EditorProps> = ({ onChange, value }) => {
       <Editor
         onChange={changeHandler}
         value={value}
-        theme={'hc-black'}
+       theme={'vs-dark'}
         width={'100%'}
         height='100%'
         defaultLanguage='json'
