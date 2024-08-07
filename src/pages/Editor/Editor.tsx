@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { str } from '../../constants';
 
-import { editor } from 'monaco-editor';
+import { editor,IRange } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
 import { SelectRange, useDebounce } from '../../utils';
 import { JSONEditor2 } from '../../components/JSONEditor/JSONEditor';
@@ -36,7 +36,10 @@ export const EditorPage: FC<EditorPageProps> = () => {
   };
 
   const setSel = SelectRange(setSelection);
-
+const revealLine =(line:number,range:IRange)=>{
+  editorRef.current?.revealLineInCenter(line)
+  editorRef.current?.setSelection(range)
+}
   return (
     <>
       <div>
@@ -69,7 +72,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
           {mode ? (
             <Frame source={value} setSelection={setSel} testData={testJSON} />
           ) : (
-            <Stats source={text} setSelection={setSel} />
+            <Stats source={text} revealLine={revealLine} />
           )}
         </div>
       </div>

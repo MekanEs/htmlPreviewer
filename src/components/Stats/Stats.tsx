@@ -8,14 +8,14 @@ import { RegErrors, RegLangs, RegLangs2 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
 import { HtmlHintList } from '../List/htmlHintList';
-
+import { IRange } from 'monaco-editor';
 interface StatsProps {
   className?: string;
   source: string;
-  setSelection: (from: number, to: number) => void;
+  revealLine: (line:number,range:IRange) => void;
 }
 
-export const Stats: FC<StatsProps> = ({ className, source, setSelection }) => {
+export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regContent = useRegContent(source);
   const regCampaign = useRegCampaign(source);
   const regRedir = useRedirectCounter(source, RegKeys.redirectUtm);
@@ -35,7 +35,7 @@ export const Stats: FC<StatsProps> = ({ className, source, setSelection }) => {
         <LangList regMatches={err} hasDesc />
       </div>
       <div>
-        <HtmlHintList source={source} setSelection={setSelection} />
+        <HtmlHintList source={source} revealLine={revealLine} />
       </div>
     </div>
   );

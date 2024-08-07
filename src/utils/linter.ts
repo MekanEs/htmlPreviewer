@@ -9,7 +9,7 @@ export const verify = (code: string) => {
       range: {
         startLineNumber: e.line,
         startColumn: e.col,
-        endLineNumber: e.line > 0 ? e.line - 1 : e.line,
+        endLineNumber: e.line,
         endColumn: e.col + e.evidence.length - 1,
       },
       options: {

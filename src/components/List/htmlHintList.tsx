@@ -3,28 +3,30 @@ import { HTMLHint } from 'htmlhint';
 import classNames from 'classnames';
 import { rulesets } from '../../constants';
 import styles from './List.module.scss';
-
+import { IRange } from 'monaco-editor';
 interface htmlHintListProps {
   className?: string;
   source: string;
-  setSelection: (from: number, to: number) => void;
+  revealLine: (line:number, range:IRange) => void;
 }
 
-export const HtmlHintList: FC<htmlHintListProps> = ({ source, setSelection }) => {
+export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
   const results = HTMLHint.verify(source, rulesets);
 
   return (
     <div className={classNames(styles.List)}>
       {results.map((el) => {
-        console.log(el);
+        const {line,col,evidence}=el
+      const range:IRange =  {
+        startLineNumber: line,
+        startColumn: col,
+        endLineNumber: line,
+        endColumn: col + evidence.length - 1,
+      }
         return (
           <div
             onDoubleClick={() => {
-              const range = source.match(el.evidence);
-
-              if (range && range.index) {
-                setSelection(range.index, range.index + el.raw.length);
-              }
+             revealLine(el.line,range)
             }}
             className={classNames(styles.item)}
           >
