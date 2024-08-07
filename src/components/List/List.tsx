@@ -5,13 +5,11 @@ import classNames from 'classnames';
 interface ListProps {
   className?: string;
   list: Record<string, string[]>;
-  name: string;
 }
 
-export const List: FC<ListProps> = ({ className, list, name }) => {
+export const List: FC<ListProps> = ({ className, list }) => {
   return (
     <div className={classNames(styles.List, {}, [className])}>
-      <h2>{name}</h2>
       {Object.keys(list).map((key) => {
         return (
           <div key={key}>

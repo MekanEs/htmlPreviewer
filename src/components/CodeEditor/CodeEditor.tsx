@@ -5,6 +5,7 @@ import { Editor, Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import '../../App.css';
 import { HTMLOptionsSetter, createRange, verify } from '../../utils';
+// import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {
   onChange: (str: string) => void;
@@ -16,23 +17,6 @@ interface CodeEditorProps {
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
 }
 
-// languages.html.htmlDefaults.setOptions({
-//   format: {
-//     contentUnformatted: 'pre,code,textarea,style',
-//     endWithNewline: false,
-//     extraLiners: 'head, body, /html',
-//     indentHandlebars: false,
-//     indentInnerHtml: false,
-//     insertSpaces: false,
-//     maxPreserveNewLines: undefined,
-//     preserveNewLines: false,
-//     tabSize: 4,
-//     unformatted: 'pre,code,textarea,style',
-//     wrapAttributes: 'auto',
-//     wrapLineLength: 120,
-//   },
-// });
-
 export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, editorRef }) => {
   const decorations = useRef<string[] | undefined>([]);
   const changeHandler = (str: string | undefined) => {
@@ -40,9 +24,10 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
   };
 
   useEffect(() => {
-    const newDecorations = verify(value);
     if (editorRef.current) {
       const ed = editorRef.current;
+      const newDecorations = verify(value);
+
       decorations.current = ed
         .getModel()
         ?.deltaDecorations(decorations.current || [], newDecorations);
@@ -64,6 +49,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, ed
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
+    // monaco.editor.defineTheme('Birds-of-paradise', Birds_Of_Paradise);
+    // monaco.editor.setTheme('Birds-of-paradise');
   };
   return (
     <div className={classNames(styles.CodeEditor)}>

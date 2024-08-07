@@ -1,3 +1,5 @@
+import { Ruleset } from 'htmlhint/types';
+
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
   /target="blank"/gm,
@@ -68,3 +70,19 @@ export const str = `<div>1234</div>
 <div>1234</div>`;
 
 export const borderStyle = `* {outline: 1px solid #000;box-shadow: 0 0 2px #fff;}`;
+
+export const rulesets: Ruleset = {
+  'doctype-first': false,
+  'tag-pair': true,
+  'tag-self-close': true,
+  'tagname-lowercase': true,
+  'tagname-specialchars': true,
+  'attr-no-duplication': true,
+  'attr-lowercase': true,
+  'empty-tag-not-self-closed': false,
+  'attr-value-double-quotes': true,
+  'alt-require': true,
+  'src-not-empty': true,
+  'title-require': true,
+  'inline-style-disabled': false,
+};

@@ -2,12 +2,13 @@ import { FC, useCallback, useRef, useState } from 'react';
 import styles from './Editor.module.scss';
 import { CodeEditor, Frame } from '../../components';
 import classNames from 'classnames';
-import JSONEditor from '../../components/editorWithInitState/JSONEditor';
+
 import { str } from '../../constants';
 
-import { editor } from 'monaco-editor';
+import { editor,IRange } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
 import { SelectRange, useDebounce } from '../../utils';
+import { JSONEditor2 } from '../../components/JSONEditor/JSONEditor';
 interface EditorPageProps {
   className?: string;
 }
@@ -35,7 +36,10 @@ export const EditorPage: FC<EditorPageProps> = () => {
   };
 
   const setSel = SelectRange(setSelection);
-
+const revealLine =(line:number,range:IRange)=>{
+  editorRef.current?.revealLineInCenter(line)
+  editorRef.current?.setSelection(range)
+}
   return (
     <>
       <div>
@@ -53,7 +57,8 @@ export const EditorPage: FC<EditorPageProps> = () => {
                 editorRef={editorRef}
               />
             ) : (
-              <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
+              // <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
+              <JSONEditor2 onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
             )}
 
             {/* <CodeMirrorEditor onChange={onChange} selection={selection} value={text} /> */}
@@ -67,7 +72,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
           {mode ? (
             <Frame source={value} setSelection={setSel} testData={testJSON} />
           ) : (
-            <Stats source={text} />
+            <Stats source={text} revealLine={revealLine} />
           )}
         </div>
       </div>
