@@ -11,7 +11,12 @@ interface htmlHintListProps {
 }
 
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
-  const results = HTMLHint.verify(source, rulesets);
+  const results = HTMLHint.verify(source, rulesets).sort((a)=>{
+    if(a.type==='error' ){
+      return -1
+    }
+    return 0
+  });
 
   return (
     <div className={classNames(styles.List)}>
@@ -24,11 +29,11 @@ export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
         endColumn: col + evidence.length - 1,
       }
         return (
-          <div
+          <div key={'line'+line+col}
             onDoubleClick={() => {
              revealLine(el.line,range)
             }}
-            className={classNames(styles.item)}
+            className={classNames(styles.item,styles[el.type])}
           >
             {el.message + ' Line: ' + el.line}
           </div>
