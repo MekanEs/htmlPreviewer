@@ -1,4 +1,4 @@
-import { FC, useCallback, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Editor.module.scss';
 import { CodeEditor, Frame } from '../../components';
 import classNames from 'classnames';
@@ -25,7 +25,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const [mode, setMode] = useState(false);
   const [, setParsedJSON] = useState({});
   const [selection, setSelection] = useState({ from: 0, to: 0 });
-
+const [ctrlPressed,setctrlPressed]=useState(false)
   const onChangeTest = useCallback((val: string) => {
     setTestJSON(val);
   }, []);
@@ -40,8 +40,30 @@ const revealLine =(line:number,range:IRange)=>{
   editorRef.current?.revealLineInCenter(line)
   editorRef.current?.setSelection(range)
 }
+const onKeyCtrlPressed = (e:KeyboardEvent)=>{
+  if(e.key==='Control'){
+    setctrlPressed(true)
+  }
+if(ctrlPressed && e.key === 'Alt'){
+setEditorMode(prev=>!prev)
+}
+}
+const onKeyCtrlUp = (e:KeyboardEvent)=>{
+  if(e.key==='Control'){
+    setctrlPressed(false)
+  }
+}
+useEffect(()=>{
+window.addEventListener('keydown',onKeyCtrlPressed)
+window.addEventListener('keyup',onKeyCtrlUp)
+return ()=>{
+  window.removeEventListener('keydown',onKeyCtrlPressed)
+  window.removeEventListener('keyup',onKeyCtrlUp)
+}
+})
+
   return (
-    <>
+    <div >
       <div>
         <button onClick={() => setEditorMode(true)}>Code</button>
         <button onClick={() => setEditorMode(false)}>TestData</button>
@@ -76,6 +98,6 @@ const revealLine =(line:number,range:IRange)=>{
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
