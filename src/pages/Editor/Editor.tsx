@@ -65,8 +65,8 @@ return ()=>{
   return (
     <div >
       <div>
-        <button onClick={() => setEditorMode(true)}>Code</button>
-        <button onClick={() => setEditorMode(false)}>TestData</button>
+        <button title='Ctrl+Alt' onClick={() => setEditorMode(true)}>Code</button>
+        <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>TestData</button>
       </div>
       <div className={styles.container}>
         <div className={styles.editorContainer}>
