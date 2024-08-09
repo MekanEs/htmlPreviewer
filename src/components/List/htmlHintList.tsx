@@ -11,12 +11,7 @@ interface htmlHintListProps {
 }
 
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
-  const results = HTMLHint.verify(source, rulesets).sort((a)=>{
-    if(a.type==='error' ){
-      return -1
-    }
-    return 0
-  });
+  const results = HTMLHint.verify(source, rulesets)
 
   return (
     <div className={classNames(styles.List)}>
