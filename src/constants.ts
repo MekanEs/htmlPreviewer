@@ -14,7 +14,7 @@ export const RegErrors = [
   /\?title='\{/gm,
   /\?title=\{/gm,
   /(?!.\?title='\{).\?title='([^']+)'/gm,
-  /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm
+  /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -68,7 +68,10 @@ export const RegRedirect = [/redirect_url=\/([^%3Futm]+)/gm];
 export const RegQueries = [/utm_campaign%3D([^%]+)/gm, /utm_ontent%3D([^%]+)/gm];
 export const str = `<div>1234</div>
 <div>1234</div>`;
-
+export const initialJson = `{
+  "locales":{"ru":true}
+}
+`;
 export const borderStyle = `* {outline: 1px solid #000;box-shadow: 0 0 2px #fff;}`;
 
 export const rulesets: Ruleset = {
