@@ -15,7 +15,7 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false }) => 
           <li
             key={el}
             className={styles.item}
-            style={{ color: regMatches[el] > 0 ? '#a51313' : 'inherit' }}
+            style={{ color: regMatches[el] > 0 ? '#760f0f' : 'inherit' }}
             onClick={() => {
               navigator.clipboard.writeText(el.split('/')[1]);
             }}

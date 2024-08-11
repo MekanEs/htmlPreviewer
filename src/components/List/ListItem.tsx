@@ -20,7 +20,8 @@ export const ListItem: FC<ListItemProps> = ({ index, el, count, hasDesc }) => {
       }}
       title={hasDesc ? RegErrorDesc[index] : undefined}
     >
-      {el + ': ' + count}
+      <span>{el}: </span>
+      <span className={styles.count}>{count}</span>
     </li>
   );
 };

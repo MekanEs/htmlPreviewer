@@ -36,12 +36,22 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
     <div className={classNames(styles.Stats, {}, [className])}>
-      <RedirList regMatches={regCampaign} />
-      <RedirList regMatches={regCampaignPixel} />
-      <RedirList regMatches={regContent} />
-      <RedirList regMatches={regContentPixel} />
-      <RedirList regMatches={regRedir} header='Redirections' />
-      <RedirList regMatches={regSubscription} />
+      <div className={styles.List}>
+        <h3 className={styles.header}>Utm_Campaign</h3>
+        <RedirList regMatches={regCampaign} />
+        <RedirList regMatches={regCampaignPixel} />
+      </div>
+      <div className={styles.List}>
+        <h3 className={styles.header}>Utm_Content</h3>
+        <RedirList regMatches={regContent} />
+        <RedirList regMatches={regContentPixel} />
+      </div>
+      <div className={styles.List}>
+        <h3 className={styles.header}>Redirections</h3>
+        <RedirList regMatches={regRedir} />
+        <RedirList regMatches={regSubscription} />
+      </div>
+
       <div style={{ display: 'flex' }}>
         <LangList regMatches={lang1} />
         <LangList regMatches={lang2} />
