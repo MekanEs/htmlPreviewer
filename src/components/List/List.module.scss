@@ -1,21 +1,27 @@
 .List {
   width: 97%;
-  padding: 5px 10px;
+
   border: 1px solid #404040;
+  color: #d9d9d9;
+  padding-inline-start: 0;
+  padding: 5px 10px;
+  ul {
+    padding-inline-start: 0;
+  }
 }
 .item {
   cursor: pointer;
   padding: 2px 4px;
   border: 1px solid #949494;
   background-color: #080c2c;
+  list-style: none;
   &:hover {
     opacity: 0.9;
   }
 }
-.error{
-  color: #750c0c;
-;
+.error {
+  color: #a51313;
 }
-.warning{
+.warning {
   color: rgb(140, 140, 71);
 }

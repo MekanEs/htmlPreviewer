@@ -1,4 +1,5 @@
 import { Ruleset } from 'htmlhint/types';
+import { FindPropsObject } from './types/types';
 
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
@@ -88,4 +89,28 @@ export const rulesets: Ruleset = {
   'src-not-empty': true,
   'title-require': true,
   'inline-style-disabled': false,
+};
+export const findRedirectsProps: FindPropsObject = {
+  regexp: /redirect_url=(.*?)utm/gm,
+  replace: 'utm',
+};
+export const findSubscriptionProps: FindPropsObject = {
+  regexp: /subscription_type=(.*?)"/gm,
+  replace: '',
+};
+export const findUtmContent: FindPropsObject = {
+  regexp: /utm_content%3D([^%&]+)/g,
+  replace: 'utm_content',
+};
+export const findUtmContentPixel: FindPropsObject = {
+  regexp: /utm_content=([^?&]+)/g,
+  replace: 'utm_content',
+};
+export const findUtmCampaign: FindPropsObject = {
+  regexp: /utm_campaign%3D([^%&]+)/g,
+  replace: 'utm_campaign',
+};
+export const findUtmCampaignPixel: FindPropsObject = {
+  regexp: /utm_campaign=([^?&]+)/g,
+  replace: 'utm_campaign',
 };

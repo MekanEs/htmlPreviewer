@@ -9,13 +9,13 @@ interface langListProps {
 
 export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false }) => {
   return (
-    <div>
+    <div className={styles.List}>
       <ul>
         {Object.keys(regMatches).map((el, i) => (
           <li
             key={el}
             className={styles.item}
-            style={{ color: regMatches[el] > 0 ? 'red' : 'inherit' }}
+            style={{ color: regMatches[el] > 0 ? '#a51313' : 'inherit' }}
             onClick={() => {
               navigator.clipboard.writeText(el.split('/')[1]);
             }}
