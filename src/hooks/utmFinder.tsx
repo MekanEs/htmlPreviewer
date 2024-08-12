@@ -6,7 +6,8 @@ export const useUtmFinder = (text: string = '', propObj: FindPropsObject) => {
 
   const [regMatches, setRegObjs] = useState({});
   useEffect(() => {
-    const matches = text.match(regexp) || [];
+    const newText = text.replace(/redirect_url=\{\{/gm,'')
+    const matches = newText.match(regexp) || [];
 
     const check: Record<string, number> = matches.reduce(
       (acc: Record<string, number>, el: string) => {
