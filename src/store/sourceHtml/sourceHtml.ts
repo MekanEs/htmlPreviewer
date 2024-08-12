@@ -25,6 +25,7 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
   reducers: {
     setJson: (state, action: PayloadAction<string>) => {
       state.json = action.payload;
+      state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
     },
     setSourceHtml: (state, action: PayloadAction<string>) => {
       state.source = action.payload;
