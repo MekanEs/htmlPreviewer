@@ -114,3 +114,9 @@ export const findUtmCampaignPixel: FindPropsObject = {
   regexp: /utm_campaign=([^?&]+)/g,
   replace: 'utm_campaign',
 };
+
+
+export const findLinks: FindPropsObject = {
+  regexp: /(?!.href=\{)href="https:\/([^?"]+)/g,
+  replace: 'href="',
+};
