@@ -10,7 +10,15 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
   }
 });
 export const compileHbs = (str: string, testData: string) => {
-  const template = Handlebars.compile(str);
+  try{
+ const template = Handlebars.compile(str);
   const data = JSON.parse(testData);
+ 
   return template(data);
+  }
+  catch(e){
+    console.log(e)
+    return str
+  }
+ 
 };
