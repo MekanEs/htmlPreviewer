@@ -3,6 +3,7 @@ import styles from './Stats.module.scss';
 import classNames from 'classnames';
 import useRegMatcher from '../../utils/regMatcher';
 import {
+  findLinks,
   findRedirectsProps,
   findSubscriptionProps,
   findUtmCampaign,
@@ -30,6 +31,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regCampaign = useUtmFinder(source, findUtmCampaign);
   const regCampaignPixel = useUtmFinder(source, findUtmCampaignPixel);
   const regRedir = useUtmFinder(source, findRedirectsProps);
+  const regLinks = useUtmFinder(source, findLinks);
   const regSubscription = useUtmFinder(source, findSubscriptionProps);
   const lang1 = useRegMatcher({ regs: RegLangs, text: source });
   const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
@@ -51,6 +53,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
         <h3 className={styles.header}>Redirections</h3>
         <RedirList regMatches={regRedir} />
         <RedirList regMatches={regSubscription} />
+        <RedirList regMatches={regLinks} />
       </div>
 
       <div style={{ display: 'flex' }}>
