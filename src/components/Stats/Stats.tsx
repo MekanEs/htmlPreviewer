@@ -49,7 +49,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
         <RedirList regMatches={regContent} />
         <RedirList regMatches={regContentPixel} />
       </div></div>
-      <div className={styles.List}>
+      <div  className={styles.List}>
         <h3 className={styles.header}>Redirections</h3>
         <RedirList regMatches={regRedir} />
         <RedirList regMatches={regSubscription} />
@@ -57,9 +57,9 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
       </div>
 
       <div style={{ display: 'flex' }}>
-        <LangList regMatches={lang1} />
-        <LangList regMatches={lang2} />
-        <LangList regMatches={err} hasDesc />
+        <LangList className={styles.quarterWidth} regMatches={lang1} />
+        <LangList className={styles.quarterWidth} regMatches={lang2} />
+        <LangList className={styles['half-w']} regMatches={err} hasDesc />
       </div>
       <div>
         <HtmlHintList source={source} revealLine={revealLine} />
