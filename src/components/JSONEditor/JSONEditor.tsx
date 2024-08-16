@@ -1,21 +1,19 @@
-import { FC, SetStateAction, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styles from './JSONEditor.module.scss';
 import classNames from 'classnames';
 import { editor } from 'monaco-editor';
 import { Editor, Monaco } from '@monaco-editor/react';
-type EditorProps = {
-  onChange: (val: string) => void;
-  value: string;
-  setJSON: React.Dispatch<SetStateAction<object>>;
-};
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 
-export const JSONEditor2: FC<EditorProps> = ({ onChange, value }) => {
+export const JSONEditor: FC = () => {
+  const json = useAppSelector((state) => state.htmlReducer.json);
+  const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [error, setError] = useState<string | null>(null);
   const changeHandler = (str: string | undefined) => {
     if (str) {
-      console.log(str);
-      onChange(str);
+      dispatch(htmlActions.setJson(str));
     }
   };
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
@@ -27,7 +25,7 @@ export const JSONEditor2: FC<EditorProps> = ({ onChange, value }) => {
 
   useEffect(() => {
     // editor.setTheme('vs');
-  }, [value]);
+  }, [json]);
 
   return (
     <div className={classNames(styles.JSONEditor)}>
@@ -35,8 +33,8 @@ export const JSONEditor2: FC<EditorProps> = ({ onChange, value }) => {
 
       <Editor
         onChange={changeHandler}
-        value={value}
-       theme={'vs-dark'}
+        value={json}
+        theme={'vs-dark'}
         width={'100%'}
         height='100%'
         defaultLanguage='json'
