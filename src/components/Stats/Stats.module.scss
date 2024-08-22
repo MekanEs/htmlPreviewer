@@ -1,8 +1,10 @@
 .Stats {
   width: 100%;
   height: 100%;
+  padding: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
+  
 
   &::-webkit-scrollbar {
     width: 7px;
@@ -22,4 +24,13 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #000000;
   }
+}
+.header {
+  margin: 0;
+}
+.half-w{
+  width: 50%;
+}
+.quarterWidth{
+width: 20%;
 }
