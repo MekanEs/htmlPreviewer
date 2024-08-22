@@ -16,6 +16,7 @@ export const RegErrors = [
   /\?title=\{/gm,
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
+  /(?!\s+[!?]im)\s+[!?]/gm
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -32,6 +33,7 @@ export const RegErrorDesc = [
   'title для ежедневок',
   'title для техничек',
   'пробел в ссылке',
+  'пробел перед знаком(fr)',
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
