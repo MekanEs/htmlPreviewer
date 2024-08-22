@@ -1,4 +1,5 @@
 import { Monaco } from '@monaco-editor/react';
+
 export const HTMLOptionsSetter = (monaco: Monaco) => {
   monaco.languages.html.htmlDefaults.setOptions({
     format: {

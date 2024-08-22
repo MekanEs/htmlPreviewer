@@ -1,44 +1,51 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './Frame.module.scss';
 import classNames from 'classnames';
-import { loadHandler, toggleFrameBorder, useDebounce } from '../../utils';
-import { EditorSelection } from '../../types/types';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { htmlActions } from '../../store/sourceHtml/sourceHtml';
+import { loadHandler, toggleFrameBorder, addDataAttribute, compileHbs } from '../../utils';
 
 interface FrameProps {
   className?: string;
+  source: string;
+  setSelection: (from: number, to: number) => void;
   testData: string;
 }
 
-export const Frame: FC<FrameProps> = ({ testData }) => {
-  const htmlToRender = useAppSelector((state) => state.htmlReducer.htmlToRender);
-  const debouncedHtml = useDebounce(htmlToRender, 500);
-  const dispatch = useAppDispatch();
-
+export const Frame: FC<FrameProps> = ({ source, setSelection, testData }) => {
+  const newTxt = addDataAttribute(source);
+  const [html, setHtml] = useState('');
   const [mode, setMode] = useState(true);
   const [bordered, setBordered] = useState(false);
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
 
   const ref = useRef() as React.MutableRefObject<HTMLIFrameElement>;
-  const setSelection = useCallback(
-    (selection: EditorSelection) => {
-      dispatch(htmlActions.setSelection(selection));
-    },
-    [dispatch],
-  );
+
+  useEffect(() => {
+    try {
+      const compiled = compileHbs(newTxt, testData);
+      setHtml(compiled);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [newTxt, testData]);
   useEffect(() => {
     const frame = ref.current;
     const loadHandlerFunc = () => loadHandler(frame, setSelection, bordered);
     frame.addEventListener('load', loadHandlerFunc);
     return () => frame.removeEventListener('load', loadHandlerFunc);
-  }, [debouncedHtml, bordered, setSelection]);
+  }, [setSelection, newTxt, bordered]);
 
+  // useEffect(() => {
+  //   const frame = ref.current;
+  //   if (frame.contentDocument) {
+  //     frame.srcdoc = html;
+  //   }
+  // }, [source, testData, html]);
   useEffect(() => {
     const frame = ref.current;
+
     toggleFrameBorder(bordered, frame);
-  }, [bordered, testData, debouncedHtml]);
+  }, [bordered, testData, newTxt]);
 
   const updateSize = () => {
     const { width, height } = ref.current.style;
@@ -82,7 +89,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
         width={'100%'}
         height={'100%'}
         ref={ref}
-        srcDoc={debouncedHtml}
+        srcDoc={html}
       />
 
       {/* <iframe  sandbox='allow-same-origin allow-popups allow-scripts' width={'100%'} height={'100%'}>

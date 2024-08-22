@@ -1,29 +1,28 @@
 import { FC, useEffect, useRef } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
-import { Editor, Monaco, OnChange } from '@monaco-editor/react';
+import { Editor, Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import '../../App.css';
 import { HTMLOptionsSetter, createRange, verify } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { EditorSelection } from '../../types/types';
 // import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {
-  selection: EditorSelection;
+  onChange: (str: string) => void;
+  value: string;
+  selection: {
+    from: number;
+    to: number;
+  };
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
-  const value = useAppSelector((state) => state.htmlReducer.source);
-  const dispatch = useAppDispatch();
+export const CodeEditor: FC<CodeEditorProps> = ({ onChange, value, selection, editorRef }) => {
   const decorations = useRef<string[] | undefined>([]);
-  const changeHandler: OnChange = (string) => {
-    if (string) {
-      dispatch(htmlActions.setSourceHtml(string));
-    }
+  const changeHandler = (str: string | undefined) => {
+    if (str) onChange(str);
   };
+
   useEffect(() => {
     if (editorRef.current) {
       const ed = editorRef.current;
@@ -50,6 +49,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
+    // monaco.editor.defineTheme('Birds-of-paradise', Birds_Of_Paradise);
+    // monaco.editor.setTheme('Birds-of-paradise');
   };
   return (
     <div className={classNames(styles.CodeEditor)}>
@@ -62,9 +63,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         onChange={changeHandler}
         language='html'
         onMount={handleMount}
-        onValidate={(e) => {
-          console.log('validate', e);
-        }}
         options={{
           wordWrap: 'on',
           minimap: { enabled: true, size: 'proportional' },
