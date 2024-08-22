@@ -11,7 +11,8 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
 });
 export const compileHbs = (str: string, testData: string) => {
   try{
- const template = Handlebars.compile(str);
+    const newStr = str.replaceAll('https://maxclientstatapi.com','')
+ const template = Handlebars.compile(newStr);
   const data = JSON.parse(testData);
  
   return template(data);
