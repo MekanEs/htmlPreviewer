@@ -1,6 +1,18 @@
 import React from 'react';
-import { EditorSelection } from '../types/types';
+
 export const SelectRange =
-  (fb: React.Dispatch<React.SetStateAction<EditorSelection>>) => (selection: EditorSelection) => {
-    fb(selection);
+  (
+    fb: React.Dispatch<
+      React.SetStateAction<{
+        from: number;
+        to: number;
+      }>
+    >,
+  ) =>
+  (from: number, to: number) => {
+    const newSel = {
+      from,
+      to,
+    };
+    fb(newSel);
   };
