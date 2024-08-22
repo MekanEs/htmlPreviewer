@@ -31,6 +31,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   useEffect(() => {
     const frame = ref.current;
     const loadHandlerFunc = () => loadHandler(frame, setSelection, bordered);
+    loadHandlerFunc()
     frame.addEventListener('load', loadHandlerFunc);
     return () => frame.removeEventListener('load', loadHandlerFunc);
   }, [debouncedHtml, bordered, setSelection]);
