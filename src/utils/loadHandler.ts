@@ -8,7 +8,6 @@ export function loadHandler(
 ) {
   if (frame.contentDocument) {
     frame.contentDocument.addEventListener('click', (e: Event) => {
-      console.log(e);
       e.preventDefault();
       const el = e.target as HTMLElement;
       const from = Number(el.dataset.startIndex) || 0;

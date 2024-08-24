@@ -13,7 +13,7 @@ interface EditorPageProps {
 
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection } = useAppSelector((state) => state.htmlReducer);
-
+  const [fontSize, setFontSize] = useState(12);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const [editorMode, setEditorMode] = useState(true);
@@ -56,12 +56,20 @@ export const EditorPage: FC<EditorPageProps> = () => {
         <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
           TestData
         </button>
+        <input
+          style={{ width: '40px' }}
+          onChange={(e) => {
+            setFontSize(Number(e.target.value));
+          }}
+          value={fontSize}
+          type='number'
+        />
       </div>
       <div className={styles.container}>
         <div className={styles.editorContainer}>
           <div className={classNames(styles.CodeEditor)}>
             {editorMode ? (
-              <CodeEditor selection={selection} editorRef={editorRef} />
+              <CodeEditor fontSize={fontSize} selection={selection} editorRef={editorRef} />
             ) : (
               // <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
               <JSONEditor />
