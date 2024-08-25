@@ -7,13 +7,15 @@ import { editor, IRange } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
 import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
+import { LS_FONTSIZEKEY } from '../../constants';
 interface EditorPageProps {
   className?: string;
 }
 
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection } = useAppSelector((state) => state.htmlReducer);
-  const [fontSize, setFontSize] = useState(12);
+  const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
+  const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const [editorMode, setEditorMode] = useState(true);
@@ -59,10 +61,13 @@ export const EditorPage: FC<EditorPageProps> = () => {
         <input
           style={{ width: '40px' }}
           onChange={(e) => {
-            setFontSize(Number(e.target.value));
+            const value = e.target.value;
+            localStorage.setItem(LS_FONTSIZEKEY, value);
+            setFontSize(Number(value));
           }}
           value={fontSize}
           type='number'
+          title={'editor font size'}
         />
       </div>
       <div className={styles.container}>
