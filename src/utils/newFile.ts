@@ -10,16 +10,13 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
   }
 });
 export const compileHbs = (str: string, testData: string) => {
-  try{
-    const newStr = str.replaceAll('https://maxclientstatapi.com','')
- const template = Handlebars.compile(newStr);
-  const data = JSON.parse(testData);
- 
-  return template(data);
+  try {
+    const newStr = str.replaceAll('https://maxclientstatapi.com', '');
+    const template = Handlebars.compile(newStr);
+    const data = JSON.parse(testData);
+    return template(data);
+  } catch (e) {
+    console.log(e);
+    return str;
   }
-  catch(e){
-    console.log(e)
-    return str
-  }
- 
 };

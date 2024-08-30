@@ -7,6 +7,7 @@ export const RegErrors = [
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
   /^\s*$\n/gm,
+  /[A-Za-z0-9А-Яа-я]\n\s*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я]\s+\s+\s*[A-Za-z0-9А-Яа-я]/gm,
   /(\s+&nbsp;)+|&nbsp;[\t\f\cK ]+/gm,
   /alt=""|alt=''/gm,
@@ -16,7 +17,8 @@ export const RegErrors = [
   /\?title=\{/gm,
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
-  /(?!\s+[!?]im)\s+[!?]/gm
+  /(?!\s+[!?]im)\s+[!?]/gm,
+  
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -24,6 +26,7 @@ export const RegErrorDesc = [
   'перенос после тэга',
   'перенос/пробел перед закр тэгом',
   'лишний перенос',
+  'перенос внутри контента/формулы',
   'больше 1 пробела',
   'пробел рядом с неразрывным',
   'пустой alt',
@@ -72,7 +75,11 @@ export const RegQueries = [/utm_campaign%3D([^%]+)/gm, /utm_ontent%3D([^%]+)/gm]
 export const str = `<div>1234</div>
 <div>1234</div>`;
 export const initialJson = `{
-  "locales":{"ru":true}
+   "locales": {
+    "ru": true
+  },
+  "account_currency": "BTC",
+  "game_currency": "EUR"
 }
 `;
 export const borderStyle = `* {outline: 1px solid #000;box-shadow: 0 0 2px #fff;}`;
@@ -117,8 +124,9 @@ export const findUtmCampaignPixel: FindPropsObject = {
   replace: 'utm_campaign',
 };
 
-
 export const findLinks: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^?"]+)/g,
   replace: 'href="',
 };
+
+export const LS_FONTSIZEKEY = 'ls_fontSize';

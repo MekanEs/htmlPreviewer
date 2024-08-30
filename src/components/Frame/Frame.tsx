@@ -31,15 +31,11 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   useEffect(() => {
     const frame = ref.current;
     const loadHandlerFunc = () => loadHandler(frame, setSelection, bordered);
-    loadHandlerFunc()
+    // loadHandlerFunc()
     frame.addEventListener('load', loadHandlerFunc);
-    return () => frame.removeEventListener('load', loadHandlerFunc);
-  }, [debouncedHtml, bordered, setSelection]);
-
-  useEffect(() => {
-    const frame = ref.current;
     toggleFrameBorder(bordered, frame);
-  }, [bordered, testData, debouncedHtml]);
+    return () => frame.removeEventListener('load', loadHandlerFunc);
+  }, [debouncedHtml, bordered, setSelection, testData]);
 
   const updateSize = () => {
     const { width, height } = ref.current.style;
@@ -79,7 +75,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
       <iframe
         onMouseUp={updateSize}
         className={classNames({ [styles.resizable]: !mode, [styles.full]: mode })}
-        sandbox='allow-same-origin allow-popups allow-scripts'
+        sandbox='allow-same-origin allow-scripts'
         width={'100%'}
         height={'100%'}
         ref={ref}

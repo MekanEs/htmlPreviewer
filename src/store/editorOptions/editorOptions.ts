@@ -3,7 +3,7 @@ import { initialJson, str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
 
-interface IHtmlSlice {
+interface IEditorOptionsSlice {
   json: string;
   source: string;
   selection: EditorSelection;
@@ -11,7 +11,7 @@ interface IHtmlSlice {
   htmlToRender: string;
 }
 
-const initialState: IHtmlSlice = {
+const initialState: IEditorOptionsSlice = {
   json: initialJson,
   source: str,
   selection: { from: 0, to: 0 },
@@ -19,7 +19,7 @@ const initialState: IHtmlSlice = {
   htmlToRender: compileHbs(addDataAttribute(str), initialJson),
 };
 
-export const htmlSlice: Slice<IHtmlSlice> = createSlice({
+export const editorOptionsSlice: Slice<IEditorOptionsSlice> = createSlice({
   name: 'counter',
   initialState,
   reducers: {
@@ -27,16 +27,6 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
       state.json = action.payload;
       state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
     },
-    setSourceHtml: (state, action: PayloadAction<string>) => {
-      state.source = action.payload;
-    },
-    setCompiledHTMl: (state, action: PayloadAction<string>) => {
-      state.htmlWithDataAttr = addDataAttribute(action.payload);
-      state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
-    },
-    setSelection: (state, action: PayloadAction<EditorSelection>) => {
-      state.selection = action.payload;
-    },
   },
 });
-export const { actions: htmlActions, reducer: htmlReducer } = htmlSlice;
+export const { actions: htmlActions, reducer: htmlReducer } = editorOptionsSlice;

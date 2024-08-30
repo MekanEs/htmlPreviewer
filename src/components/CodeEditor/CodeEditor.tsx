@@ -13,15 +13,17 @@ import { EditorSelection } from '../../types/types';
 interface CodeEditorProps {
   selection: EditorSelection;
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
+  fontSize?: number;
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
+export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize = 12 }) => {
   const value = useAppSelector((state) => state.htmlReducer.source);
   const dispatch = useAppDispatch();
   const decorations = useRef<string[] | undefined>([]);
   const changeHandler: OnChange = (string) => {
     if (string) {
       dispatch(htmlActions.setSourceHtml(string));
+      dispatch(htmlActions.setCompiledHTMl(string));
     }
   };
   useEffect(() => {
@@ -68,6 +70,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         options={{
           wordWrap: 'on',
           minimap: { enabled: true, size: 'proportional' },
+          fontSize: fontSize,
         }}
       />
     </div>
