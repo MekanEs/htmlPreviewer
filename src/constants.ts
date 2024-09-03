@@ -130,3 +130,4 @@ export const findLinks: FindPropsObject = {
 };
 
 export const LS_FONTSIZEKEY = 'ls_fontSize';
+export const LS_SOURCEHTML = 'ls_source';

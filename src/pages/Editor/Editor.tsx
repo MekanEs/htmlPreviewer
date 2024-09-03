@@ -7,7 +7,7 @@ import { editor, IRange } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
 import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
-import { LS_FONTSIZEKEY } from '../../constants';
+import { LS_FONTSIZEKEY, LS_SOURCEHTML } from '../../constants';
 interface EditorPageProps {
   className?: string;
 }
@@ -28,11 +28,22 @@ export const EditorPage: FC<EditorPageProps> = () => {
     editorRef.current?.setSelection(range);
   };
   const onKeyCtrlPressed = (e: KeyboardEvent) => {
+
     if (e.key === 'Control') {
       setctrlPressed(true);
     }
     if (ctrlPressed && e.key === 'Alt') {
+           
       setEditorMode((prev) => !prev);
+    }
+     if (ctrlPressed && e.code === 'KeyS') {
+ 
+      e.preventDefault()
+   
+
+localStorage.setItem(LS_SOURCEHTML,source)
+     
+      
     }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {
@@ -69,6 +80,20 @@ export const EditorPage: FC<EditorPageProps> = () => {
           type='number'
           title={'editor font size'}
         />
+        <button title='Ctrl+S' onClick={() =>  {
+        
+           
+      localStorage.setItem(LS_SOURCEHTML,source)
+      }}>
+          Save
+        </button>
+        <button title='Ctrl+S' onClick={() =>  {
+        
+           
+      localStorage.removeItem(LS_SOURCEHTML)
+      }}>
+          Reset
+        </button>
       </div>
       <div className={styles.container}>
         <div className={styles.editorContainer}>
