@@ -11,8 +11,8 @@ import {
   findUtmContent,
   findUtmContentPixel,
   RegErrors,
-  RegLangs,
-  RegLangs2,
+  findLangs,
+  findLangs2,
 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
@@ -26,6 +26,9 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+  const langs2 = useUtmFinder(source, findLangs);
+  const langs = useUtmFinder(source, findLangs2);
+  console.log(langs, langs2);
   const regContent = useUtmFinder(source, findUtmContent);
   const regContentPixel = useUtmFinder(source, findUtmContentPixel);
   const regCampaign = useUtmFinder(source, findUtmCampaign);
@@ -33,23 +36,25 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regRedir = useUtmFinder(source, findRedirectsProps);
   const regLinks = useUtmFinder(source, findLinks);
   const regSubscription = useUtmFinder(source, findSubscriptionProps);
-  const lang1 = useRegMatcher({ regs: RegLangs, text: source });
-  const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
+  // const lang1 = useRegMatcher({ regs: RegLangs, text: source });
+  // const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
+
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
     <div className={classNames(styles.Stats, {}, [className])}>
-      <div style={{display:'flex'}}>
-      <div className={classNames(styles.List,styles["half-w"])}>
-        <h3 className={styles.header}>Utm_Campaign</h3>
-        <RedirList regMatches={regCampaign} />
-        <RedirList regMatches={regCampaignPixel} />
+      <div style={{ display: 'flex' }}>
+        <div className={classNames(styles.List, styles['half-w'])}>
+          <h3 className={styles.header}>Utm_Campaign</h3>
+          <RedirList regMatches={regCampaign} />
+          <RedirList regMatches={regCampaignPixel} />
+        </div>
+        <div className={classNames(styles.List, styles['half-w'])}>
+          <h3 className={styles.header}>Utm_Content</h3>
+          <RedirList regMatches={regContent} />
+          <RedirList regMatches={regContentPixel} />
+        </div>
       </div>
-     <div className={classNames(styles.List,styles["half-w"])}>
-        <h3 className={styles.header}>Utm_Content</h3>
-        <RedirList regMatches={regContent} />
-        <RedirList regMatches={regContentPixel} />
-      </div></div>
-      <div  className={styles.List}>
+      <div className={styles.List}>
         <h3 className={styles.header}>Redirections</h3>
         <RedirList regMatches={regRedir} />
         <RedirList regMatches={regSubscription} />
@@ -57,10 +62,11 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
       </div>
 
       <div style={{ display: 'flex' }}>
-        <LangList className={styles.quarterWidth} regMatches={lang1} />
-        <LangList className={styles.quarterWidth} regMatches={lang2} />
-        <LangList className={styles['half-w']} regMatches={err} hasDesc />
+        <LangList className={styles.quarterWidth} regMatches={langs} />
+        <LangList className={styles.quarterWidth} regMatches={langs2} />
+        <LangList regMatches={err} hasDesc />
       </div>
+
       <div>
         <HtmlHintList source={source} revealLine={revealLine} />
       </div>

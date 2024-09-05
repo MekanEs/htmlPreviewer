@@ -8,6 +8,7 @@ import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
+
 // import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {

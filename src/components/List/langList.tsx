@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { RegErrorDesc } from '../../constants';
 import styles from './List.module.scss';
 import classNames from 'classnames';
@@ -8,9 +8,15 @@ interface langListProps {
   hasDesc?: boolean;
 }
 
-export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false ,className}) => {
+export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, className }) => {
+  const [showMode, setShowMode] = useState(false);
   return (
-    <div className={classNames(styles.List,[className])}>
+    <div className={classNames(styles.List, [className])}>
+      {hasDesc && (
+        <button style={{ width: '100%' }} onClick={() => setShowMode((prev) => !prev)}>
+          {showMode ? 'show regexp' : 'show description'}
+        </button>
+      )}
       <ul>
         {Object.keys(regMatches).map((el, i) => (
           <li
@@ -22,7 +28,9 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false ,class
             }}
             title={hasDesc ? RegErrorDesc[i] : undefined}
           >
-            {el.split('/')[1] + ':' + regMatches[el]}
+            {(hasDesc && showMode ? RegErrorDesc[i] : el.split('/')[1] || el) +
+              ':' +
+              regMatches[el]}
           </li>
         ))}
       </ul>
