@@ -128,7 +128,7 @@ export const findLinks: FindPropsObject = {
   replace: 'href="',
 };
 export const findLangs: FindPropsObject = {
-  regexp: /lang=([^"]+)"/g,
+  regexp: /lang=([^?&]+)/g,
   replace: '',
 };
 export const findLangs2: FindPropsObject = {
