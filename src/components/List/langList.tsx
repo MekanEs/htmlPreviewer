@@ -24,7 +24,7 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, class
             className={styles.item}
             style={{ color: regMatches[el] > 0 ? '#f33535' : 'inherit' }}
             onClick={() => {
-              navigator.clipboard.writeText(el.split('/')[1]);
+              navigator.clipboard.writeText(el.split('/')[1]||el);
             }}
             title={hasDesc ? RegErrorDesc[i] : undefined}
           >
