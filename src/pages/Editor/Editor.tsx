@@ -87,7 +87,7 @@ localStorage.setItem(LS_SOURCEHTML,source)
       }}>
           Save
         </button>
-        <button title='Ctrl+S' onClick={() =>  {
+        <button onClick={() =>  {
         
            
       localStorage.removeItem(LS_SOURCEHTML)
