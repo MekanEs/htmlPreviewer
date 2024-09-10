@@ -37,7 +37,7 @@ export const RegErrorDesc = [
   'title для техничек',
   'пробел в ссылке',
   'пробел перед знаком(fr)',
-  'не закрытый alt',
+  'незакрытый alt',
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
