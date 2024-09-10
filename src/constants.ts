@@ -18,7 +18,7 @@ export const RegErrors = [
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
   /(?!\s+[!?]im)\s+[!?]/gm,
-  /alt="([^"]+)([a-z]+)(=|>)/gm
+  /alt="([^"]+)\s*([a-z]+)(=|>)/gm
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
