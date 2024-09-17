@@ -11,15 +11,14 @@ interface IHtmlSlice {
   htmlToRender: string;
   langs: string[];
 }
-
 const initialState: IHtmlSlice = {
-  json: JSON.parse(localStorage.getItem(LS_SOURCEJSON)||initialJson),
+  json: localStorage.getItem(LS_SOURCEJSON)||initialJson,
   source: localStorage.getItem(LS_SOURCEHTML) || str,
   selection: { from: 0, to: 0 },
   htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
   htmlToRender: compileHbs(
     addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
-    initialJson,
+   localStorage.getItem(LS_SOURCEJSON)|| initialJson,
   ),
   langs: [],
 };
