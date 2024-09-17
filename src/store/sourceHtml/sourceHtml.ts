@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
-import { initialJson, LS_SOURCEHTML, str } from '../../constants';
+import { initialJson, LS_SOURCEHTML, LS_SOURCEJSON, str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
 
@@ -13,7 +13,7 @@ interface IHtmlSlice {
 }
 
 const initialState: IHtmlSlice = {
-  json: initialJson,
+  json: JSON.parse(localStorage.getItem(LS_SOURCEJSON)||initialJson),
   source: localStorage.getItem(LS_SOURCEHTML) || str,
   selection: { from: 0, to: 0 },
   htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),

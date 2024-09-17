@@ -47,9 +47,9 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
         item.textEdit = toTextEdit(presentation.textEdit);
       }
       if (presentation.additionalTextEdits) {
-        const newValue = presentation.additionalTextEdits.map(toTextEdit);
+        const newValue= presentation.additionalTextEdits.map(toTextEdit);
         if (newValue.every((el) => el !== undefined)) {
-          item.additionalTextEdits = newValue;
+          item.additionalTextEdits = newValue as languages.TextEdit[] | undefined;
         }
       }
       return item;

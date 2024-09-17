@@ -1,6 +1,6 @@
 import { Monaco } from '@monaco-editor/react';
 import {
-  AutoCloseTag,
+  // AutoCloseTag,
   CssSuggestInHtml,
   CssFoldingRangeInHtml,
   CssHighlightInHtml,

@@ -131,14 +131,19 @@ export const findLinks: FindPropsObject = {
   replace: 'href="',
 };
 export const findLangs: FindPropsObject = {
-  regexp: /lang=([^?&]+)/g,
+  regexp: /lang=[^]{2}/g,
   replace: '',
 };
 export const findLangs2: FindPropsObject = {
-  regexp: /lang%3D([^%&]+)%26/g,
-  replace: '%26',
+  regexp: /lang%3D[^]{2}/g,
+  replace: '',
+};
+export const findLocales: FindPropsObject = {
+  regexp: /locales\.[^]{2}/g,
+  replace: '',
 };
 
 export const LS_FONTSIZEKEY = 'ls_fontSize';
 export const LS_SOURCEHTML = 'ls_source';
+export const LS_SOURCEJSON = 'ls_source_json';
 export const LS_SHOWDESCMODE = 'ls_show_desc';

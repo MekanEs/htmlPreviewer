@@ -7,7 +7,7 @@ import { editor, IRange } from 'monaco-editor';
 import { Stats } from '../../components/Stats/Stats';
 import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
-import { LS_FONTSIZEKEY, LS_SOURCEHTML } from '../../constants';
+import { LS_FONTSIZEKEY, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 interface EditorPageProps {
   className?: string;
 }
@@ -42,6 +42,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
    
 
 localStorage.setItem(LS_SOURCEHTML,source)
+localStorage.setItem(LS_SOURCEJSON,JSON.stringify(json))
      
       
     }

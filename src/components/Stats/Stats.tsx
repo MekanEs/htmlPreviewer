@@ -13,6 +13,7 @@ import {
   RegErrors,
   findLangs,
   findLangs2,
+  findLocales,
 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
@@ -36,7 +37,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regRedir = useUtmFinder(source, findRedirectsProps);
   const regLinks = useUtmFinder(source, findLinks);
   const regSubscription = useUtmFinder(source, findSubscriptionProps);
-
+const regLocales = useUtmFinder(source,findLocales)
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
@@ -59,10 +60,15 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
         <RedirList regMatches={regSubscription} />
         <RedirList regMatches={regLinks} />
       </div>
-
-      <div style={{ display: 'flex' }}>
-        <LangList className={styles.quarterWidth} regMatches={langs} />
-        <LangList className={styles.quarterWidth} regMatches={langs2} />
+ <div className={styles.List}>
+        
+        
+      </div>
+      <div style={{ display: 'flex', width:'100%',gap:'10px'}}>
+        <div className={styles.half} style={{ display: 'flex',flexWrap:'wrap',justifyContent:"space-around",minWidth:'40%' }}>
+        <LangList className={styles.half} regMatches={regLocales} />
+        <LangList className={styles.half} regMatches={langs} />
+        <LangList className={styles.half} regMatches={langs2} /></div>
         <LangList regMatches={err} hasDesc />
       </div>
 

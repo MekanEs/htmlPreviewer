@@ -9,8 +9,8 @@ interface langListProps {
 }
 
 export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, className }) => {
-  const savedValue = JSON.parse(localStorage.getItem('regErrorMode')) as { mode: boolean };
-  const [showMode, setShowMode] = useState(savedValue || { mode: false });
+  const savedValue:{mode:boolean} = JSON.parse(localStorage.getItem('regErrorMode')||JSON.stringify({ mode: false }));
+  const [showMode, setShowMode] = useState(savedValue );
   return (
     <div className={classNames(styles.List, [className])}>
       {hasDesc && (
