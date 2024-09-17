@@ -29,7 +29,6 @@ interface StatsProps {
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const langs2 = useUtmFinder(source, findLangs);
   const langs = useUtmFinder(source, findLangs2);
-  // console.log(langs, langs2);
   const regContent = useUtmFinder(source, findUtmContent);
   const regContentPixel = useUtmFinder(source, findUtmContentPixel);
   const regCampaign = useUtmFinder(source, findUtmCampaign);
@@ -37,8 +36,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regRedir = useUtmFinder(source, findRedirectsProps);
   const regLinks = useUtmFinder(source, findLinks);
   const regSubscription = useUtmFinder(source, findSubscriptionProps);
-  // const lang1 = useRegMatcher({ regs: RegLangs, text: source });
-  // const lang2 = useRegMatcher({ regs: RegLangs2, text: source });
+
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
