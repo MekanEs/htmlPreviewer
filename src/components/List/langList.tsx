@@ -9,12 +9,22 @@ interface langListProps {
 }
 
 export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, className }) => {
-  const [showMode, setShowMode] = useState(false);
+  const savedValue= JSON.parse(localStorage.getItem('regErrorMode')) as {mode:boolean};
+  console.log(savedValue)
+  const [showMode, setShowMode] = useState(savedValue||{mode:false});
   return (
     <div className={classNames(styles.List, [className])}>
       {hasDesc && (
-        <button style={{ width: '100%' }} onClick={() => setShowMode((prev) => !prev)}>
-          {showMode ? 'show regexp' : 'show description'}
+        <button style={{ width: '100%' }} onClick={() => {
+        
+          setShowMode((prev) => {
+            localStorage.setItem("regErrorMode",JSON.stringify({mode:!prev.mode}))
+            return {mode:!prev.mode}}
+          )
+            
+          }
+          }>
+          {showMode.mode ? 'show regexp' : 'show description'}
         </button>
       )}
       <ul>
@@ -28,7 +38,7 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, class
             }}
             title={hasDesc ? RegErrorDesc[i] : undefined}
           >
-            {(hasDesc && showMode ? RegErrorDesc[i] : el.split('/')[1] || el) +
+            {(hasDesc && showMode.mode ? RegErrorDesc[i] : el.split('/')[1] || el) +
               ':' +
               regMatches[el]}
           </li>
