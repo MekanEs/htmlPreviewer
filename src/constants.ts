@@ -18,7 +18,7 @@ export const RegErrors = [
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
   /(?!\s+[!?]im)\s+[!?]/gm,
-  
+  /alt="([^"]+)\s*([a-z]+)(=|>)/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -37,6 +37,7 @@ export const RegErrorDesc = [
   'title для техничек',
   'пробел в ссылке',
   'пробел перед знаком(fr)',
+  'незакрытый alt',
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
@@ -89,6 +90,7 @@ export const rulesets: Ruleset = {
   'tag-pair': true,
   'tag-self-close': true,
   'tagname-lowercase': true,
+  'attr-unsafe-chars': false,
   'tagname-specialchars': true,
   'attr-no-duplication': true,
   'attr-lowercase': true,
@@ -128,8 +130,15 @@ export const findLinks: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^?"]+)/g,
   replace: 'href="',
 };
+export const findLangs: FindPropsObject = {
+  regexp: /lang=([^?&]+)/g,
+  replace: '',
+};
+export const findLangs2: FindPropsObject = {
+  regexp: /lang%3D([^%&]+)%26/g,
+  replace: '%26',
+};
 
 export const LS_FONTSIZEKEY = 'ls_fontSize';
 export const LS_SOURCEHTML = 'ls_source';
-
-const c= 'c'
+export const LS_SHOWDESCMODE = 'ls_show_desc';

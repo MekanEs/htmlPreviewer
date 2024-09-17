@@ -7,6 +7,7 @@ export const Birds_Of_Paradise: editor.IStandaloneThemeData = {
       background: '000000',
       token: '',
     },
+    { token: 'handlebars', foreground: '#9933cc', background: '#ffffff' },
     {
       foreground: 'ffffff',
       background: '434242',

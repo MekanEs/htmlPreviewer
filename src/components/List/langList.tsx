@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { RegErrorDesc } from '../../constants';
 import styles from './List.module.scss';
 import classNames from 'classnames';
@@ -8,9 +8,24 @@ interface langListProps {
   hasDesc?: boolean;
 }
 
-export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false ,className}) => {
+export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, className }) => {
+  const savedValue = JSON.parse(localStorage.getItem('regErrorMode')) as { mode: boolean };
+  const [showMode, setShowMode] = useState(savedValue || { mode: false });
   return (
-    <div className={classNames(styles.List,[className])}>
+    <div className={classNames(styles.List, [className])}>
+      {hasDesc && (
+        <button
+          style={{ width: '100%' }}
+          onClick={() => {
+            setShowMode((prev) => {
+              localStorage.setItem('regErrorMode', JSON.stringify({ mode: !prev.mode }));
+              return { mode: !prev.mode };
+            });
+          }}
+        >
+          {showMode.mode ? 'show regexp' : 'show description'}
+        </button>
+      )}
       <ul>
         {Object.keys(regMatches).map((el, i) => (
           <li
@@ -18,11 +33,13 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false ,class
             className={styles.item}
             style={{ color: regMatches[el] > 0 ? '#f33535' : 'inherit' }}
             onClick={() => {
-              navigator.clipboard.writeText(el.split('/')[1]);
+              navigator.clipboard.writeText(el.split('/')[1] || el);
             }}
             title={hasDesc ? RegErrorDesc[i] : undefined}
           >
-            {el.split('/')[1] + ':' + regMatches[el]}
+            {(hasDesc && showMode.mode ? RegErrorDesc[i] : el.split('/')[1] || el) +
+              ':' +
+              regMatches[el]}
           </li>
         ))}
       </ul>
