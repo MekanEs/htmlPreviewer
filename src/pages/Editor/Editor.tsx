@@ -8,10 +8,11 @@ import { Stats } from '../../components/Stats/Stats';
 import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
 import { LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
+import { Images } from '../../components/Images/Images';
 interface EditorPageProps {
   className?: string;
 }
-
+type frameMode = 'iframe'|'stats'|'images'
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection } = useAppSelector((state) => state.htmlReducer);
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
@@ -19,7 +20,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const [editorMode, setEditorMode] = useState(true);
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState<frameMode>('stats');
 
   const [ctrlPressed, setctrlPressed] = useState(false);
 
@@ -110,10 +111,19 @@ localStorage.setItem(LS_SOURCEHTML,source)
         </div>
 
         <div className={styles.frameContainer}>
-          <button onClick={() => setMode((prev) => !prev)}>
-            {mode ? 'show Stats' : 'show Preview'}
+          <div>
+          <button onClick={() => setMode('stats')}>
+           Stats
           </button>
-          {mode ? <Frame testData={json} /> : <Stats source={source} revealLine={revealLine} />}
+          <button onClick={() => setMode('iframe')}>
+           Preview
+          </button>
+          <button onClick={() => setMode('images')}>
+           Images
+          </button></div>
+          {mode ==="iframe" && <Frame testData={json} /> }
+          {mode==='stats' && <Stats source={source} revealLine={revealLine} />}
+          {mode==='images' && <Images />}
         </div>
       </div>
     </div>

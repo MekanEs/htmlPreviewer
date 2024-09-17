@@ -142,7 +142,10 @@ export const findLocales: FindPropsObject = {
   regexp: /locales\.[^]{2}/g,
   replace: '',
 };
-
+export const findImages: FindPropsObject = {
+  regexp: /src="([^"]+)/g,
+  replace: '\\',
+};
 export const LS_FONTSIZEKEY = 'ls_fontSize';
 export const LS_SOURCEHTML = 'ls_source';
 export const LS_SOURCEJSON = 'ls_source_json';
