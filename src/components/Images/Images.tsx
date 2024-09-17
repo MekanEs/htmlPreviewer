@@ -11,7 +11,6 @@ export const Images: FC = () => {
     const src = [...new Set(source.match(findImages.regexp)?.map(el=>el.replace('src="','').replaceAll('"','')))].filter(el=>!el.startsWith('https://maxclientstatapi'))
     const content = [...new Set(source.match(/itemprop="image"\s+content="([^"]+)/g)?.map((el:string)=>el.replace('itemprop="image" content=','').replaceAll('"','')))]
     const images = [...src,...content]
-console.log(source.match(findImages.regexp))
 
   return (
     <div style={{height:'100%',overflowY:'scroll',}}>
