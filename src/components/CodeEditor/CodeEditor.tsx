@@ -8,7 +8,9 @@ import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
-
+import { getHtmlService, modelToDocument } from '../../editor-ex/html/utils';
+import { MonacoEx } from '../../editor-ex';
+import * as monaco from 'monaco-editor';
 // import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {
@@ -25,6 +27,15 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
     if (string) {
       dispatch(htmlActions.setSourceHtml(string));
       dispatch(htmlActions.setCompiledHTMl(string));
+    }
+    if (editorRef.current) {
+      const ed = editorRef.current;
+      const model = ed.getModel();
+      if (model) {
+        const document = modelToDocument(model);
+        const htmlService = getHtmlService();
+        console.log(htmlService.parseHTMLDocument(document));
+      }
     }
   };
   useEffect(() => {
@@ -53,6 +64,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
+
+    // MonacoEx(monaco);
   };
   return (
     <div className={classNames(styles.CodeEditor)}>

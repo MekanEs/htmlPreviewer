@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { HTMLHint } from 'htmlhint';
 import classNames from 'classnames';
 import { rulesets } from '../../constants';
@@ -9,10 +9,25 @@ interface htmlHintListProps {
   source: string;
   revealLine: (line: number, range: IRange) => void;
 }
-
+const useClassFinding = (str: string) => {
+  const [undefinedClasses, setUndefinedClasses] = useState<string[]>([]);
+  useEffect(() => {
+    setUndefinedClasses([]);
+    const searchRes = str.match(/class="([^"]+)/g);
+    const allClasses = [
+      ...new Set(searchRes?.map((el) => el.replace('class="', '').split(/\s+\s*/)).flat()),
+    ];
+    const und = allClasses.filter((el) => {
+      const reg = new RegExp(`.${el}`, 'g');
+      console.log(str.match(reg));
+      return !str.match(`.${el}`);
+    });
+    console.log(und, allClasses);
+  }, [str]);
+};
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
   const results = HTMLHint.verify(source, rulesets);
-
+  useClassFinding(source);
   return (
     <div className={classNames(styles.List)}>
       {results.map((el) => {
@@ -31,6 +46,7 @@ export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
             }}
             className={classNames(styles.item, styles[el.type])}
           >
+            <div>{el.type + el.col}</div>
             {el.message + ' Line: ' + el.line}
           </div>
         );

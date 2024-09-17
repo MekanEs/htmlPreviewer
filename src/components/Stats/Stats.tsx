@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
 import useRegMatcher from '../../utils/regMatcher';
@@ -18,6 +18,13 @@ import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
 import { HtmlHintList } from '../List/htmlHintList';
 import { useUtmFinder } from '../../hooks/utmFinder';
+import {
+  getLanguageService,
+  Position as HtmlPosition,
+  TextDocument,
+  Range as HtmlRange,
+  TextEdit,
+} from 'vscode-html-languageservice';
 import { IRange } from 'monaco-editor';
 interface StatsProps {
   className?: string;
@@ -26,9 +33,21 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+  useEffect(() => {
+    const langserv = getLanguageService();
+    const scanner = langserv.createScanner(source);
+
+    console.log(
+      scanner,
+      scanner.getTokenError(),
+      scanner.scan(),
+      scanner.getTokenText(),
+      scanner.getTokenLength(),
+    );
+  }, [source]);
   const langs2 = useUtmFinder(source, findLangs);
   const langs = useUtmFinder(source, findLangs2);
-  console.log(langs, langs2);
+  // console.log(langs, langs2);
   const regContent = useUtmFinder(source, findUtmContent);
   const regContentPixel = useUtmFinder(source, findUtmContentPixel);
   const regCampaign = useUtmFinder(source, findUtmCampaign);
