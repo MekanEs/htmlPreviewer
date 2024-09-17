@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
-import { initialJson, LS_SOURCEHTML, LS_SOURCEJSON, str } from '../../constants';
+import { initialJson, LS_SOURCEHTML,  str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
 
