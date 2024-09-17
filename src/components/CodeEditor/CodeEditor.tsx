@@ -9,8 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import { getHtmlService, modelToDocument } from '../../editor-ex/html/utils';
-import { MonacoEx } from '../../editor-ex';
-import * as monaco from 'monaco-editor';
+
 // import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {
