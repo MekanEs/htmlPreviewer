@@ -14,5 +14,5 @@ export function MonacoEx(monacoInstance: Monaco) {
   CssSuggestInHtml();
   CssFoldingRangeInHtml();
   CssHighlightInHtml();
-  AutoCloseTag();
+  // AutoCloseTag();
 }

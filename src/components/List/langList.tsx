@@ -9,21 +9,20 @@ interface langListProps {
 }
 
 export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, className }) => {
-  const savedValue= JSON.parse(localStorage.getItem('regErrorMode')) as {mode:boolean};
-  console.log(savedValue)
-  const [showMode, setShowMode] = useState(savedValue||{mode:false});
+  const savedValue = JSON.parse(localStorage.getItem('regErrorMode')) as { mode: boolean };
+  const [showMode, setShowMode] = useState(savedValue || { mode: false });
   return (
     <div className={classNames(styles.List, [className])}>
       {hasDesc && (
-        <button style={{ width: '100%' }} onClick={() => {
-        
-          setShowMode((prev) => {
-            localStorage.setItem("regErrorMode",JSON.stringify({mode:!prev.mode}))
-            return {mode:!prev.mode}}
-          )
-            
-          }
-          }>
+        <button
+          style={{ width: '100%' }}
+          onClick={() => {
+            setShowMode((prev) => {
+              localStorage.setItem('regErrorMode', JSON.stringify({ mode: !prev.mode }));
+              return { mode: !prev.mode };
+            });
+          }}
+        >
           {showMode.mode ? 'show regexp' : 'show description'}
         </button>
       )}
@@ -34,7 +33,7 @@ export const LangList: FC<langListProps> = ({ regMatches, hasDesc = false, class
             className={styles.item}
             style={{ color: regMatches[el] > 0 ? '#f33535' : 'inherit' }}
             onClick={() => {
-              navigator.clipboard.writeText(el.split('/')[1]||el);
+              navigator.clipboard.writeText(el.split('/')[1] || el);
             }}
             title={hasDesc ? RegErrorDesc[i] : undefined}
           >

@@ -14,7 +14,6 @@ class CssDocumentSymbolAdapter implements languages.DocumentSymbolProvider {
     const cssService = getCssService();
     const style = cssService.parseStylesheet(cssDocument);
     const items = cssService.findDocumentSymbols(cssDocument, style);
-    console.log(items);
     if (!items) return;
 
     return items.map<languages.DocumentSymbol>((item) => ({

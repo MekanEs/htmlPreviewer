@@ -18,7 +18,7 @@ export const RegErrors = [
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
   /(?!\s+[!?]im)\s+[!?]/gm,
-  /alt="([^"]+)\s*([a-z]+)(=|>)/gm
+  /alt="([^"]+)\s*([a-z]+)(=|>)/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -90,6 +90,7 @@ export const rulesets: Ruleset = {
   'tag-pair': true,
   'tag-self-close': true,
   'tagname-lowercase': true,
+  'attr-unsafe-chars': false,
   'tagname-specialchars': true,
   'attr-no-duplication': true,
   'attr-lowercase': true,
