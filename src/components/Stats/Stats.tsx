@@ -65,7 +65,7 @@ const regLocales = useUtmFinder(source,findLocales)
         
       </div>
       <div style={{ display: 'flex', width:'100%',gap:'10px'}}>
-        <div className={styles.half} style={{ display: 'flex',flexWrap:'wrap',justifyContent:"space-around",minWidth:'40%' }}>
+        <div className={styles.half} style={{ display: 'flex',flexWrap:'wrap',minWidth:'40%' }}>
         <LangList className={styles.half} regMatches={regLocales} />
         <LangList className={styles.half} regMatches={langs} />
         <LangList className={styles.half} regMatches={langs2} /></div>
