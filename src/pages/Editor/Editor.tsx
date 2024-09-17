@@ -42,7 +42,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
    
 
 localStorage.setItem(LS_SOURCEHTML,source)
-localStorage.setItem(LS_SOURCEJSON,JSON.stringify(json))
      
       
     }
