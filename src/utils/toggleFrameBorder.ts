@@ -20,3 +20,24 @@ export function toggleFrameBorder(bordered: boolean, frame: HTMLIFrameElement) {
     }
   }
 }
+
+export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
+  if (frame.contentDocument) {
+    if (imgMode) {
+      const images = frame.contentDocument.querySelectorAll('img');
+      images.forEach(el=>{
+        el.src +='1#'
+      })
+     
+
+    }else{
+      const images = frame.contentDocument.querySelectorAll('img');
+      images.forEach(el=>{
+        if(el.src.endsWith("1#")){
+  el.src = el.src.slice(0,-2)
+        }
+      
+      })
+    }
+  }
+}

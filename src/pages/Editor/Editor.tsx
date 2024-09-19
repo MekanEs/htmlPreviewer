@@ -46,6 +46,13 @@ localStorage.setItem(LS_SOURCEHTML,source)
      
       
     }
+     if (ctrlPressed && e.code === 'KeyB') {
+ 
+      e.preventDefault()
+const selection = editorRef.current?.getSelection()
+     console.log(selection)
+      
+    }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {
     if (e.key === 'Control') {
@@ -69,6 +76,9 @@ localStorage.setItem(LS_SOURCEHTML,source)
         </button>
         <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
           TestData
+        </button>
+        <button title='Ctrl+Alt' onClick={() => editorRef.current?.getModel()?.dispose()}>
+          dispose
         </button>
         <input
           style={{ width: '40px' }}

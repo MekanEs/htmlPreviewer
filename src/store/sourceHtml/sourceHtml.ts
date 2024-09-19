@@ -10,6 +10,7 @@ interface IHtmlSlice {
   htmlWithDataAttr: string;
   htmlToRender: string;
   langs: string[];
+  images:string[]
 }
 const initialState: IHtmlSlice = {
   json: initialJson,
@@ -21,6 +22,7 @@ const initialState: IHtmlSlice = {
     initialJson,
   ),
   langs: [],
+  images:[]
 };
 
 export const htmlSlice: Slice<IHtmlSlice> = createSlice({
@@ -43,6 +45,8 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
     },
     setLangs: (state, action: PayloadAction<string[]>) => {
       state.langs = action.payload;
+    },setImages: (state, action: PayloadAction<string[]>) => {
+      state.images = action.payload;
     },
   },
 });

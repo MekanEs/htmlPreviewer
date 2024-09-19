@@ -1,10 +1,11 @@
 import { EditorSelection } from '../types/types';
-import { toggleFrameBorder } from './toggleFrameBorder';
+import { toggleFrameBorder, toggleImages } from './toggleFrameBorder';
 
 export function loadHandler(
   frame: HTMLIFrameElement,
   setSelection: (selection: EditorSelection) => void,
   bordered: boolean,
+  imagesMode: boolean,
 ) {
   if (frame.contentDocument) {
     frame.contentDocument.addEventListener('click', (e: Event) => {
@@ -16,5 +17,6 @@ export function loadHandler(
     });
 
     toggleFrameBorder(bordered, frame);
+    toggleImages(imagesMode, frame);
   }
 }
