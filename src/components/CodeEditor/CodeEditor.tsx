@@ -30,8 +30,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
    
     if (string) {
       setLocalSource(string)
-    dispatch(htmlActions.setSourceHtml(localSource));
-      dispatch(htmlActions.setCompiledHTMl(localSource));
+     dispatch(htmlActions.setSourceHtml(string));
+      dispatch(htmlActions.setCompiledHTMl(string));
      
     }
     
