@@ -1,14 +1,14 @@
 {
-    "base": "vs-dark",
+    "base": "vs",
     "inherit": true,
     "rules": [
         {
-            "background": "200020",
+            "background": "DDB9FD",
             "token": ""
         },
         {
             "foreground": "404080",
-            "background": "200020",
+            "background": "DDB9FD",
             "fontStyle": "italic",
             "token": "comment.block"
         },
@@ -157,7 +157,7 @@
             "token": "entity.name.tag"
         },
         {
-            "background": "200020",
+            "background": "DDB9FD",
             "token": "support.constant"
         },
         {
@@ -167,7 +167,7 @@
             "token": "invalid.illegal"
         },
         {
-            "foreground": "200020",
+            "foreground": "DDB9FD",
             "background": "cc66ff",
             "token": "invalid.deprecated"
         },
@@ -182,7 +182,7 @@
     ],
     "colors": {
         "editor.foreground": "#D0D0FF",
-        "editor.background": "#200020",
+        "editor.background": "#DDB9FD",
         "editor.selectionBackground": "#80000080",
         "editor.lineHighlightBackground": "#80000040",
         "editorCursor.foreground": "#7070FF",
