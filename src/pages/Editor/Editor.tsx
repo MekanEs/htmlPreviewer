@@ -77,9 +77,7 @@ const selection = editorRef.current?.getSelection()
         <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
           TestData
         </button>
-        <button title='Ctrl+Alt' onClick={() => editorRef.current?.getModel()?.dispose()}>
-          dispose
-        </button>
+        
         <input
           style={{ width: '40px' }}
           onChange={(e) => {
