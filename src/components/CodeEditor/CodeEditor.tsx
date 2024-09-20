@@ -11,7 +11,6 @@ import { EditorSelection } from '../../types/types';
 import {  themeSwitcher } from '../../utils/themeLoader';
 
 
-// import { Birds_Of_Paradise } from '../../themes/themes';
 
 interface CodeEditorProps {
   selection: EditorSelection;
