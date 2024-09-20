@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco, OnChange } from '@monaco-editor/react';
@@ -8,8 +8,8 @@ import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
-import debounce from 'debounce';
 import {  themeSwitcher } from '../../utils/themeLoader';
+import { debounce } from '../../utils/useDebounce';
 
 // import { Birds_Of_Paradise } from '../../themes/themes';
 
@@ -25,17 +25,23 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
 
   const dispatch = useAppDispatch();
   const decorations = useRef<string[] | undefined>([]);
-  
+  const counter = useRef(0)
+   const setCompiled = ()=>{
+        counter.current++
+      dispatch(htmlActions.setSourceHtml(localSource));
+      dispatch(htmlActions.setCompiledHTMl(localSource));
+  }  
+  const debuncedSetCompiled = useCallback(debounce(setCompiled,1000),[])
+
   const changeHandler: OnChange = (string) => {
+   
     if (string) {
       setLocalSource(string)
-      dispatch(htmlActions.setSourceHtml(string));
-      const setCompiled = ()=>{
- dispatch(htmlActions.setCompiledHTMl(string));
-  }  
-  debounce(setCompiled,500)()
+   
+     
+  debuncedSetCompiled()
     }
-  
+    
   };
   useEffect(() => {
     if (editorRef.current) {
@@ -63,7 +69,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
-themeSwitcher('twilight')
+    themeSwitcher('twilight')
     // MonacoEx(monaco);
   };
   return (

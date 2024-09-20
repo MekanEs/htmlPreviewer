@@ -37,7 +37,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
     frame.addEventListener('load', loadHandlerFunc);
     toggleFrameBorder(bordered, frame);
     
-   toggleImages(imagesMode,frame)
+    toggleImages(imagesMode,frame)
     
 
     return () => frame.removeEventListener('load', loadHandlerFunc);
