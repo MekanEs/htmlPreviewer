@@ -26,7 +26,8 @@ export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
     if (imgMode) {
       const images = frame.contentDocument.querySelectorAll('img');
       images.forEach(el=>{
-        el.src +='1#'
+        if(!el.src.endsWith("1#")){
+        el.src +='1#'}
       })
      
 
