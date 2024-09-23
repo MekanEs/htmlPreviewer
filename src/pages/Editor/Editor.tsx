@@ -112,7 +112,7 @@ const selection = editorRef.current?.getSelection()
               <CodeEditor fontSize={fontSize} selection={selection} editorRef={editorRef} />
             ) : (
               // <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
-              <JSONEditor />
+              <JSONEditor fontSize={fontSize} />
             )}
 
             {/* <CodeMirrorEditor onChange={onChange} selection={selection} value={text} /> */}

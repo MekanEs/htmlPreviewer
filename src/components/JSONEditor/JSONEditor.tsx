@@ -8,7 +8,7 @@ import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { LS_MONACOTHEME } from '../../constants';
 import { themeSwitcher } from '../../utils/themeLoader';
 
-export const JSONEditor: FC = () => {
+export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
   const json = useAppSelector((state) => state.htmlReducer.json);
   const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -46,6 +46,7 @@ themeSwitcher(savedTheme)
         defaultLanguage='json'
         onMount={handleMount}
         onValidate={(e) => {
+          console.log(e)
           if (e.length) {
             setError('TestData has errors');
           } else {
@@ -55,6 +56,7 @@ themeSwitcher(savedTheme)
         options={{
           wordWrap: 'on',
           bracketPairColorization: { enabled: true },
+              fontSize: fontSize,
         }}
       />
     </div>
