@@ -66,6 +66,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
     if(savedTheme){
 themeSwitcher(savedTheme)
+    }else{
+      localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
+      themeSwitcher("all-hallows-eve")
     }
     // MonacoEx(monaco);
   };

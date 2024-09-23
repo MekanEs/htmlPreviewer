@@ -26,6 +26,9 @@ export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
      const savedTheme= localStorage.getItem(LS_MONACOTHEME)
     if(savedTheme){
 themeSwitcher(savedTheme)
+    }else{
+      localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
+      themeSwitcher("all-hallows-eve")
     }
   };
 
