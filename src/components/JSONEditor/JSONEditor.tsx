@@ -5,6 +5,8 @@ import { editor } from 'monaco-editor';
 import { Editor, Monaco } from '@monaco-editor/react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
+import { LS_MONACOTHEME } from '../../constants';
+import { themeSwitcher } from '../../utils/themeLoader';
 
 export const JSONEditor: FC = () => {
   const json = useAppSelector((state) => state.htmlReducer.json);
@@ -21,6 +23,10 @@ export const JSONEditor: FC = () => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
     });
+     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
+    if(savedTheme){
+themeSwitcher(savedTheme)
+    }
   };
 
   useEffect(() => {

@@ -1,0 +1,191 @@
+{
+    "base": "vs",
+    "inherit": true,
+    "rules": [
+        {
+            "background": "000000",
+            "token": ""
+        },
+        {
+            "foreground": "000000",
+            "background": "000000",
+            "fontStyle": "italic",
+            "token": "comment.block"
+        },
+        {
+            "foreground": "000000",
+            "token": "string"
+        },
+        {
+            "foreground": "000000",
+            "token": "constant.language"
+        },
+        {
+            "foreground": "000000",
+            "token": "constant.numeric"
+        },
+        {
+            "fontStyle": "bold",
+            "token": "constant.numeric.integer.int32"
+        },
+        {
+            "fontStyle": "italic",
+            "token": "constant.numeric.integer.int64"
+        },
+        {
+            "fontStyle": "bold italic",
+            "token": "constant.numeric.integer.nativeint"
+        },
+        {
+            "fontStyle": "underline",
+            "token": "constant.numeric.floating-point.ocaml"
+        },
+        {
+            "foreground": "000000",
+            "token": "constant.character"
+        },
+        {
+            "foreground": "000000",
+            "token": "constant.language.boolean"
+        },
+        {
+            "foreground": "000000",
+            "token": "variable.language"
+        },
+        {
+            "foreground": "000000",
+            "token": "variable.other"
+        },
+        {
+            "foreground": "000000",
+            "token": "keyword"
+        },
+        {
+            "foreground": "000000",
+            "token": "keyword.operator"
+        },
+        {
+            "foreground": "000000",
+            "token": "keyword.other.decorator"
+        },
+        {
+            "fontStyle": "underline",
+            "token": "keyword.operator.infix.floating-point.ocaml"
+        },
+        {
+            "fontStyle": "underline",
+            "token": "keyword.operator.prefix.floating-point.ocaml"
+        },
+        {
+            "foreground": "000000",
+            "token": "keyword.other.directive"
+        },
+        {
+            "foreground": "000000",
+            "fontStyle": "underline",
+            "token": "keyword.other.directive.line-number"
+        },
+        {
+            "foreground": "000000",
+            "token": "keyword.control"
+        },
+        {
+            "foreground": "000000",
+            "token": "storage"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.variant"
+        },
+        {
+            "foreground": "000000",
+            "fontStyle": "italic",
+            "token": "storage.type.variant.polymorphic"
+        },
+        {
+            "foreground": "000000",
+            "fontStyle": "italic",
+            "token": "entity.name.type.variant.polymorphic"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.module"
+        },
+        {
+            "foreground": "000000",
+            "fontStyle": "underline",
+            "token": "entity.name.type.module-type.ocaml"
+        },
+        {
+            "foreground": "000000",
+            "token": "support.other"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.class"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.class-type"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.function"
+        },
+        {
+            "foreground": "000000",
+            "token": "variable.parameter"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.token"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.type.token.reference"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.function.non-terminal"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.function.non-terminal.reference"
+        },
+        {
+            "foreground": "000000",
+            "token": "entity.name.tag"
+        },
+        {
+            "background": "000000",
+            "token": "support.constant"
+        },
+        {
+            "foreground": "000000",
+            "background": "000000",
+            "fontStyle": "bold",
+            "token": "invalid.illegal"
+        },
+        {
+            "foreground": "000000",
+            "background": "cc66ff",
+            "token": "invalid.deprecated"
+        },
+        {
+            "background": "000000",
+            "token": "source.camlp4.embedded"
+        },
+        {
+            "foreground": "000000",
+            "token": "punctuation"
+        }
+    ],
+    "colors": {
+        "editor.foreground": "#000000",
+        "editor.background": "#000000",
+        "editor.selectionBackground": "#000000",
+        "editor.lineHighlightBackground": "#000000",
+        "editorCursor.foreground": "#000000",
+        "editorWhitespace.foreground": "#000000"
+    }
+}

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import {  themeSwitcher } from '../../utils/themeLoader';
+import { LS_MONACOTHEME } from '../../constants';
 
 
 
@@ -62,7 +63,10 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
-    themeSwitcher('twilight')
+    const savedTheme= localStorage.getItem(LS_MONACOTHEME)
+    if(savedTheme){
+themeSwitcher(savedTheme)
+    }
     // MonacoEx(monaco);
   };
   return (
