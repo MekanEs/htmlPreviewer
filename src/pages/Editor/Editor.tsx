@@ -9,6 +9,7 @@ import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
 import { LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
 import { Images } from '../../components/Images/Images';
+import { ThemeSwitcher } from '../../components/themeSwitcher/ThemeSwitcher';
 interface EditorPageProps {
   className?: string;
 }
@@ -46,6 +47,13 @@ localStorage.setItem(LS_SOURCEHTML,source)
      
       
     }
+     if (ctrlPressed && e.code === 'KeyB') {
+ 
+      e.preventDefault()
+const selection = editorRef.current?.getSelection()
+     console.log(selection)
+      
+    }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {
     if (e.key === 'Control') {
@@ -70,6 +78,7 @@ localStorage.setItem(LS_SOURCEHTML,source)
         <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
           TestData
         </button>
+        <ThemeSwitcher/>
         <input
           style={{ width: '40px' }}
           onChange={(e) => {
@@ -103,7 +112,7 @@ localStorage.setItem(LS_SOURCEHTML,source)
               <CodeEditor fontSize={fontSize} selection={selection} editorRef={editorRef} />
             ) : (
               // <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
-              <JSONEditor />
+              <JSONEditor fontSize={fontSize} />
             )}
 
             {/* <CodeMirrorEditor onChange={onChange} selection={selection} value={text} /> */}

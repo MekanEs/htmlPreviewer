@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC,  useEffect, useRef, useState } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco, OnChange } from '@monaco-editor/react';
@@ -8,8 +8,10 @@ import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
+import {  themeSwitcher } from '../../utils/themeLoader';
+import { LS_MONACOTHEME } from '../../constants';
 
-// import { Birds_Of_Paradise } from '../../themes/themes';
+
 
 interface CodeEditorProps {
   selection: EditorSelection;
@@ -19,13 +21,21 @@ interface CodeEditorProps {
 
 export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize = 12 }) => {
   const value = useAppSelector((state) => state.htmlReducer.source);
+  const [localSource,setLocalSource]=useState(value)
+
   const dispatch = useAppDispatch();
   const decorations = useRef<string[] | undefined>([]);
+  
+
   const changeHandler: OnChange = (string) => {
+   
     if (string) {
-      dispatch(htmlActions.setSourceHtml(string));
+      setLocalSource(string)
+     dispatch(htmlActions.setSourceHtml(string));
       dispatch(htmlActions.setCompiledHTMl(string));
+     
     }
+    
   };
   useEffect(() => {
     if (editorRef.current) {
@@ -53,7 +63,13 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     HTMLOptionsSetter(monaco);
-
+    const savedTheme= localStorage.getItem(LS_MONACOTHEME)
+    if(savedTheme){
+themeSwitcher(savedTheme)
+    }else{
+      localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
+      themeSwitcher("all-hallows-eve")
+    }
     // MonacoEx(monaco);
   };
   return (
@@ -63,7 +79,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
         width={'100%'}
         height='100%'
         defaultLanguage='html'
-        defaultValue={value}
+        defaultValue={localSource}
         onChange={changeHandler}
         language='html'
         onMount={handleMount}

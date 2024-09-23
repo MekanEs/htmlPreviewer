@@ -3,6 +3,7 @@ import { editor } from 'monaco-editor';
 import { rulesets } from '../constants';
 export const verify = (code: string) => {
   const results = HTMLHint.verify(code, rulesets);
+ 
   const newDecorations: editor.IModelDeltaDecoration[] = results.map((e) => {
     return {
       range: {

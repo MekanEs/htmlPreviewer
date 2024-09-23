@@ -5,8 +5,10 @@ import { editor } from 'monaco-editor';
 import { Editor, Monaco } from '@monaco-editor/react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
+import { LS_MONACOTHEME } from '../../constants';
+import { themeSwitcher } from '../../utils/themeLoader';
 
-export const JSONEditor: FC = () => {
+export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
   const json = useAppSelector((state) => state.htmlReducer.json);
   const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -21,6 +23,13 @@ export const JSONEditor: FC = () => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
     });
+     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
+    if(savedTheme){
+themeSwitcher(savedTheme)
+    }else{
+      localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
+      themeSwitcher("all-hallows-eve")
+    }
   };
 
   useEffect(() => {
@@ -40,6 +49,7 @@ export const JSONEditor: FC = () => {
         defaultLanguage='json'
         onMount={handleMount}
         onValidate={(e) => {
+          console.log(e)
           if (e.length) {
             setError('TestData has errors');
           } else {
@@ -49,6 +59,7 @@ export const JSONEditor: FC = () => {
         options={{
           wordWrap: 'on',
           bracketPairColorization: { enabled: true },
+              fontSize: fontSize,
         }}
       />
     </div>
