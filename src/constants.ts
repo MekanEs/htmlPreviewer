@@ -19,6 +19,7 @@ export const RegErrors = [
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
   /(?!\s+[!?]im)\s+[!?]/gm,
   /alt="([^"]+)\s*([a-z]+)(=|>)/gm,
+  /<\w*(?!>)([^])</gm
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -38,6 +39,7 @@ export const RegErrorDesc = [
   'пробел в ссылке',
   'пробел перед знаком(fr)',
   'незакрытый alt',
+  'ошибка типа <тэг <тэг>'
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
