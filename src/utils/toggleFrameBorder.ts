@@ -1,9 +1,9 @@
 import { borderStyle } from '../constants';
 
-export function toggleFrameBorder(bordered: boolean, frame: HTMLIFrameElement) {
-  if (frame.contentDocument) {
+export function toggleFrameBorder(bordered: boolean, {contentDocument}: HTMLIFrameElement) {
+  if (contentDocument) {
     if (bordered) {
-      let style = frame.contentDocument.querySelector('#style123');
+      let style = contentDocument.querySelector('#style123');
       if (style === null) {
         style = document.createElement('style');
         style.setAttribute('type', 'text/css');
@@ -11,20 +11,22 @@ export function toggleFrameBorder(bordered: boolean, frame: HTMLIFrameElement) {
       }
 
       style.innerHTML = borderStyle;
-      frame.contentDocument.querySelector('head')?.prepend(style);
-    } else {
-      const style = frame.contentDocument.querySelector('#style123');
-      if (style) {
-        style.innerHTML = '';
-      }
+      contentDocument.querySelector('head')?.prepend(style);
+      return
+    } 
+
+    const style = contentDocument.querySelector('#style123');
+    if (style) {
+      style.innerHTML = '';
     }
+    
   }
 }
 
-export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
-  if (frame.contentDocument) {
+export function toggleImages(imgMode: boolean, {contentDocument}: HTMLIFrameElement) {
+  if (!contentDocument) {return}
     if (imgMode) {
-      const images = frame.contentDocument.querySelectorAll('img');
+      const images = contentDocument.querySelectorAll('img');
       images.forEach(el=>{
         if(!el.src.endsWith("1#")){
         el.src +='1#'}
@@ -32,13 +34,13 @@ export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
      
 
     }else{
-      const images = frame.contentDocument.querySelectorAll('img');
+      const images = contentDocument.querySelectorAll('img');
       images.forEach(el=>{
         if(el.src.endsWith("1#")){
-  el.src = el.src.slice(0,-2)
+          el.src = el.src.slice(0,-2)
         }
       
       })
     }
-  }
+  
 }
