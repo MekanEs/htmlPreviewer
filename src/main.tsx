@@ -4,6 +4,7 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router.tsx';
 import './App.css';
+import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es'
 
 import { loader } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
@@ -21,6 +22,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 );
 
+ emmetHTML(
+  // monaco-editor it self. If not provided, will use window.monaco instead.
+  // This could make the plugin support both ESM and AMD loaded monaco-editor
+  monaco,
+  // languages needs to support html markup emmet, should be lower case.
+  ['html', 'php'],
+)
+// dispose()
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {
@@ -36,5 +45,12 @@ self.MonacoEnvironment = {
 };
 
 loader.config({ monaco });
-
 loader.init().then(/* ... */);
+
+
+// `emmetHTML` , `emmetCSS` and `emmetJSX` are used the same way
+
+registerCustomSnippets('html', {
+  nwrp:'b[style="white-space: nowrap;${1}"'
+})
+
