@@ -7,16 +7,15 @@ export function loadHandler(
   bordered: boolean,
   imagesMode: boolean,
 ) {
-  if (frame.contentDocument) {
-    frame.contentDocument.addEventListener('click', (e: Event) => {
-      e.preventDefault();
-      const el = e.target as HTMLElement;
-      const from = Number(el.dataset.startIndex) || 0;
-      const to = Number(el.dataset.endIndex) || 0;
+  if (!frame.contentDocument) return;
+   frame.contentDocument.addEventListener('click', (event: Event) => {
+      event.preventDefault();
+      const {dataset} = event.target as HTMLElement;
+      const from = Number(dataset.startIndex) || 0;
+      const to = Number(dataset.endIndex) || 0;
       setSelection({ from, to });
     });
 
     toggleFrameBorder(bordered, frame);
     toggleImages(imagesMode, frame);
-  }
 }

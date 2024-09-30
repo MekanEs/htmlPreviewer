@@ -9,7 +9,8 @@ export const createRange = (
   const from = editor.getModel()?.getPositionAt(selection.from);
   const to = editor.getModel()?.getPositionAt(selection.to);
 
-  if (from && to) {
+  if (!from || !to) return;
+
     const range: IRange = {
       startLineNumber: from.lineNumber || 1,
       startColumn: from.column,
@@ -17,5 +18,5 @@ export const createRange = (
       endLineNumber: to.lineNumber,
     };
     return range;
-  }
+  
 };

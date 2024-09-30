@@ -16,7 +16,7 @@ export const Images: FC = () => {
     <div style={{height:'100%',overflowY:'scroll',}}>
         <ul style={{width:"90%"}}>
         {images?.map(el=><li key={el} style={{marginTop:"10px",border:'1px solid white'}}>
-            <div><a href={el}>{el}</a></div>
+            <div><span style={{cursor:'pointer'}} onClick={()=>navigator.clipboard.writeText(el)}>{el}</span></div>
          
             <img style={{maxWidth:'70%'}} src={el} alt="tech" />
         </li>)}
