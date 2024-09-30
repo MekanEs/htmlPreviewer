@@ -3,7 +3,7 @@ import { initialJson, LS_SOURCEHTML,  str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
 
-interface IHtmlSlice {
+export interface IHtmlSlice {
   json: string;
   source: string;
   selection: EditorSelection;
