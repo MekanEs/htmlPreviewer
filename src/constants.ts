@@ -3,7 +3,7 @@ import { FindPropsObject } from './types/types';
 
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
-  /target="blank"/gm,
+  /(?!target="_blank")target="([^]+)"/gm,
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
   /^\s*$\n/gm,
@@ -102,6 +102,31 @@ export const rulesets: Ruleset = {
   'src-not-empty': true,
   'title-require': true,
   'inline-style-disabled': false,
+};
+export const rulesets2: Ruleset = {
+  'doctype-first': false,
+  'tag-pair': true,
+  'tag-self-close': true,
+  'tagname-lowercase': true,
+  'attr-unsafe-chars': false,
+  'tagname-specialchars': true,
+  'attr-no-duplication': true,
+  'attr-lowercase': true,
+  'empty-tag-not-self-closed': false,
+  'attr-value-double-quotes': true,
+  'alt-require': true,
+  'src-not-empty': true,
+  'title-require': true,
+  'inline-style-disabled': false,
+  "tags-check":{
+     "a": {
+      "attrsRequired": ["href", "target"],
+      "redundantAttrs": ["alt"],
+    },
+    "img":{
+      "redundantAttrs":["title"]
+    }
+  }
 };
 export const findRedirectsProps: FindPropsObject = {
   regexp: /redirect_url=(.*?)utm/gm,
