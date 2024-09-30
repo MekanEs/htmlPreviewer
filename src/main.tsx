@@ -48,7 +48,6 @@ loader.config({ monaco });
 loader.init().then(/* ... */);
 
 
-// `emmetHTML` , `emmetCSS` and `emmetJSX` are used the same way
 
 registerCustomSnippets('html', {
   nwrp:'b[style="white-space: nowrap;${1}"'
