@@ -13,6 +13,8 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import { addRule } from './utils/linter.ts';
+import { custom_snippets_emmet } from './constants.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -49,7 +51,5 @@ loader.init().then(/* ... */);
 
 
 
-registerCustomSnippets('html', {
-  nwrp:'b[style="white-space: nowrap;${1}"'
-})
-
+registerCustomSnippets('html', custom_snippets_emmet)
+addRule()
