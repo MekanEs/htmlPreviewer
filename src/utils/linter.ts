@@ -3,7 +3,6 @@ import { editor } from 'monaco-editor';
 import { rulesets } from '../constants';
 import { Rule } from 'htmlhint/types';
 import { Listener } from 'htmlhint/htmlparser';
-import stylelint from 'stylelint';
 
 const HTMLHintInstance = HTMLHint
 
@@ -38,10 +37,10 @@ export const verify = (code: string) => {
   });
   return newDecorations;
 };
-const lint = async(code:string)=>{
-const res = await stylelint.lint({code:code,rules:{ "hue-degree-notation": "angle" }})
-return res
-}
+// const lint = async(code:string)=>{
+// const res = await stylelint.lint({code:code,rules:{ "hue-degree-notation": "angle" }})
+// return res
+// }
 export const rule: Rule = {
   id: 'tr-in-table',
   description: '<tr> must be present in <table> tag.',
@@ -52,9 +51,9 @@ export const rule: Rule = {
     const stack: string[] = []
     const onTagStart: Listener = (event) => {
       const tagName = event.tagName.toLowerCase()
-lint(event.attrs.filter(el=>el.name==='style')[0].value).then((data)=>{
-  console.log(data)
-})
+// lint(event.attrs.filter(el=>el.name==='style')[0].value).then((data)=>{
+//   console.log(data)
+// })
       if (tagName === 'tr') {
         const stackLastIndex = stack.length - 1
         if (stack[stackLastIndex] !== 'table' && stack[stackLastIndex] !== 'tbody') {
