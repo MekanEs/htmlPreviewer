@@ -29,7 +29,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
 
   const changeHandler: OnChange = (string) => {
    
-    if (string) {
+    if (string!==undefined) {
       setLocalSource(string)
      dispatch(htmlActions.setSourceHtml(string));
       dispatch(htmlActions.setCompiledHTMl(string));
