@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
-import useRegMatcher from '../../utils/regMatcher';
+import {useRegMatcher} from '../../utils';
 import {
   findLinks,
   findRedirectsProps,

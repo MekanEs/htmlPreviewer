@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { themes } from '../../themes/themes';
-import { themeSwitcher } from '../../utils/themeLoader';
+import { themeSwitcher } from '../../utils';
 import { LS_MONACOTHEME } from '../../constants';
 
 

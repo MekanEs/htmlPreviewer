@@ -1,15 +1,11 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './Editor.module.scss';
-import { CodeEditor, Frame } from '../../components';
+import { CodeEditor, Frame,JSONEditor,Stats,ThemeSwitcher,Images} from '../../components';
 import classNames from 'classnames';
 
 import { editor, IRange } from 'monaco-editor';
-import { Stats } from '../../components/Stats/Stats';
-import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
 import { LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
-import { Images } from '../../components/Images/Images';
-import { ThemeSwitcher } from '../../components/themeSwitcher/ThemeSwitcher';
 interface EditorPageProps {
   className?: string;
 }

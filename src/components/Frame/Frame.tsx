@@ -5,7 +5,7 @@ import { loadHandler, toggleFrameBorder, useDebounce } from '../../utils';
 import { EditorSelection } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { toggleImages } from '../../utils/toggleFrameBorder';
+import { toggleImages } from '../../utils';
 
 interface FrameProps {
   className?: string;
