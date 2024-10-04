@@ -7,14 +7,13 @@ import './App.css';
 import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es'
 
 import { loader } from '@monaco-editor/react';
-import * as monaco from 'monaco-editor';
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { addRule } from './utils';
-import { custom_snippets_emmet } from './constants.ts';
+import { custom_snippets_emmet, monaco } from './constants.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -25,13 +24,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
  emmetHTML(
-  // monaco-editor it self. If not provided, will use window.monaco instead.
-  // This could make the plugin support both ESM and AMD loaded monaco-editor
   monaco,
-  // languages needs to support html markup emmet, should be lower case.
-  ['html', 'php'],
+  ['html'],
 )
-// dispose()
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {

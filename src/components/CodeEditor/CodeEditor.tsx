@@ -2,14 +2,13 @@ import { FC,  useEffect, useRef, useState } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco, OnChange } from '@monaco-editor/react';
-import { editor } from 'monaco-editor';
 import '../../App.css';
 import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import {  themeSwitcher } from '../../utils';
-import { LS_MONACOTHEME } from '../../constants';
+import { editor, LS_MONACOTHEME } from '../../constants';
 
 
 

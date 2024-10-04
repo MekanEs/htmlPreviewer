@@ -1,6 +1,5 @@
 import { HTMLHint } from 'htmlhint';
-import { editor } from 'monaco-editor';
-import { rulesets } from '../constants';
+import { editor, rulesets } from '../constants';
 import { Rule } from 'htmlhint/types';
 import { Listener } from 'htmlhint/htmlparser';
 

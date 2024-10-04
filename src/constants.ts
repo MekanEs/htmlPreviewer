@@ -1,6 +1,12 @@
 import { Ruleset } from 'htmlhint/types';
 import { FindPropsObject } from './types/types';
+import * as monaco from 'monaco-editor';
+import { editor } from 'monaco-editor';
+import { IRange } from 'monaco-editor';
 
+export {monaco}
+export {editor}
+export type {IRange}
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
   /(?!target="_blank")target="([^]+)"/gm,

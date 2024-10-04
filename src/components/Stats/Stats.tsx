@@ -14,13 +14,13 @@ import {
   findLangs,
   findLangs2,
   findLocales,
+  IRange,
 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
 import { HtmlHintList } from '../List/htmlHintList';
 import { useUtmFinder } from '../../hooks/utmFinder';
 
-import { IRange } from 'monaco-editor';
 interface StatsProps {
   className?: string;
   source: string;

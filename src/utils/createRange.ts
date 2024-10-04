@@ -1,4 +1,5 @@
-import { editor, IRange } from 'monaco-editor';
+import { editor, IRange } from "../constants";
+
 export const createRange = (
   selection: {
     from: number;

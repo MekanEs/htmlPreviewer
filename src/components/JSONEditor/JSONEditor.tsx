@@ -1,11 +1,10 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './JSONEditor.module.scss';
 import classNames from 'classnames';
-import { editor } from 'monaco-editor';
 import { Editor, Monaco } from '@monaco-editor/react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { LS_MONACOTHEME } from '../../constants';
+import { editor, LS_MONACOTHEME } from '../../constants';
 import { themeSwitcher } from '../../utils';
 
 export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {

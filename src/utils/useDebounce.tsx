@@ -16,11 +16,3 @@ export const useDebounce = (value: string, milliSeconds: number) => {
   return debouncedValue;
 };
 
-export const debounce = (cb:()=>void,delay:number)=>{
-let timer:number
-
-return function (){
-  clearTimeout(timer)
-   timer = setTimeout(cb,delay)
-}
-}

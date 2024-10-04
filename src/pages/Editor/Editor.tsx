@@ -3,9 +3,8 @@ import styles from './Editor.module.scss';
 import { CodeEditor, Frame,JSONEditor,Stats,ThemeSwitcher,Images} from '../../components';
 import classNames from 'classnames';
 
-import { editor, IRange } from 'monaco-editor';
 import { useAppSelector } from '../../store/store';
-import { LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
+import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
 interface EditorPageProps {
   className?: string;
 }
