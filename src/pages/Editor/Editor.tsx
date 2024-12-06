@@ -11,7 +11,7 @@ interface EditorPageProps {
 }
 type frameMode = 'iframe'|'stats'|'images'|'source'
 export const EditorPage: FC<EditorPageProps> = () => {
-  const { json, source, selection, htmlToRender } = useAppSelector((state) => state.htmlReducer);
+  const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
   const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -135,7 +135,7 @@ const selection = editorRef.current?.getSelection()
         width={'100%'}
         height='100%'
         defaultLanguage='html'
-        value={htmlToRender}
+        value={htmlToSource}
         language='html'
         
         onValidate={(e) => {
