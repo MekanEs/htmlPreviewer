@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor';
+import { monaco } from '../constants';
 import { themes } from '../themes/themes';
 export const themeLoader= (themeKey:string)=>{
 

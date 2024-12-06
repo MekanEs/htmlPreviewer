@@ -1,21 +1,17 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './Editor.module.scss';
-import { CodeEditor, Frame } from '../../components';
+import { CodeEditor, Frame,JSONEditor,Stats,ThemeSwitcher,Images} from '../../components';
 import classNames from 'classnames';
 
-import { editor, IRange } from 'monaco-editor';
-import { Stats } from '../../components/Stats/Stats';
-import { JSONEditor } from '../../components/JSONEditor/JSONEditor';
 import { useAppSelector } from '../../store/store';
-import { LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
-import { Images } from '../../components/Images/Images';
-import { ThemeSwitcher } from '../../components/themeSwitcher/ThemeSwitcher';
+import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
+import { Editor } from '@monaco-editor/react';
 interface EditorPageProps {
   className?: string;
 }
-type frameMode = 'iframe'|'stats'|'images'
+type frameMode = 'iframe'|'stats'|'images'|'source'
 export const EditorPage: FC<EditorPageProps> = () => {
-  const { json, source, selection } = useAppSelector((state) => state.htmlReducer);
+  const { json, source, selection, htmlToRender } = useAppSelector((state) => state.htmlReducer);
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
   const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -111,11 +107,9 @@ const selection = editorRef.current?.getSelection()
             {editorMode ? (
               <CodeEditor fontSize={fontSize} selection={selection} editorRef={editorRef} />
             ) : (
-              // <JSONEditor onChange={onChangeTest} setJSON={setParsedJSON} value={testJSON} />
               <JSONEditor fontSize={fontSize} />
             )}
 
-            {/* <CodeMirrorEditor onChange={onChange} selection={selection} value={text} /> */}
           </div>
         </div>
 
@@ -129,10 +123,32 @@ const selection = editorRef.current?.getSelection()
           </button>
           <button onClick={() => setMode('images')}>
            Images
+          </button>
+          <button onClick={() => setMode('source')}>
+           Source
           </button></div>
           {mode ==="iframe" && <Frame testData={json} /> }
           {mode==='stats' && <Stats source={source} revealLine={revealLine} />}
           {mode==='images' && <Images />}
+          {mode==='source' && <Editor
+        theme={'vs-dark'}
+        width={'100%'}
+        height='100%'
+        defaultLanguage='html'
+        value={htmlToRender}
+        language='html'
+        
+        onValidate={(e) => {
+          console.log('validate', e);
+        }}
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: true, size: 'proportional' },
+          fontSize: fontSize,
+          readOnly:true
+          
+        }}
+      />}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import styles from './Layout.module.scss';
 import { Outlet } from 'react-router-dom';
 import classNames from 'classnames';
 import { MonacoEx } from '../../editor-ex';
-import * as monaco from 'monaco-editor';
+import { monaco } from '../../constants';
 interface LayoutProps {}
 
 export const Layout: FC<LayoutProps> = () => {

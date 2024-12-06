@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { HTMLHint } from 'htmlhint';
 import classNames from 'classnames';
-import { rulesets } from '../../constants';
+import { IRange, rulesets } from '../../constants';
 import styles from './List.module.scss';
-import { IRange } from 'monaco-editor';
 interface htmlHintListProps {
   className?: string;
   source: string;

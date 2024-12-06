@@ -1,9 +1,15 @@
 import { Ruleset } from 'htmlhint/types';
 import { FindPropsObject } from './types/types';
+import * as monaco from 'monaco-editor';
+import { editor } from 'monaco-editor';
+import { IRange } from 'monaco-editor';
 
+export {monaco}
+export {editor}
+export type {IRange}
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
-  /target="blank"/gm,
+  /(?!target="_blank")target="([^]+)"/gm,
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
   /^\s*$\n/gm,
@@ -102,6 +108,32 @@ export const rulesets: Ruleset = {
   'src-not-empty': true,
   'title-require': true,
   'inline-style-disabled': false,
+  'tr-in-table':true,
+};
+export const rulesets2: Ruleset = {
+  'doctype-first': false,
+  'tag-pair': true,
+  'tag-self-close': true,
+  'tagname-lowercase': true,
+  'attr-unsafe-chars': false,
+  'tagname-specialchars': true,
+  'attr-no-duplication': true,
+  'attr-lowercase': true,
+  'empty-tag-not-self-closed': false,
+  'attr-value-double-quotes': true,
+  'alt-require': true,
+  'src-not-empty': true,
+  'title-require': true,
+  'inline-style-disabled': false,
+  "tags-check":{
+     "a": {
+      "attrsRequired": ["href", "target"],
+      "redundantAttrs": ["alt"],
+    },
+    "img":{
+      "redundantAttrs":["title"]
+    }
+  }
 };
 export const findRedirectsProps: FindPropsObject = {
   regexp: /redirect_url=(.*?)utm/gm,
@@ -153,3 +185,15 @@ export const LS_SOURCEHTML = 'ls_source';
 export const LS_SOURCEJSON = 'ls_source_json';
 export const LS_SHOWDESCMODE = 'ls_show_desc';
 export const LS_MONACOTHEME = 'ls_monaco_theme';
+ export const custom_snippets_emmet:{
+    [name: string]: string
+  } ={
+  b_nwrp:'b[style="white-space: nowrap;"]',
+  b_nwrp_white:'b[style="white-space: nowrap; color: #ffffff;"]',
+  span_nwrp:'span[style="white-space: nowrap;"]',
+  span_nwrp_white:'span[style="white-space: nowrap; color: #ffffff;"]',
+  table_email:'table[width="100%" cellpadding="0" cellspacing="0" border="0"]',
+  block1:'tr>td>table_email',
+  block2:'table_email>tr>td',
+  metapack:'meta[http-equiv="Content-Type" content="text/html; charset=utf-8"]+meta[name="viewport" content="width=device-width, initial-scale=1.0"]+meta[http-equiv="X-UA-Compatible" content="IE=edge"]+meta[content="telephone=no" name="format-detection"]+meta[name="x-apple-disable-message-reformatting"]+meta[name="color-scheme" content="light dark"]+meta[name="supported-color-schemes" content="light dark"]'
+}

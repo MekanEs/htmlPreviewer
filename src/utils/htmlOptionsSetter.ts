@@ -11,9 +11,10 @@ export const HTMLOptionsSetter = (monaco: Monaco) => {
       maxPreserveNewLines: undefined,
       preserveNewLines: true,
       tabSize: 4,
-      unformatted: 'pre,code,textarea,style',
+      unformatted: 'pre,code,textarea,style,font',
       wrapAttributes: 'auto',
       wrapLineLength: 10000,
+      
     },
   });
 };

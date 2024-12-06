@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-const useRegMatcher = ({ regs, text = '' }: { regs: RegExp[] | string[]; text: string }) => {
+export const useRegMatcher = ({ regs, text = '' }: { regs: RegExp[] | string[]; text: string }) => {
   const [regMatches, setRegObjs] = useState({});
   useEffect(() => {
     setRegObjs({});
@@ -16,4 +16,4 @@ const useRegMatcher = ({ regs, text = '' }: { regs: RegExp[] | string[]; text: s
 
   return regMatches;
 };
-export default useRegMatcher;
+

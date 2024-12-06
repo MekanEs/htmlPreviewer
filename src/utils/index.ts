@@ -1,20 +1,13 @@
-import { addDataAttribute } from './DataAttributeAdder';
-import { createRange } from './createRange';
-import { HTMLOptionsSetter } from './htmlOptionsSetter';
-import { verify } from './linter';
-import { loadHandler } from './loadHandler';
-import { compileHbs } from './newFile';
-import { SelectRange } from './setSelection';
-import { toggleFrameBorder } from './toggleFrameBorder';
-import { useDebounce } from './useDebounce';
-export {
-  createRange,
-  HTMLOptionsSetter,
-  verify,
-  loadHandler,
-  SelectRange,
-  toggleFrameBorder,
-  addDataAttribute,
-  compileHbs,
-  useDebounce,
-};
+export {useRegMatcher} from './regMatcher';
+export { toggleImages } from './toggleFrameBorder';
+export { themeSwitcher } from './themeLoader';
+export { addRule } from './linter';
+export { addDataAttribute } from './DataAttributeAdder';
+export { createRange } from './createRange';
+export { HTMLOptionsSetter } from './htmlOptionsSetter';
+export { verify } from './linter';
+export { loadHandler } from './loadHandler';
+export { compileHbs } from './newFile';
+export { SelectRange } from './setSelection';
+export { toggleFrameBorder } from './toggleFrameBorder';
+export { useDebounce } from './useDebounce';

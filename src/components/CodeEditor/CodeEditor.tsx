@@ -2,14 +2,13 @@ import { FC,  useEffect, useRef, useState } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco, OnChange } from '@monaco-editor/react';
-import { editor } from 'monaco-editor';
 import '../../App.css';
 import { HTMLOptionsSetter, createRange, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
-import {  themeSwitcher } from '../../utils/themeLoader';
-import { LS_MONACOTHEME } from '../../constants';
+import {  themeSwitcher } from '../../utils';
+import { editor, LS_MONACOTHEME } from '../../constants';
 
 
 
@@ -28,15 +27,13 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   
 
   const changeHandler: OnChange = (string) => {
-   
-    if (string) {
+    if (string!==undefined) {
       setLocalSource(string)
-     dispatch(htmlActions.setSourceHtml(string));
+      dispatch(htmlActions.setSourceHtml(string));
       dispatch(htmlActions.setCompiledHTMl(string));
-     
     }
-    
   };
+
   useEffect(() => {
     if (editorRef.current) {
       const ed = editorRef.current;
@@ -65,12 +62,11 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
     HTMLOptionsSetter(monaco);
     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
     if(savedTheme){
-themeSwitcher(savedTheme)
+      themeSwitcher(savedTheme)
     }else{
       localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
       themeSwitcher("all-hallows-eve")
     }
-    // MonacoEx(monaco);
   };
   return (
     <div className={classNames(styles.CodeEditor)}>
