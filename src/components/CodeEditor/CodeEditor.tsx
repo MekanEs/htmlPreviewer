@@ -27,15 +27,13 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   
 
   const changeHandler: OnChange = (string) => {
-   
     if (string!==undefined) {
       setLocalSource(string)
-     dispatch(htmlActions.setSourceHtml(string));
+      dispatch(htmlActions.setSourceHtml(string));
       dispatch(htmlActions.setCompiledHTMl(string));
-     
     }
-    
   };
+
   useEffect(() => {
     if (editorRef.current) {
       const ed = editorRef.current;
@@ -64,12 +62,11 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
     HTMLOptionsSetter(monaco);
     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
     if(savedTheme){
-themeSwitcher(savedTheme)
+      themeSwitcher(savedTheme)
     }else{
       localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
       themeSwitcher("all-hallows-eve")
     }
-    // MonacoEx(monaco);
   };
   return (
     <div className={classNames(styles.CodeEditor)}>
