@@ -8,6 +8,7 @@ export interface IHtmlSlice {
   source: string;
   selection: EditorSelection;
   htmlWithDataAttr: string;
+  htmlToSource:string;
   htmlToRender: string;
   langs: string[];
   images:string[]
@@ -19,6 +20,10 @@ const initialState: IHtmlSlice = {
   htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
   htmlToRender: compileHbs(
     addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
+    initialJson,
+  ),
+  htmlToSource:compileHbs(
+    localStorage.getItem(LS_SOURCEHTML) || str,
     initialJson,
   ),
   langs: [],
@@ -39,6 +44,7 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
     setCompiledHTMl: (state, action: PayloadAction<string>) => {
       state.htmlWithDataAttr = addDataAttribute(action.payload);
       state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
+      state.htmlToSource = compileHbs(action.payload, state.json);
     },
     setSelection: (state, action: PayloadAction<EditorSelection>) => {
       state.selection = action.payload;
