@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
 import {useRegMatcher} from '../../utils';
@@ -20,6 +20,8 @@ import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
 import { HtmlHintList } from '../List/htmlHintList';
 import { useUtmFinder } from '../../hooks/utmFinder';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 
 interface StatsProps {
   className?: string;
@@ -28,6 +30,13 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+  const {userSearchInput}= useAppSelector(state=>state.htmlReducer)
+  const dispatch = useAppDispatch()
+  const match = useRegMatcher({regs:[userSearchInput],text:source})
+  const inputHandler:ChangeEventHandler<HTMLInputElement> = (e)=>{
+    const str = e.target.value
+    dispatch(htmlActions.setUserSearchInput(str))
+  }
   const langs2 = useUtmFinder(source, findLangs);
   const langs = useUtmFinder(source, findLangs2);
   const regContent = useUtmFinder(source, findUtmContent);
@@ -71,7 +80,10 @@ const regLocales = useUtmFinder(source,findLocales)
         <LangList className={styles.half} regMatches={langs2} /></div>
         <LangList regMatches={err} hasDesc />
       </div>
-
+<div>
+  <input type="text"  value={userSearchInput} onChange={inputHandler}/>
+  <LangList regMatches={match} />
+</div>
       <div>
         <HtmlHintList source={source} revealLine={revealLine} />
       </div>
