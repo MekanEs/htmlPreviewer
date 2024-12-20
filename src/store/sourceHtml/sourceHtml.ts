@@ -12,7 +12,7 @@ export interface IHtmlSlice {
   htmlToRender: string;
   langs: string[];
   images:string[],
-  userSearchInput:string
+  userSearchInput:string[]
 }
 const initialState: IHtmlSlice = {
   json: initialJson,
@@ -29,7 +29,7 @@ const initialState: IHtmlSlice = {
   ),
   langs: [],
   images:[],
-  userSearchInput:''
+  userSearchInput:[]
 };
 
 export const htmlSlice: Slice<IHtmlSlice> = createSlice({
@@ -58,7 +58,7 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
       state.images = action.payload;
     },
     setUserSearchInput:(state, action: PayloadAction<string>)=>{
-       state.userSearchInput = action.payload;
+       state.userSearchInput = [action.payload];
     }
   },
 });
