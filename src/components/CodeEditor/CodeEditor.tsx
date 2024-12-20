@@ -75,10 +75,10 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
         theme={'vs-dark'}
         width={'100%'}
         height='100%'
-        defaultLanguage='handlebars'
+        defaultLanguage='html'
         defaultValue={localSource}
         onChange={changeHandler}
-        language='handlebars'
+        language='html'
         onMount={handleMount}
         onValidate={(e) => {
           console.log('validate', e);
