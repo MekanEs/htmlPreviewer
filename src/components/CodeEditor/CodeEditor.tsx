@@ -70,14 +70,15 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   };
   return (
     <div className={classNames(styles.CodeEditor)}>
+    
       <Editor
         theme={'vs-dark'}
         width={'100%'}
         height='100%'
-        defaultLanguage='html'
+        defaultLanguage='handlebars'
         defaultValue={localSource}
         onChange={changeHandler}
-        language='html'
+        language='handlebars'
         onMount={handleMount}
         onValidate={(e) => {
           console.log('validate', e);

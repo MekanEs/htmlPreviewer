@@ -28,6 +28,7 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+ 
   const langs2 = useUtmFinder(source, findLangs);
   const langs = useUtmFinder(source, findLangs2);
   const regContent = useUtmFinder(source, findUtmContent);
@@ -71,7 +72,8 @@ const regLocales = useUtmFinder(source,findLocales)
         <LangList className={styles.half} regMatches={langs2} /></div>
         <LangList regMatches={err} hasDesc />
       </div>
-
+<div>
+</div>
       <div>
         <HtmlHintList source={source} revealLine={revealLine} />
       </div>
