@@ -28,6 +28,7 @@ export const RegErrors = [
   /\?title=\{/gm,
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /href="unsubscribe"/gm,
+  /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
@@ -50,6 +51,7 @@ export const RegErrorDesc = [
   'title для ежедневок',
   'title для техничек',
   'ссылка/заглушка отписки',
+  'криптовалюта + game_currency'
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
