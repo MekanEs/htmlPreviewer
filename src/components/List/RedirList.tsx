@@ -15,8 +15,8 @@ export const RedirList: FC<langListProps> = ({ regMatches, hasDesc, header, bord
     <div className={classNames(styles.List, { [styles.List_additional]: bordered })}>
       <h3 className={styles.header}>{header}</h3>
       <ul>
-        {Object.keys(regMatches).map((el, i) => (
-          <ListItem key={el} index={i} el={el} count={regMatches[el]} hasDesc={hasDesc} />
+        {Object.keys(regMatches).map((regexMatch, i) => (
+          <ListItem key={regexMatch} index={i} el={regexMatch} count={regMatches[regexMatch]} hasDesc={hasDesc} />
         ))}
       </ul>
     </div>

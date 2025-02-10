@@ -57,9 +57,10 @@ const regLocales = useUtmFinder(source,findLocales)
       </div>
       <div className={styles.List}>
         <h3 className={styles.header}>Redirections</h3>
-        <RedirList regMatches={regRedir} />
-        <RedirList regMatches={regSubscription} />
-        <RedirList regMatches={regLinks} />
+        {[regRedir,regSubscription,regLinks].map(regMatches=>{
+          return <RedirList regMatches={regMatches} />
+        })}
+       
       </div>
  <div className={styles.List}>
         

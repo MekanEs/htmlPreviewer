@@ -1,19 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
+
 export const useRegMatcher = ({ regs, text = '' }: { regs: RegExp[] | string[]; text: string }) => {
-  const [regMatches, setRegObjs] = useState({});
-  useEffect(() => {
-    setRegObjs({});
-    const check: Record<string, number> = regs.reduce(
-      (acc: Record<string, number>, el: RegExp | string) => {
-        const cur = text.match(el);
-        acc[el.toString()] = cur?.length || 0;
-        return acc;
-      },
-      {},
-    );
-    setRegObjs(check);
+  return useMemo(() => {
+    if (!text) return {}; // Если текста нет, сразу возвращаем пустой объект
+
+    return regs.reduce((acc: Record<string, number>, el: RegExp | string) => {
+      const matches = text.match(el);
+      acc[el.toString()] = matches?.length || 0;
+      return acc;
+    }, {} as Record<string, number>);
   }, [text, regs]);
-
-  return regMatches;
 };
-

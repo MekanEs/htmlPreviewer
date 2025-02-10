@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo, } from 'react';
 import { HTMLHint } from 'htmlhint';
 import classNames from 'classnames';
 import { IRange, rulesets } from '../../constants';
@@ -8,21 +8,34 @@ interface htmlHintListProps {
   source: string;
   revealLine: (line: number, range: IRange) => void;
 }
+// const useFindClasses = (str: string) => {
+//   const [undClasses, setUndClasses] = useState<string[]>([]);
+//   useEffect(() => {
+//     setUndClasses([]);
+//     const found = str.match(/class="([^"]+)/g);
+//     const classes = [...new Set(found?.map((el) => el.replace('class="', '').split(/\s+/)).flat())];
+//     const und = classes?.filter((el) => {
+//       const reg = new RegExp(`\\.${el}(?!\\w+)([^]+){`, 'g');
+//       return !str.match(reg);
+//     });
+//     setUndClasses(und);
+//   }, [str]);
+
+//   return undClasses;
+// };
+
+
 const useFindClasses = (str: string) => {
-  const [undClasses, setUndClasses] = useState<string[]>([]);
-  useEffect(() => {
-    setUndClasses([]);
+  return useMemo(()=>{
     const found = str.match(/class="([^"]+)/g);
     const classes = [...new Set(found?.map((el) => el.replace('class="', '').split(/\s+/)).flat())];
     const und = classes?.filter((el) => {
       const reg = new RegExp(`\\.${el}(?!\\w+)([^]+){`, 'g');
       return !str.match(reg);
     });
-    setUndClasses(und);
-  }, [str]);
-
-  return undClasses;
-};
+   return und
+  },[str])
+}
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
   const results = HTMLHint.verify(source, rulesets);
   const undClasses = useFindClasses(source);

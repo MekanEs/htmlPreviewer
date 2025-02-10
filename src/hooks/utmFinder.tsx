@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { FindPropsObject } from '../types/types';
 
 export const useUtmFinder = (text: string = '', propObj: FindPropsObject) => {
   const { regexp, replace } = propObj;
 
-  const [regMatches, setRegObjs] = useState({});
-  useEffect(() => {
-    const newText = text.replace(/redirect_url=\{\{/gm,'')
+  return useMemo(() => {
+    const newText = text.replace(/redirect_url=\{\{/gm, '');
     const matches = newText.match(regexp) || [];
 
-    const check: Record<string, number> = matches.reduce(
-      (acc: Record<string, number>, el: string) => {
-        const match = el.replace(replace, '').split('"')[0];
-
-        if (acc[match]) {
-          acc[match] += 1;
-        } else {
-          acc[match] = 1;
-        }
-
-        return acc;
-      },
-      {},
-    );
-    setRegObjs(check);
+    return matches.reduce((acc: Record<string, number>, el: string) => {
+      const match = el.replace(replace, '').split('"')[0];
+      acc[match] = (acc[match] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
   }, [text, regexp, replace]);
-
-  return regMatches;
 };
