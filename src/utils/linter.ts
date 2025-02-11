@@ -38,7 +38,7 @@ export const verify = (code: string) => {
 };
 
 
-export const rule: Rule = {
+ const rule: Rule = {
   id: 'tr-in-table',
   description: '<tr> must be present in <table> tag.',
   init(parser, reporter) {
@@ -48,8 +48,9 @@ export const rule: Rule = {
     const stack: string[] = []
     const onTagStart: Listener = (event) => {
       const tagName = event.tagName.toLowerCase()
+     
 
-
+// console.log(event.attrs.filter(el=>el.name==='style'));
       if (tagName === 'tr') {
         const stackLastIndex = stack.length - 1
         if (stack[stackLastIndex] !== 'table' && stack[stackLastIndex] !== 'tbody') {
@@ -78,9 +79,40 @@ export const rule: Rule = {
     parser.addListener('tagend', onTagEnd)
   },
 }
+ const rule2: Rule = {
+  id: 'style-property:value',
+  description: 'every property should have value',
+  init(parser, reporter) {
+    
+   
+   
+    const onTagStart: Listener = (event) => {
+     
+      const styleString = event.attrs.filter(el=>el.name==='style'&&el.value!=='')
+      const reported = styleString[0]?.value?.split(';')?.filter(el=>el.split(':').length>2)
+if(reported?.length>0){
+  reported.forEach(el=>{
+      reporter.error(
+            `property or value should be presented: [${el}]`,
+            event.line,
+            styleString[0].index+event.col+event.tagName.length+2,
+            this,
+            event.raw
+          )
+  })
+}
+      
 
+    }
+  
+   
+    parser.addListener('tagstart', onTagStart)
+  },
+}
 export const addRule = () => {
+  HTMLHint.addRule(rule2)
   HTMLHint.addRule(rule)
-  console.log('addingRules', HTMLHintInstance.defaultRuleset)
+
+  console.log('addingRules', HTMLHintInstance.rules)
 
 }

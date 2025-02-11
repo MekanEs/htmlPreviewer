@@ -117,6 +117,7 @@ export const rulesets: Ruleset = {
   'title-require': true,
   'inline-style-disabled': false,
   'tr-in-table':true,
+  'style-property:value':true,
 };
 export const rulesets2: Ruleset = {
   'doctype-first': false,
