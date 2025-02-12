@@ -89,7 +89,13 @@ export const verify = (code: string) => {
     const onTagStart: Listener = (event) => {
      
       const styleString = event.attrs.filter(el=>el.name==='style'&&el.value!=='')
-      const reported = styleString[0]?.value?.split(';')?.filter(el=>el.split(':').length>2)
+      const reported = styleString[0]?.value?.split(';')?.map(el=>{
+        const ind = el.indexOf('https:')
+        if(ind>0){
+          el=el.slice(ind,ind+6)
+        }
+        return el
+      })?.filter(el=>el.split(':').length>2)
 if(reported?.length>0){
   reported.forEach(el=>{
       reporter.error(
