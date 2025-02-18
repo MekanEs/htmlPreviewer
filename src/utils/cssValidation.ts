@@ -1,7 +1,23 @@
-import {getCSSLanguageService,  newCSSDataProvider,  TextDocument, } from 'vscode-css-languageservice';
+import {Diagnostic, getCSSLanguageService,  newCSSDataProvider,  TextDocument, } from 'vscode-css-languageservice';
 import { customCssData, editor, monaco } from '../constants';
 import { htmlRegionCache } from '../editor-ex/html/htmlRegionCache';
 import { languageNames } from '../editor-ex/constants';
+
+const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData[])=>{
+  diagnostics.forEach(diag => {
+      // Диагностика возвращает диапазон относительно виртуального документа.
+      // Преобразуем его в позиции в исходном HTML.
+      arrayToPush.push({
+        severity: monaco.MarkerSeverity.Error, // можно мапить severity в зависимости от diag.severity
+        message: diag.message,
+        startLineNumber: diag.range.start.line+1,
+        startColumn: diag.range.start.character,
+        endLineNumber: diag.range.end.line,
+        endColumn: diag.range.end.character,
+      });
+    });
+}
+
 
 export function getCssService() {
   return getCSSLanguageService();
@@ -23,21 +39,8 @@ export function validateCSSInStyleAttributes(model:editor.ITextModel) {
         const cssDocument = regions.getEmbeddedDocument(languageNames.css);
          const styleSheet1 =cssLanguageService.parseStylesheet(cssDocument);
          const diagnostics1 = cssLanguageService.doValidation(cssDocument, styleSheet1,);
-         diagnostics1.forEach(diag => {
-      // Диагностика возвращает диапазон относительно виртуального документа.
-      // Преобразуем его в позиции в исходном HTML.
-      console.log(diag)
-      
-   
-      markers.push({
-        severity: monaco.MarkerSeverity.Error, // можно мапить severity в зависимости от diag.severity
-        message: diag.message,
-        startLineNumber: diag.range.start.line+1,
-        startColumn: diag.range.start.character,
-        endLineNumber: diag.range.end.line,
-        endColumn: diag.range.end.character,
-      });
-    });
+         diagnosticsPusher(diagnostics1,markers)
+         
   while ((match = regex.exec(htmlContent)) !== null) {
   const cssCode = match[2] || match[3];
    
@@ -65,22 +68,7 @@ export function validateCSSInStyleAttributes(model:editor.ITextModel) {
     //{lint:{unknownProperties:'error'}}
     const diagnostics = cssLanguageService.doValidation(virtualCSSDocument, stylesheet,);
 
-    diagnostics.forEach(diag => {
-      // Диагностика возвращает диапазон относительно виртуального документа.
-      // Преобразуем его в позиции в исходном HTML.
-      console.log(diag)
-      const startPos = {lineNumber:diag.range.start.line,column:diag.range.start.character};
-      const endPos = {lineNumber:diag.range.end.line,column:diag.range.end.character- cssStartOffset};
-   
-      markers.push({
-        severity: monaco.MarkerSeverity.Error, // можно мапить severity в зависимости от diag.severity
-        message: diag.message,
-        startLineNumber: startPos.lineNumber,
-        startColumn: startPos.column,
-        endLineNumber: endPos.lineNumber,
-        endColumn: endPos.column,
-      });
-    });
+   diagnosticsPusher(diagnostics,markers)
   }
 
   // Устанавливаем маркеры в редакторе
