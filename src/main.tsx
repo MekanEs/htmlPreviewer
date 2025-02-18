@@ -27,6 +27,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   monaco,
   ['html'],
 )
+
+
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {

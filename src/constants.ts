@@ -3,6 +3,7 @@ import { FindPropsObject } from './types/types';
 import * as monaco from 'monaco-editor';
 import { editor } from 'monaco-editor';
 import { IRange } from 'monaco-editor';
+import { CSSDataV1 } from 'vscode-css-languageservice';
 
 export {monaco}
 export {editor}
@@ -205,4 +206,42 @@ export const LS_MONACOTHEME = 'ls_monaco_theme';
   block1:'tr>td>table_email',
   block2:'table_email>tr>td',
   metapack:'meta[http-equiv="Content-Type" content="text/html; charset=utf-8"]+meta[name="viewport" content="width=device-width, initial-scale=1.0"]+meta[http-equiv="X-UA-Compatible" content="IE=edge"]+meta[content="telephone=no" name="format-detection"]+meta[name="x-apple-disable-message-reformatting"]+meta[name="color-scheme" content="light dark"]+meta[name="supported-color-schemes" content="light dark"]'
+}
+
+export const customCssData:CSSDataV1 ={
+  "version": 1.1,
+  "properties": [
+    {
+      "name": "mso-ascii-font-family",
+      "description": "Определяет шрифт для ASCII-текста (MS Office)"
+    },
+    {
+      "name": "mso-padding-alt",
+      "description": "Задаёт альтернативные отступы (MS Office)"
+    },
+    {
+      "name": "mso-line-height-rule",
+      "description": "Правило определения высоты строки (MS Office)"
+    },
+    {
+      "name": "mso-table-lspace",
+      "description": "Отступ слева у таблиц (MS Office)"
+    },
+    {
+      "name": "mso-style-priority",
+      "description": "Приоритет стиля (MS Office)"
+    },
+    {
+      "name": "mso-table-rspace",
+      "description": "Отступ справа у таблиц (MS Office)"
+    },
+    {
+      "name": "vertical-align",
+      "description": "Вертикальное выравнивание"
+    },
+    {
+      "name": "align",
+      "description": "Устаревшее свойство выравнивания"
+    }
+  ]
 }

@@ -1,13 +1,12 @@
 import { languageNames } from '../constants';
 import { getCssService, toCommand, toCompletionItemKind, toRange, toTextEdit } from '../css/utils';
-import type { Position, Uri, editor, languages } from '../monaco';
+import { Position, Uri, editor, languages } from '../monaco';
 import { getWordRange } from '../utils';
 import { htmlRegionCache } from './htmlRegionCache';
 import { toLsPosition } from './utils';
 import { monaco } from '../monaco';
 import { InsertTextFormat } from 'vscode-css-languageservice';
 import { stylesheetCache } from './cssCache';
-
 class CssSuggestAdapter implements languages.CompletionItemProvider {
   triggerCharacters = ['/', '-', ':'];
   async provideCompletionItems(
@@ -23,6 +22,11 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     const cssService = getCssService();
     const style = stylesheetCache.get(model);
     const info = cssService.doComplete(cssDocument, toLsPosition(position), style);
+
+
+
+
+
 
     if (!info || model.isDisposed()) return;
 

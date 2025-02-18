@@ -16,6 +16,8 @@ export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
     if (str) {
       dispatch(htmlActions.setJson(str));
     }
+
+    
   };
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;

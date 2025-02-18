@@ -8,13 +8,14 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import {  themeSwitcher } from '../../utils';
-import { editor, LS_MONACOTHEME } from '../../constants';
+import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
+import { validateCSSInStyleAttributes } from '../../utils/cssValidation';
 
 
 
 interface CodeEditorProps {
   selection: EditorSelection;
-  editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
+  editorRef: React.MutableRefObject<editorNS.IStandaloneCodeEditor | null>;
   fontSize?: number;
 }
 
@@ -30,7 +31,21 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
     dispatch(htmlActions.setSourceHtml(string));
     dispatch(htmlActions.setCompiledHTMl(string));
   }
-}, [dispatch]);
+
+ if (editorRef.current) {
+      const ed = editorRef.current;
+const model = ed.getModel();
+if(!model){
+  return
+}
+validateCSSInStyleAttributes(model)
+}
+
+
+
+
+
+}, [dispatch,editorRef]);
 
 
   useEffect(() => {
@@ -55,17 +70,36 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
       }
     }
   }, [selection, editorRef]);
-const handleMount = useCallback((editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
+const handleMount = useCallback((editor: editorNS.IStandaloneCodeEditor, monaco: Monaco) => {
   editorRef.current = editor;
   HTMLOptionsSetter(monaco);
 
   const savedTheme = localStorage.getItem(LS_MONACOTHEME) ?? 'all-hallows-eve';
   localStorage.setItem(LS_MONACOTHEME, savedTheme);
   themeSwitcher(savedTheme);
-}, [editorRef]);
+
+
+
+   
+const model = editor.getModel();
+if(!model){
+  return
+}
+validateCSSInStyleAttributes(model)
+    const errors = editorNS.getModelMarkers({ resource: model?.uri });
+    console.log('change',errors,model)
+    // Обработка ошибок
+    errors.forEach(error => {
+        console.log(`Ошибка в строке ${error.startLineNumber}: ${error.message}`);
+    });
+
+    model.deltaDecorations(decorations.current||[] , verify(value));
+  
+}, [editorRef,value]);
 const editorOptions = useMemo(() => ({
   wordWrap: 'on' as const,
   minimap: { enabled: true, size: 'proportional'as const },
+  verify:true,
   fontSize
 }), [fontSize]);
   return (
