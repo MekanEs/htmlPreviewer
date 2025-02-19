@@ -9,6 +9,7 @@ import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import { themeSwitcher } from '../../utils';
 import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
+import { htmlValidation } from '../../utils/htmlValidation';
 
 
 
@@ -34,6 +35,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
         return
       }
       validateCSSInStyleAttributes(model)
+      htmlValidation(model)
     }
   }, [dispatch, editorRef]);
 

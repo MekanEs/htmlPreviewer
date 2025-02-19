@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { addRule } from './utils';
 import { custom_snippets_emmet, monaco } from './constants.ts';
+import { registerHBZ } from './utils/registerHandlebars.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -22,8 +23,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </React.StrictMode>,
 );
-
- emmetHTML(
+registerHBZ()
+emmetHTML(
   monaco,
   ['html'],
 )
