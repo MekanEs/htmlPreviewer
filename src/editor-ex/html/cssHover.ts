@@ -25,7 +25,7 @@ class CssHoverAdapter implements languages.HoverProvider {
     }
 }
 
-export function useCssHoverInHtml() {
+export function CssHoverInHtml() {
     monaco.languages.registerHoverProvider(
         languageNames.html,
         new CssHoverAdapter()

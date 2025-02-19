@@ -17,7 +17,8 @@ class CssDocumentHighlightAdapter implements languages.DocumentHighlightProvider
     const cssService = getCssService();
     const style = cssService.parseStylesheet(cssDocument);
     const entries = cssService.findDocumentHighlights(cssDocument, toLsPosition(position), style);
-    if (!entries) return;
+    if (!entries) return
+    
 
     return entries.map((entry) => {
       return <languages.DocumentHighlight>{

@@ -3,14 +3,14 @@ import { customCssData, editor, monaco } from '../constants';
 import { htmlRegionCache } from '../editor-ex/html/htmlRegionCache';
 import { languageNames } from '../editor-ex/constants';
 
-const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData[])=>{
+const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData[],hasPlus?:boolean)=>{
   diagnostics.forEach(diag => {
       // Диагностика возвращает диапазон относительно виртуального документа.
       // Преобразуем его в позиции в исходном HTML.
       arrayToPush.push({
         severity: monaco.MarkerSeverity.Error, // можно мапить severity в зависимости от diag.severity
         message: diag.message,
-        startLineNumber: diag.range.start.line+1,
+        startLineNumber: hasPlus?diag.range.start.line+1:diag.range.start.line,
         startColumn: diag.range.start.character,
         endLineNumber: diag.range.end.line,
         endColumn: diag.range.end.character,
@@ -19,9 +19,7 @@ const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData
 }
 
 
-export function getCssService() {
-  return getCSSLanguageService();
-}
+
 const customDataProvider = newCSSDataProvider(customCssData);
 const cssService = getCSSLanguageService();
 cssService.setDataProviders(true, [customDataProvider]);
@@ -39,7 +37,7 @@ export function validateCSSInStyleAttributes(model:editor.ITextModel) {
         const cssDocument = regions.getEmbeddedDocument(languageNames.css);
          const styleSheet1 =cssLanguageService.parseStylesheet(cssDocument);
          const diagnostics1 = cssLanguageService.doValidation(cssDocument, styleSheet1,);
-         diagnosticsPusher(diagnostics1,markers)
+         diagnosticsPusher(diagnostics1,markers,true)
          
   while ((match = regex.exec(htmlContent)) !== null) {
   const cssCode = match[2] || match[3];

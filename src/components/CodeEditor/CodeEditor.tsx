@@ -85,13 +85,7 @@ const model = editor.getModel();
 if(!model){
   return
 }
-validateCSSInStyleAttributes(model)
-    const errors = editorNS.getModelMarkers({ resource: model?.uri });
-    console.log('change',errors,model)
-    // Обработка ошибок
-    errors.forEach(error => {
-        console.log(`Ошибка в строке ${error.startLineNumber}: ${error.message}`);
-    });
+    validateCSSInStyleAttributes(model)
 
     model.deltaDecorations(decorations.current||[] , verify(value));
   
