@@ -67,6 +67,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
       return
     }
     validateCSSInStyleAttributes(model)
+    htmlValidation(model)
     verify(value, model)
   }
   const editorOptions: editorNS.IStandaloneEditorConstructionOptions = useMemo(() => ({
