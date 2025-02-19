@@ -26,15 +26,15 @@ interface htmlHintListProps {
 
 
 const useFindClasses = (str: string) => {
-  return useMemo(()=>{
+  return useMemo(() => {
     const found = str.match(/class="([^"]+)/g);
     const classes = [...new Set(found?.map((el) => el.replace('class="', '').split(/\s+/)).flat())];
     const und = classes?.filter((el) => {
       const reg = new RegExp(`\\.${el}(?!\\w+)([^]+){`, 'g');
       return !str.match(reg);
     });
-   return und
-  },[str])
+    return und
+  }, [str])
 }
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
   const results = HTMLHint.verify(source, rulesets);
@@ -48,7 +48,7 @@ export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
               key={i}
               title='copyable'
               onClick={() => {
-                navigator.clipboard.writeText('.'+el);
+                navigator.clipboard.writeText('.' + el);
               }}
               className={classNames(styles.item)}
             >

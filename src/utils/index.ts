@@ -1,7 +1,8 @@
+export { validateCSSInStyleAttributes } from './cssValidation';
 export {useRegMatcher} from './regMatcher';
 export { toggleImages } from './toggleFrameBorder';
 export { themeSwitcher } from './themeLoader';
-export { addRule } from './linter';
+export { addRule } from './addRule';
 export { addDataAttribute } from './DataAttributeAdder';
 export { createRange } from './createRange';
 export { HTMLOptionsSetter } from './htmlOptionsSetter';

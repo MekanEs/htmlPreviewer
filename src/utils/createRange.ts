@@ -1,10 +1,8 @@
 import { editor, IRange } from "../constants";
+import { EditorSelection } from "../types/types";
 
 export const createRange = (
-  selection: {
-    from: number;
-    to: number;
-  },
+  selection: EditorSelection,
   editor: editor.IStandaloneCodeEditor,
 ) => {
   const from = editor.getModel()?.getPositionAt(selection.from);
