@@ -6,7 +6,7 @@ import { Listener } from 'htmlhint/htmlparser';
 const HTMLHintInstance = HTMLHint
 export const verify = (code: string) => {
   const results = HTMLHintInstance.verify(code, rulesets);
-  
+
 
   const newDecorations: editor.IModelDeltaDecoration[] = results.map((hint) => {
     const { line, evidence, message, col, rule, type } = hint
@@ -38,7 +38,7 @@ export const verify = (code: string) => {
 };
 
 
- const rule: Rule = {
+const rule: Rule = {
   id: 'tr-in-table',
   description: '<tr> must be present in <table> tag.',
   init(parser, reporter) {
@@ -48,9 +48,9 @@ export const verify = (code: string) => {
     const stack: string[] = []
     const onTagStart: Listener = (event) => {
       const tagName = event.tagName.toLowerCase()
-     
 
-// console.log(event.attrs.filter(el=>el.name==='style'));
+
+      // console.log(event.attrs.filter(el=>el.name==='style'));
       if (tagName === 'tr') {
         const stackLastIndex = stack.length - 1
         if (stack[stackLastIndex] !== 'table' && stack[stackLastIndex] !== 'tbody') {
@@ -74,44 +74,44 @@ export const verify = (code: string) => {
         stack.pop()
       }
     }
-   
+
     parser.addListener('tagstart', onTagStart)
     parser.addListener('tagend', onTagEnd)
   },
 }
- const rule2: Rule = {
+const rule2: Rule = {
   id: 'style-property:value',
   description: 'every property should have value',
   init(parser, reporter) {
-    
-   
-   
+
+
+
     const onTagStart: Listener = (event) => {
-     
-      const styleString = event.attrs.filter(el=>el.name==='style'&&el.value!=='')
-      const reported = styleString[0]?.value?.split(';')?.map(el=>{
+
+      const styleString = event.attrs.filter(el => el.name === 'style' && el.value !== '')
+      const reported = styleString[0]?.value?.split(';')?.map(el => {
         const ind = el.indexOf('https:')
-        if(ind>0){
-          el=el.slice(ind,ind+6)
+        if (ind > 0) {
+          el = el.slice(ind, ind + 6)
         }
         return el
-      })?.filter(el=>el.split(':').length>2)
-if(reported?.length>0){
-  reported.forEach(el=>{
-      reporter.error(
+      })?.filter(el => el.split(':').length > 2)
+      if (reported?.length > 0) {
+        reported.forEach(el => {
+          reporter.error(
             `property or value should be presented: [${el}]`,
             event.line,
-            styleString[0].index+event.col+event.tagName.length+2,
+            styleString[0].index + event.col + event.tagName.length + 2,
             this,
             event.raw
           )
-  })
-}
-      
+        })
+      }
+
 
     }
-  
-   
+
+
     parser.addListener('tagstart', onTagStart)
   },
 }

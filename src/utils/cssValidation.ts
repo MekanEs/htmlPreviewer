@@ -3,7 +3,7 @@ import { customCssData, editor, monaco } from '../constants';
 import { htmlRegionCache } from '../editor-ex/html/htmlRegionCache';
 import { languageNames } from '../editor-ex/constants';
 
-const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData[],hasPlus?:boolean)=>{
+export const diagnosticsPusher=(diagnostics:Diagnostic[],arrayToPush:editor.IMarkerData[],hasPlus?:boolean)=>{
   diagnostics.forEach(diag => {
       // Диагностика возвращает диапазон относительно виртуального документа.
       // Преобразуем его в позиции в исходном HTML.
