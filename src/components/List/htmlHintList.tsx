@@ -1,8 +1,9 @@
-import { FC, useMemo, } from 'react';
+import { FC, } from 'react';
 import { HTMLHint } from 'htmlhint';
 import classNames from 'classnames';
 import { IRange, rulesets } from '../../constants';
 import styles from './List.module.scss';
+import { useFindClasses } from '../../hooks/classFinder';
 interface htmlHintListProps {
   className?: string;
   source: string;
@@ -25,17 +26,7 @@ interface htmlHintListProps {
 // };
 
 
-const useFindClasses = (str: string) => {
-  return useMemo(() => {
-    const found = str.match(/class="([^"]+)/g);
-    const classes = [...new Set(found?.map((el) => el.replace('class="', '').split(/\s+/)).flat())];
-    const und = classes?.filter((el) => {
-      const reg = new RegExp(`\\.${el}(?!\\w+)([^]+){`, 'g');
-      return !str.match(reg);
-    });
-    return und
-  }, [str])
-}
+
 export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
   const results = HTMLHint.verify(source, rulesets);
   const undClasses = useFindClasses(source);
@@ -58,12 +49,12 @@ export const HtmlHintList: FC<htmlHintListProps> = ({ source, revealLine }) => {
         })}
       </div>
       {results.map((el) => {
-        const { line, col, evidence } = el;
+        const { line, col, raw } = el;
         const range: IRange = {
           startLineNumber: line,
           startColumn: col,
           endLineNumber: line,
-          endColumn: col + evidence.length - 1,
+          endColumn: col + raw.length - 1,
         };
         return (
           <div

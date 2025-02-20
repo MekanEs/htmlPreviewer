@@ -1,3 +1,4 @@
+export { CustomValidation } from './customValidation';
 export { validateCSSInStyleAttributes } from './cssValidation';
 export {useRegMatcher} from './regMatcher';
 export { toggleImages } from './toggleFrameBorder';

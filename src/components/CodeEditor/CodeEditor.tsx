@@ -9,7 +9,7 @@ import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import { themeSwitcher } from '../../utils';
 import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
-import { htmlValidation } from '../../utils/htmlValidation';
+import { CustomValidation } from '../../utils';
 
 
 
@@ -35,7 +35,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
         return
       }
       validateCSSInStyleAttributes(model)
-      htmlValidation(model)
+      CustomValidation(model)
     }
   }, [dispatch, editorRef]);
 
@@ -67,7 +67,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
       return
     }
     validateCSSInStyleAttributes(model)
-    htmlValidation(model)
+    CustomValidation(model)
     verify(value, model)
   }
   const editorOptions: editorNS.IStandaloneEditorConstructionOptions = useMemo(() => ({
@@ -89,7 +89,12 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
         language='html'
         onMount={handleMount}
         onValidate={(e) => {
-          console.log('validate', e);
+          const newMarkers: Omit<editorNS.IMarker, 'resource'>[] = e.map((el) => {
+            const newEl: Omit<editorNS.IMarker, 'resource'> & { resource?: object } = structuredClone(el)
+            delete newEl.resource
+            return newEl
+          })
+          dispatch(htmlActions.setMarkers(newMarkers))
         }}
         options={editorOptions}
       />

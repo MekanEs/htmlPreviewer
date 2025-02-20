@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
-import {useRegMatcher} from '../../utils';
+import { useRegMatcher } from '../../utils';
 import {
   findLinks,
   findRedirectsProps,
@@ -18,8 +18,8 @@ import {
 } from '../../constants';
 import { LangList } from '../List/langList';
 import { RedirList } from '../List/RedirList';
-import { HtmlHintList } from '../List/htmlHintList';
 import { useUtmFinder } from '../../hooks/utmFinder';
+import { HintList } from '../List/HintList';
 
 interface StatsProps {
   className?: string;
@@ -28,7 +28,7 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
- 
+
   const langs2 = useUtmFinder(source, findLangs);
   const langs = useUtmFinder(source, findLangs2);
   const regContent = useUtmFinder(source, findUtmContent);
@@ -38,7 +38,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const regRedir = useUtmFinder(source, findRedirectsProps);
   const regLinks = useUtmFinder(source, findLinks);
   const regSubscription = useUtmFinder(source, findSubscriptionProps);
-const regLocales = useUtmFinder(source,findLocales)
+  const regLocales = useUtmFinder(source, findLocales)
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
   return (
@@ -57,26 +57,29 @@ const regLocales = useUtmFinder(source,findLocales)
       </div>
       <div className={styles.List}>
         <h3 className={styles.header}>Redirections</h3>
-        {[regRedir,regSubscription,regLinks].map((regMatches,i)=>{
+        {[regRedir, regSubscription, regLinks].map((regMatches, i) => {
           return <RedirList key={i} regMatches={regMatches} />
         })}
-       
+
       </div>
- <div className={styles.List}>
-        
-        
+      <div className={styles.List}>
+
+
       </div>
-      <div style={{ display: 'flex', width:'100%',gap:'10px'}}>
-        <div className={styles.half} style={{ display: 'flex',flexWrap:'wrap',minWidth:'40%' }}>
-        <LangList className={styles.half} regMatches={regLocales} />
-        <LangList className={styles.half} regMatches={langs} />
-        <LangList className={styles.half} regMatches={langs2} /></div>
+      <div style={{ display: 'flex', width: '100%', gap: '10px' }}>
+        <div className={styles.half} style={{ display: 'flex', flexWrap: 'wrap', minWidth: '40%' }}>
+          <LangList className={styles.half} regMatches={regLocales} />
+          <LangList className={styles.half} regMatches={langs} />
+          <LangList className={styles.half} regMatches={langs2} /></div>
         <LangList regMatches={err} hasDesc />
       </div>
-<div>
-</div>
       <div>
+      </div>
+      {/* <div>
         <HtmlHintList source={source} revealLine={revealLine} />
+      </div> */}
+      <div>
+        <HintList revealLine={revealLine} source={source} />
       </div>
     </div>
   );

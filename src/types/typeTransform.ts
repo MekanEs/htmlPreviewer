@@ -8,6 +8,13 @@ export const reportTypeToMarkerSeverity: Record<ReportType, monaco.MarkerSeverit
   ['info' as ReportType.info]: monaco.MarkerSeverity.Info,
 };
 
+export const reportTypeSeverityToMarker: Record<monaco.MarkerSeverity,ReportType> = {
+  [8 as monaco.MarkerSeverity.Error]: 'error' as ReportType.error,
+  [4 as monaco.MarkerSeverity.Warning]: 'warning' as ReportType.warning,
+  [2 as monaco.MarkerSeverity.Info]: 'info' as ReportType.info,
+  [1 as monaco.MarkerSeverity.Hint]: 'hint' as ReportType.info
+};
+
 export const diagnosticToMarkerSeverity: Record<DiagnosticSeverity, monaco.MarkerSeverity> = {
     [DiagnosticSeverity.Error]: monaco.MarkerSeverity.Error,
     [DiagnosticSeverity.Warning]: monaco.MarkerSeverity.Warning,

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 import { initialJson, LS_SOURCEHTML,  str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
+import {  editor } from '../../constants';
 
 export interface IHtmlSlice {
   json: string;
@@ -12,7 +13,8 @@ export interface IHtmlSlice {
   htmlToRender: string;
   langs: string[];
   images:string[],
-  userSearchInput:string[]
+  userSearchInput:string[],
+  markers:Record<string,Omit<editor.IMarker, 'resource'>[]>
 }
 const initialState: IHtmlSlice = {
   json: initialJson,
@@ -29,7 +31,8 @@ const initialState: IHtmlSlice = {
   ),
   langs: [],
   images:[],
-  userSearchInput:[]
+  userSearchInput:[],
+  markers:{}
 };
 
 export const htmlSlice: Slice<IHtmlSlice> = createSlice({
@@ -59,6 +62,16 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
     },
     setUserSearchInput:(state, action: PayloadAction<string>)=>{
        state.userSearchInput = [action.payload];
+    },
+    setMarkers:(state,action:PayloadAction<Omit<editor.IMarker, 'resource'>[]>)=>{
+      state.markers = action.payload.reduce((stateObj,marker)=>{
+        if(!stateObj[marker.owner]){
+          stateObj[marker.owner]=[{...marker}]
+        }else{
+          stateObj[marker.owner].push(marker)
+        }
+        return stateObj
+      },{} as Record<string,Omit<editor.IMarker, 'resource'>[]>)
     }
   },
 });

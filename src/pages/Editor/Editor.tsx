@@ -1,15 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './Editor.module.scss';
-import { CodeEditor, Frame,JSONEditor,Stats,ThemeSwitcher,Images} from '../../components';
+import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import classNames from 'classnames';
 
 import { useAppSelector } from '../../store/store';
-import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML,  } from '../../constants';
+import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
 interface EditorPageProps {
   className?: string;
 }
-type frameMode = 'iframe'|'stats'|'images'|'source'
+type frameMode = 'iframe' | 'stats' | 'images' | 'source'
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
@@ -22,6 +22,8 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const [ctrlPressed, setctrlPressed] = useState(false);
 
   const revealLine = (line: number, range: IRange) => {
+    console.log(range);
+
     editorRef.current?.revealLineInCenter(line);
     editorRef.current?.setSelection(range);
   };
@@ -31,24 +33,24 @@ export const EditorPage: FC<EditorPageProps> = () => {
       setctrlPressed(true);
     }
     if (ctrlPressed && e.key === 'Alt') {
-           
+
       setEditorMode((prev) => !prev);
     }
-     if (ctrlPressed && e.code === 'KeyS') {
- 
-      e.preventDefault()
-   
+    if (ctrlPressed && e.code === 'KeyS') {
 
-localStorage.setItem(LS_SOURCEHTML,source)
-     
-      
-    }
-     if (ctrlPressed && e.code === 'KeyB') {
- 
       e.preventDefault()
-const selection = editorRef.current?.getSelection()
-     console.log(selection)
-      
+
+
+      localStorage.setItem(LS_SOURCEHTML, source)
+
+
+    }
+    if (ctrlPressed && e.code === 'KeyB') {
+
+      e.preventDefault()
+      const selection = editorRef.current?.getSelection()
+      console.log(selection)
+
     }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {
@@ -74,7 +76,7 @@ const selection = editorRef.current?.getSelection()
         <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
           TestData
         </button>
-        <ThemeSwitcher/>
+        <ThemeSwitcher />
         <input
           style={{ width: '40px' }}
           onChange={(e) => {
@@ -86,18 +88,18 @@ const selection = editorRef.current?.getSelection()
           type='number'
           title={'editor font size'}
         />
-        <button title='Ctrl+S' onClick={() =>  {
-        
-           
-      localStorage.setItem(LS_SOURCEHTML,source)
-      }}>
+        <button title='Ctrl+S' onClick={() => {
+
+
+          localStorage.setItem(LS_SOURCEHTML, source)
+        }}>
           Save
         </button>
-        <button onClick={() =>  {
-        
-           
-      localStorage.removeItem(LS_SOURCEHTML)
-      }}>
+        <button onClick={() => {
+
+
+          localStorage.removeItem(LS_SOURCEHTML)
+        }}>
           Reset
         </button>
       </div>
@@ -115,40 +117,40 @@ const selection = editorRef.current?.getSelection()
 
         <div className={styles.frameContainer}>
           <div>
-          <button onClick={() => setMode('stats')}>
-           Stats
-          </button>
-          <button onClick={() => setMode('iframe')}>
-           Preview
-          </button>
-          <button onClick={() => setMode('images')}>
-           Images
-          </button>
-          <button onClick={() => setMode('source')}>
-           Source
-          </button></div>
-          {mode ==="iframe" && <Frame testData={json} /> }
-          {mode==='stats' && <Stats source={source} revealLine={revealLine} />}
-          {mode==='images' && <Images />}
-          {mode==='source' && <Editor
-        theme={'vs-dark'}
-        width={'100%'}
-        height='100%'
-        defaultLanguage='html'
-        value={htmlToSource}
-        language='html'
-        
-        onValidate={(e) => {
-          console.log('validate', e);
-        }}
-        options={{
-          wordWrap: 'on',
-          minimap: { enabled: true, size: 'proportional' },
-          fontSize: fontSize,
-          readOnly:true
-          
-        }}
-      />}
+            <button onClick={() => setMode('stats')}>
+              Stats
+            </button>
+            <button onClick={() => setMode('iframe')}>
+              Preview
+            </button>
+            <button onClick={() => setMode('images')}>
+              Images
+            </button>
+            <button onClick={() => setMode('source')}>
+              Source
+            </button></div>
+          {mode === "iframe" && <Frame testData={json} />}
+          {mode === 'stats' && <Stats source={source} revealLine={revealLine} />}
+          {mode === 'images' && <Images />}
+          {mode === 'source' && <Editor
+            theme={'vs-dark'}
+            width={'100%'}
+            height='100%'
+            defaultLanguage='html'
+            value={htmlToSource}
+            language='html'
+
+            onValidate={(e) => {
+              console.log('validate', e);
+            }}
+            options={{
+              wordWrap: 'on',
+              minimap: { enabled: true, size: 'proportional' },
+              fontSize: fontSize,
+              readOnly: true
+
+            }}
+          />}
         </div>
       </div>
     </div>

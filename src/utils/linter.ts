@@ -21,7 +21,7 @@ export const verify = (code: string, model?: editor.ITextModel | null) => {
         startLineNumber: hint.line,
         startColumn: hint.col,
         endLineNumber: hint.line,
-        endColumn: hint.col + hint.evidence.length - 1,
+        endColumn: hint.col + +hint.raw.length,
       });
     })
     editor.setModelMarkers(model, 'html', markers);

@@ -19,7 +19,7 @@ const trInTable: Rule = {
         const stackLastIndex = stack.length - 1
         if (stack[stackLastIndex] !== 'table' && stack[stackLastIndex] !== 'tbody'&& stack[stackLastIndex] !== 'thead') {
           reporter.error(
-            '<tr> must be presented in <table>, <tbody> or <thead> tag',
+            `<tr> must be presented in <table>, <tbody> or <thead> tag, now in [ ${stack[stackLastIndex]} ]`,
             event.line,
             event.col,
             this,
@@ -43,45 +43,74 @@ const trInTable: Rule = {
     parser.addListener('tagend', onTagEnd)
   },
 }
-const styleProperty: Rule = {
-  id: 'style-property:value',
-  description: 'every property should have value',
+
+
+const targetAttributesValues: Rule = {
+  id: 'target-attribute-values',
+  description: 'target attibute values can be _blank|_self|_parent|_top|framename',
   init(parser, reporter) {
 
 
 
     const onTagStart: Listener = (event) => {
 
-      const styleString = event.attrs.filter(el => el.name === 'style' && el.value !== '')
-      const reported = styleString[0]?.value?.split(';')?.map(el => {
-        const ind = el.indexOf('https:')
-        if (ind > 0) {
-          el = el.slice(ind, ind + 6)
-        }
-        return el
-      })?.filter(el => el.split(':').length > 2)
-      if (reported?.length > 0) {
-        reported.forEach(el => {
-          reporter.error(
-            `property or value should be presented: [${el}]`,
+      const target = event.attrs.filter(el => el.name === 'target')[0]
+      if(target?.value&&target.value!=='_blank' &&target.value!=='_self' &&target.value!=='_parent' &&target.value!=='_top' &&target.value!=='framename'){
+        reporter.warn(
+            `invalid target value [ ${target.value} ]`,
             event.line,
-            styleString[0].index + event.col + event.tagName.length + 2,
+            target.index+ event.col + event.tagName.length+1,
             this,
-            event.raw
+            target.raw
           )
-        })
       }
     }
 
-
     parser.addListener('tagstart', onTagStart)
-  },
+  }
 }
 
 
 export const addRule = () => {
-  HTMLHint.addRule(styleProperty)
+  HTMLHint.addRule(targetAttributesValues)
   HTMLHint.addRule(trInTable)
 
 
 }
+
+
+
+// const styleProperty: Rule = {
+//   id: 'style-property:value',
+//   description: 'every property should have value',
+//   init(parser, reporter) {
+
+
+
+//     const onTagStart: Listener = (event) => {
+
+//       const styleString = event.attrs.filter(el => el.name === 'style' && el.value !== '')
+//       const reported = styleString[0]?.value?.split(';')?.map(el => {
+//         const ind = el.indexOf('https:')
+//         if (ind > 0) {
+//           el = el.slice(ind, ind + 6)
+//         }
+//         return el
+//       })?.filter(el => el.split(':').length > 2)
+//       if (reported?.length > 0) {
+//         reported.forEach(el => {
+//           reporter.error(
+//             `property or value should be presented: [${el}]`,
+//             event.line,
+//             styleString[0].index + event.col + event.tagName.length + 2,
+//             this,
+//             event.raw
+//           )
+//         })
+//       }
+//     }
+
+
+//     parser.addListener('tagstart', onTagStart)
+//   },
+// }

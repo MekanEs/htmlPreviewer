@@ -10,14 +10,14 @@ export {editor}
 export type {IRange}
 export const RegErrors = [
   /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gm,
-  /(?!target="_blank")target="([^]+)"/gm,
+  // /(?!target="_blank")target="([^]+)"/gm,
   /<\w[^>]*>\s+\n*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я()][\t\f\cK ]+(?=<\u002f[^>]*>)/gm,
   /^\s*$\n/gm,
   /[A-Za-z0-9А-Яа-я]\n\s*[A-Za-z0-9А-Яа-я]/gm,
   /[A-Za-z0-9А-Яа-я]\s+\s+\s*[A-Za-z0-9А-Яа-я]/gm,
-  /(\s+&nbsp;)+|&nbsp;[\t\f\cK ]+/gm,
-  /alt=""|alt=''/gm,
+  // /(\s+&nbsp;)+|&nbsp;[\t\f\cK ]+/gm,
+  // /alt=""|alt=''/gm,
   /style='/gm,
   /\}[0-9][0-9][0-9][0-9]&/gm,
   /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gm,
@@ -29,19 +29,19 @@ export const RegErrors = [
   /\?title=\{/gm,
   /(?!.\?title='\{).\?title='([^']+)'/gm,
   /href="unsubscribe"/gm,
-  /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gm,
-  /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gm,
+  // /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gm,
+  // /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gm,
 ];
 export const RegErrorDesc = [
   'пробел\\перенос после знака }',
-  'неправильная ссылка',
+  // 'неправильная ссылка',
   'перенос после тэга',
   'перенос/пробел перед закр тэгом',
   'лишний перенос',
   'перенос внутри контента/формулы',
   'больше 1 пробела',
-  'пробел рядом с неразрывным',
-  'пустой alt',
+  // 'пробел рядом с неразрывным',
+  // 'пустой alt',
   'кавычки тэга style',
   '4 числа подряд (необработанная вал формула)',
   'пробел в ссылке',
@@ -53,8 +53,8 @@ export const RegErrorDesc = [
   'title для ежедневок',
   'title для техничек',
   'ссылка/заглушка отписки',
-  'криптовалюта + game_currency',
-  'неверная ссылка отписки'
+  // 'криптовалюта + game_currency',
+  // 'неверная ссылка отписки'
 ];
 export const RegLangs = [
   /lang%3Dru/gm,
@@ -119,6 +119,7 @@ export const rulesets: Ruleset = {
   'inline-style-disabled': false,
   'tr-in-table':true,
   'style-property:value':true,
+  'target-attribute-values':true
 };
 export const rulesets2: Ruleset = {
   'doctype-first': false,
