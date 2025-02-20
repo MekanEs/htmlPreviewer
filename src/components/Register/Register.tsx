@@ -32,7 +32,7 @@ export const Register = () => {
 
     useEffect(() => {
         if (user) {
-            setMessage('confirmRegistration and login')
+            setMessage('Проверьте вашу почту и подтвердите email!')
         }
     }, [user, navigate]);
 
