@@ -71,7 +71,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
   useEffect(() => {
-    console.log(user)
     if (!user || !user.confirmed_at) {
       navigate('/'); // Используем navigate для редиректа
     }

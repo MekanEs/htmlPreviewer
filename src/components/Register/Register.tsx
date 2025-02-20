@@ -12,10 +12,23 @@ export const Register = () => {
     const [message, setMessage] = useState("");
     const [user, setUser] = useState<User | null>(null);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate(); // Инициализация useNavigate
+    const navigate = useNavigate();
+
+
+    // const isValidEmail = (email: string) => {
+    //     return /^[a-zA-Z0-9._%+-]+@jetmail\.cc$/.test(email);
+    // };
+
 
     const handleRegistration = async () => {
         setError(""); // Очистка ошибок
+
+
+        // if (!isValidEmail(email)) {
+        //     setError("Используйте email с доменом @jetmail.cc");
+        //     return;
+        // }
+
 
         const { data, error } = await supabase.auth.signUp({
             email,
