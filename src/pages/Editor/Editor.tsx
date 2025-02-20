@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { useAppSelector } from '../../store/store';
 import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 interface EditorPageProps {
   className?: string;
 }
@@ -22,7 +22,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const [mode, setMode] = useState<frameMode>('stats');
 
   const [ctrlPressed, setctrlPressed] = useState(false);
-
+  const navigate = useNavigate();
   const revealLine = (line: number, range: IRange) => {
     console.log(range);
 
@@ -71,10 +71,10 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
   useEffect(() => {
-    if (!user) {
-      redirect('/')
+    if (user && user.confirmed_at) {
+      navigate('/'); // Используем navigate для редиректа
     }
-  }, [user])
+  }, [user, navigate]);
 
   return (
     <div>
