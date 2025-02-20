@@ -51,3 +51,7 @@ loader.init().then(/* ... */);
 
 registerCustomSnippets('html', custom_snippets_emmet)
 addRule()
+// await supabase.auth.signUp({
+//   email: "mekan.es1997@gmail.com",
+//   password: "password123",
+// })

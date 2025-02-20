@@ -13,7 +13,9 @@
     "@babel/parser": "^7.25.6",
     "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.6",
+    "@supabase/supabase-js": "^2.48.1",
     "classnames": "^2.5.1",
+    "dotenv": "^16.4.7",
     "emmet-monaco-es": "^5.4.0",
     "handlebars": "^4.7.8",
     "htmlhint": "^1.1.4",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@types/htmlhint": "^1.1.5",
+    "@types/node": "^22.13.4",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

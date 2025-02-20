@@ -6,12 +6,14 @@ import classNames from 'classnames';
 import { useAppSelector } from '../../store/store';
 import { editor, IRange, LS_FONTSIZEKEY, LS_SOURCEHTML, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
+import { redirect } from 'react-router-dom';
 interface EditorPageProps {
   className?: string;
 }
 type frameMode = 'iframe' | 'stats' | 'images' | 'source'
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
+  const user = useAppSelector((state) => state.userReducer.user)
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
   const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -66,6 +68,13 @@ export const EditorPage: FC<EditorPageProps> = () => {
       window.removeEventListener('keyup', onKeyCtrlUp);
     };
   });
+
+
+  useEffect(() => {
+    if (!user) {
+      redirect('/')
+    }
+  }, [user])
 
   return (
     <div>

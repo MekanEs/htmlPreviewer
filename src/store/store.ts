@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { htmlReducer } from './sourceHtml/sourceHtml';
+import { userReducer } from './user/user';
 export const store = configureStore({
-  reducer: { htmlReducer },
+  reducer: { htmlReducer,userReducer },
 });
 // Infer the `RootState`,  `AppDispatch`, and `AppStore` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,0 +1,58 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../api/supabaseclient";
+import { User } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
+import { useAppDispatch } from "../../store/store";
+import { userActions } from "../../store/user/user";
+
+export const Register = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const [user, setUser] = useState<User | null>(null);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate(); // Инициализация useNavigate
+
+    const handleRegistration = async () => {
+        setError(""); // Очистка ошибок
+
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+        });
+
+        if (error) {
+            setError(error.message);
+        } else {
+            setUser(data.user);
+            dispatch(userActions.setUser(data.user));
+        }
+    };
+
+    useEffect(() => {
+        if (user) {
+            setMessage('confirmRegistration and login')
+        }
+    }, [user, navigate]);
+
+    return (
+        <div>
+            <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button onClick={handleRegistration}>Register</button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {message && <p style={{ color: "green" }}>{message}</p>}
+        </div>
+    );
+}
