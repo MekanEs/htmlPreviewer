@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router.tsx';
-import './App.css';
+import './App.scss';
 import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es'
 
 import { loader } from '@monaco-editor/react';

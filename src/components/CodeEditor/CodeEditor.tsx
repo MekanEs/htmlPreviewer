@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useMemo, } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco, OnChange } from '@monaco-editor/react';
-import '../../App.css';
+import '../../App.scss';
 import { HTMLOptionsSetter, createRange, validateCSSInStyleAttributes, verify } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
@@ -17,9 +17,10 @@ interface CodeEditorProps {
   selection: EditorSelection;
   editorRef: React.MutableRefObject<editorNS.IStandaloneCodeEditor | null>;
   fontSize?: number;
+  miniMap: boolean
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize = 12 }) => {
+export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, miniMap, fontSize = 12 }) => {
   const value = useAppSelector((state) => state.htmlReducer.source);
   const dispatch = useAppDispatch();
 
@@ -72,10 +73,10 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, fontSize
   }
   const editorOptions: editorNS.IStandaloneEditorConstructionOptions = useMemo(() => ({
     wordWrap: 'on',
-    minimap: { enabled: true, size: 'proportional' as const },
+    minimap: { enabled: miniMap, size: 'proportional' as const },
     verify: true,
     fontSize
-  }), [fontSize]);
+  }), [fontSize, miniMap]);
   return (
     <div className={classNames(styles.CodeEditor)}>
 
