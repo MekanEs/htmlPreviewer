@@ -7,7 +7,7 @@ import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { editor, LS_MONACOTHEME } from '../../constants';
 import { themeSwitcher } from '../../utils';
 
-export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
+export const JSONEditor: FC<{ fontSize: number; miniMap: boolean }> = ({ miniMap, fontSize = 12 }) => {
   const json = useAppSelector((state) => state.htmlReducer.json);
   const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -17,18 +17,18 @@ export const JSONEditor: FC<{fontSize:number}> = ({ fontSize = 12 }) => {
       dispatch(htmlActions.setJson(str));
     }
 
-    
+
   };
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
     });
-     const savedTheme= localStorage.getItem(LS_MONACOTHEME)
-    if(savedTheme){
-themeSwitcher(savedTheme)
-    }else{
-      localStorage.setItem(LS_MONACOTHEME,'all-hallows-eve')
+    const savedTheme = localStorage.getItem(LS_MONACOTHEME)
+    if (savedTheme) {
+      themeSwitcher(savedTheme)
+    } else {
+      localStorage.setItem(LS_MONACOTHEME, 'all-hallows-eve')
       themeSwitcher("all-hallows-eve")
     }
   };
@@ -59,8 +59,9 @@ themeSwitcher(savedTheme)
         }}
         options={{
           wordWrap: 'on',
+          minimap: { enabled: miniMap, size: 'proportional' as const },
           bracketPairColorization: { enabled: true },
-              fontSize: fontSize,
+          fontSize: fontSize,
         }}
       />
     </div>

@@ -4,7 +4,6 @@
   padding: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  
 
   &::-webkit-scrollbar {
     width: 7px;
@@ -25,12 +24,15 @@
     background: #000000;
   }
 }
+
 .header {
   margin: 0;
 }
-.half-w{
+
+.half-w {
   width: 50%;
 }
-.quarterWidth{
-width: 20%;
+
+.quarterWidth {
+  width: 20%;
 }
