@@ -1,42 +1,43 @@
-import { FC,  useEffect, useState } from 'react';
-import { RegErrorDesc } from '../../constants';
+import { FC, useEffect, useState } from 'react';
 import styles from './List.module.scss';
 import classNames from 'classnames';
-interface LangListProps  {
+import { RegErrorDesc } from '../../constants/regExp';
+interface LangListProps {
   className?: string;
-  regMatches: Record<string, number>;
+  regMatches?: Record<string, number>;
   hasDesc?: boolean;
 }
 
 export const LangList: FC<LangListProps> = ({ regMatches, hasDesc = false, className }) => {
-  const [showMode, setShowMode] = useState<{mode:boolean}>(()=>JSON.parse(localStorage.getItem('regErrorMode')||JSON.stringify({ mode: false })));
-  
+  const [showMode, setShowMode] = useState<{ mode: boolean }>(() => JSON.parse(localStorage.getItem('regErrorMode') || JSON.stringify({ mode: false })));
+
   useEffect(() => {
-  localStorage.setItem('regErrorMode', JSON.stringify(showMode));
-}, [showMode]);
+    localStorage.setItem('regErrorMode', JSON.stringify(showMode));
+  }, [showMode]);
 
   const toggleShowMode = () => {
     setShowMode(prev => ({ mode: !prev.mode }));
   };
+  if (!regMatches) return <></>
   return (
     <div className={classNames(styles.List, className)}>
       {hasDesc && (
         <button
-          style={{ width: '100%',display:hasDesc?'inherit':'none'}}
+          style={{ width: '100%', display: hasDesc ? 'inherit' : 'none' }}
           onClick={toggleShowMode}
-          
+
         >
           {showMode.mode ? 'show regexp' : 'show description'}
         </button>
       )}
-      <ul>
+      <ul >
         {Object.keys(regMatches).map((regexMatch, i) => {
-          const splittedRegEx =regexMatch.split('/')[1] || regexMatch;
-          const displayText = hasDesc && showMode.mode ? RegErrorDesc[i] :splittedRegEx 
+          const splittedRegEx = regexMatch.split('/')[1] || regexMatch;
+          const displayText = hasDesc && showMode.mode ? RegErrorDesc[i] : splittedRegEx
           return <li
             key={regexMatch}
-            className={styles.item}
-            style={{ color: regMatches[regexMatch] > 0 ? '#f33535' : 'inherit' }}
+            className={classNames(styles.item, { [styles.count]: regMatches[regexMatch] > 0 })}
+
             onClick={() => {
               navigator.clipboard.writeText(splittedRegEx);
             }}
@@ -46,6 +47,6 @@ export const LangList: FC<LangListProps> = ({ regMatches, hasDesc = false, class
           </li>
         })}
       </ul>
-    </div>
+    </div >
   );
 };

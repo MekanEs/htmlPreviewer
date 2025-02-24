@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
 import { User } from '@supabase/supabase-js';
-import { LS_ACCESSTOKEN } from '../../constants';
+import { LS_ACCESSTOKEN } from '../../constants/localStorage';
 
 export interface IUserSlice {
   user: User | null,

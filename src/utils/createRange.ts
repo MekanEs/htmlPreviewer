@@ -10,12 +10,12 @@ export const createRange = (
 
   if (!from || !to) return;
 
-    const range: IRange = {
-      startLineNumber: from.lineNumber || 1,
-      startColumn: from.column,
-      endColumn: to.column,
-      endLineNumber: to.lineNumber,
-    };
-    return range;
-  
+  const range: IRange = {
+    startLineNumber: from.lineNumber || 1,
+    startColumn: from.column,
+    endColumn: to.column,
+    endLineNumber: to.lineNumber,
+  };
+  return range;
+
 };

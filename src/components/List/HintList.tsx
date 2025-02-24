@@ -8,14 +8,15 @@ import { useFindClasses } from '../../hooks/classFinder';
 
 interface HintListProps {
     className?: string;
-    revealLine: (line: number, range: IRange) => void;
+    revealLine: (range: IRange) => void;
     source: string;
 }
 
 export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
+
     const markers = useAppSelector((state) => state.htmlReducer.markers)
     const undClasses = useFindClasses(source);
-    const owners = Object.keys(markers)
+    const owners = ['hmtl', 'css', 'custom']
     const [activeOwner, setActiveOwner] = useState<string>(owners[0] || 'html');
     return (
         <div className={classNames(styles.List)}>
@@ -35,18 +36,18 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
                     );
                 })}
             </div>
-            <div className={styles.tabs}>
+            <div className={classNames(styles.List, styles.tabs)}>
                 {owners.map(owner => (
                     <button
                         key={owner}
                         className={classNames(styles.tab, { [styles.active]: owner === activeOwner })}
                         onClick={() => setActiveOwner(owner)}
                     >
-                        {owner}
+                        {owner}:{markers[owner]?.length || 0}
                     </button>
                 ))}
             </div>
-            <div className={styles.content}>
+            <ul className={styles.content}>
                 {markers[activeOwner]?.map((marker, index) => {
                     const range = {
                         startLineNumber: marker.startLineNumber,
@@ -55,16 +56,16 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
                         endColumn: marker.endColumn,
                     };
                     return (
-                        <div
+                        <li
                             key={index}
-                            onDoubleClick={() => revealLine(marker.startLineNumber, range)}
+                            onDoubleClick={() => revealLine(range)}
                             className={classNames(styles.item, styles[reportTypeSeverityToMarker[marker.severity]])}
                         >
                             {marker.message} (Line: {marker.startLineNumber})
-                        </div>
+                        </li>
                     );
                 })}
-            </div>
+            </ul>
         </div>
     );
 };

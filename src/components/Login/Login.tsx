@@ -43,7 +43,7 @@ export const Login = () => {
             }
         }
         checkAuth()
-    }, [])
+    }, [dispatch, navigate, userState.user_accessToken])
     useEffect(() => {
 
         if (userState.user && userState.user.confirmed_at) {

@@ -4,7 +4,7 @@ import { reportTypeToMarkerSeverity } from "../types/typeTransform";
 const rules1: ValidationRule[] = [
     { message: "cryptocurrency with game_currency", regex: /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gi },
     { message: 'неверная ссылка отписки', regex: /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gi },
-    { message: 'пестой alt', regex: /alt=""|alt=''/gi, type: 'warning' as ReportType.error },
+    { message: 'пустой alt', regex: /alt=""|alt=''/gi, type: 'warning' as ReportType.error },
     { message: 'пробел рядом с неразрывным', regex: /(\s+&nbsp;)+|&nbsp;[\t\f\cK ]+/gi },
     { message: 'пробел В ссылке', regex: /(%3D|%3F|%26|%23)\s|\s(%3D|%3F|%26|%23)/gi },
     { message: 'пробел после знака }', regex: /"\s*\}\}\s+[A-Za-z0-9А-Яа-я]/gi },
@@ -50,5 +50,5 @@ export const CustomValidation = (model: editor.ITextModel) => {
         }
     });
 
-    editor.setModelMarkers(model, 'Custom', markers);
+    editor.setModelMarkers(model, 'custom', markers);
 };

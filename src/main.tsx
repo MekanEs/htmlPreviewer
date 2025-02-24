@@ -45,7 +45,10 @@ self.MonacoEnvironment = {
 };
 
 loader.config({ monaco });
-loader.init().then(/* ... */);
+loader.init().then(() => {
+  monaco.languages.register({ id: 'html' });
+  monaco.languages.register({ id: 'json' });
+});
 
 registerCustomSnippets('html', custom_snippets_emmet)
 addRule()

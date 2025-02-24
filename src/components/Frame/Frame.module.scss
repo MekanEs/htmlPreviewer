@@ -61,4 +61,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  font-size: smaller;
+}
+
+.sizeControlsContainer {
+  display: flex;
+  flex-direction: column;
+
 }

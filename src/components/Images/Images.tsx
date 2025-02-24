@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { findImages } from '../../constants';
 import { useAppSelector } from '../../store/store';
-
+import styles from './Images.module.scss'
 
 
 
@@ -13,13 +13,14 @@ export const Images: FC = () => {
   const images = [...src, ...content]
 
   return (
-    <div style={{ height: '100%', overflowY: 'scroll', }}>
-      <ul style={{ width: "90%" }}>
-        {images?.map(el => <li key={el} style={{ marginTop: "10px", border: '1px solid white' }}>
-          <div><span style={{ cursor: 'pointer' }} onClick={() => navigator.clipboard.writeText(el)}>{el}</span></div>
+    <div className={styles.ImagesContainer}>
+      <ul >
+        {images?.map(el =>
+          <li key={el} onClick={() => navigator.clipboard.writeText(el)}>
+            <div><span  >{el}</span></div>
 
-          <img style={{ maxWidth: '70%' }} src={el} alt="tech" />
-        </li>)}
+            <img src={el} alt="tech" />
+          </li>)}
       </ul>
     </div>
   );

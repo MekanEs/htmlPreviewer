@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { FindPropsObject } from '../types/types';
-
+//const selector =/([.#])(-?[_a-zA-Z\]+[\\!+_a-zA-Z0-9-]*)(?=[#.,()\s\[\]\^:*"'>=_a-zA-Z0-9-]*{[^}]*})/g;
 export const useUtmFinder = (text: string = '', propObj: FindPropsObject) => {
   const { regexp, replace } = propObj;
 
@@ -15,3 +15,5 @@ export const useUtmFinder = (text: string = '', propObj: FindPropsObject) => {
     }, {} as Record<string, number>);
   }, [text, regexp, replace]);
 };
+
+

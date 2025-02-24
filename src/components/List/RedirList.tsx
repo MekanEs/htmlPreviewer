@@ -4,13 +4,14 @@ import styles from './List.module.scss';
 import classNames from 'classnames';
 interface langListProps {
   className?: string;
-  regMatches: Record<string, number>;
+  regMatches?: Record<string, number>;
   hasDesc?: boolean;
   header?: string;
   bordered?: boolean;
 }
 
 export const RedirList: FC<langListProps> = ({ regMatches, hasDesc, header, bordered }) => {
+  if (!regMatches || Object.keys(regMatches).length === 0) return <></>
   return (
     <div className={classNames(styles.List, { [styles.List_additional]: bordered })}>
       <h3 className={styles.header}>{header}</h3>

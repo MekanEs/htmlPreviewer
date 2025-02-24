@@ -4,11 +4,13 @@ import classNames from 'classnames';
 import { Editor, Monaco } from '@monaco-editor/react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { editor, LS_MONACOTHEME } from '../../constants';
+import { editor, } from '../../constants';
 import { themeSwitcher } from '../../utils';
+import { LS_MONACOTHEME } from '../../constants/localStorage';
 
-export const JSONEditor: FC<{ fontSize: number; miniMap: boolean }> = ({ miniMap, fontSize = 12 }) => {
+export const JSONEditor: FC = () => {
   const json = useAppSelector((state) => state.htmlReducer.json);
+  const { fontSize, miniMap } = useAppSelector((state) => state.optionsReducer);
   const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +61,7 @@ export const JSONEditor: FC<{ fontSize: number; miniMap: boolean }> = ({ miniMap
         }}
         options={{
           wordWrap: 'on',
-          minimap: { enabled: miniMap, size: 'proportional' as const },
+          minimap: { enabled: miniMap.enabled, size: 'proportional' as const },
           bracketPairColorization: { enabled: true },
           fontSize: fontSize,
         }}

@@ -36,3 +36,20 @@
 .quarterWidth {
   width: 20%;
 }
+
+.flexContainer {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: center;
+}
+
+.flex {
+
+  display: flex
+}
+
+.flexGrow {
+  flex: 1;
+  min-width: 40%;
+}

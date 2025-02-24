@@ -1,0 +1,26 @@
+.ImagesContainer {
+    width: 100%;
+    overflow: auto;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    li {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid;
+        text-align: center;
+
+        img {
+            border: 1px solid;
+            max-width: 70%;
+        }
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}

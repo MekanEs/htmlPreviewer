@@ -3,28 +3,36 @@ import styles from './Editor.module.scss';
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import classNames from 'classnames';
 
-import { useAppSelector } from '../../store/store';
-import { editor, IRange, LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, } from '../../constants';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { editor, IRange, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
+import { optionsActions } from '../../store/editorOptions/editorOptions';
+import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML } from '../../constants/localStorage';
 
 interface EditorPageProps {
   className?: string;
 }
-type frameMode = 'iframe' | 'stats' | 'images' | 'source'
+
+
+const tabs = [
+  { key: 'stats', label: 'Stats' },
+  { key: 'iframe', label: 'Preview' },
+  { key: 'images', label: 'Images' },
+  { key: 'source', label: 'Source' },
+];
+
+
+const codeTabs = [
+  { key: 'html', label: 'Code' },
+  { key: 'json', label: 'TestData' }]
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
-  const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
-  const [fontSize, setFontSize] = useState(savedFontSize || 12);
-  const [miniMap, setMiniMap] = useState(true);
+  const options = useAppSelector((state) => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-  const [editorMode, setEditorMode] = useState(true);
-  const [mode, setMode] = useState<frameMode>('stats');
-
+  const dispatch = useAppDispatch()
   const [ctrlPressed, setctrlPressed] = useState(false);
-  const revealLine = (line: number, range: IRange) => {
-    console.log(range);
-
-    editorRef.current?.revealLineInCenter(line);
+  const revealLine = (range: IRange) => {
+    editorRef.current?.revealRangeInCenter(range);
     editorRef.current?.setSelection(range);
   };
   const onKeyCtrlPressed = (e: KeyboardEvent) => {
@@ -33,8 +41,11 @@ export const EditorPage: FC<EditorPageProps> = () => {
       setctrlPressed(true);
     }
     if (ctrlPressed && e.key === 'Alt') {
-
-      setEditorMode((prev) => !prev);
+      if (options.editors.mode === 'html') {
+        dispatch(optionsActions.setEditorMode('json'))
+      } else {
+        dispatch(optionsActions.setEditorMode('html'))
+      }
     }
     if (ctrlPressed && e.code === 'KeyS') {
 
@@ -67,18 +78,31 @@ export const EditorPage: FC<EditorPageProps> = () => {
     };
   });
 
-
-
-
   return (
     <div>
-      <div>
-        <button title='Ctrl+Alt' onClick={() => setEditorMode(true)}>
-          Code
-        </button>
-        <button title='Ctrl+Alt' onClick={() => setEditorMode(false)}>
-          TestData
-        </button>
+      <div className={styles.buttonGroup}>
+        <div className={classNames([styles.tabContainer, styles.codeTab])}>
+          {codeTabs.map((tab) => (
+            <button
+              key={tab.key}
+              className={classNames(styles.tab, { [styles.tabActive]: options.frameMode === tab.key })}
+              onClick={() => dispatch(optionsActions.setEditorMode(tab.key))}
+            >
+              {tab.label}
+            </button>
+          ))}
+          <div
+            className={styles.tabIndicator}
+            style={{
+              width: `${100 / codeTabs.length}%`,
+              transform: `translateX(${(codeTabs.findIndex(t => t.key === options.editors.mode)) * 100}%)`,
+            }}
+          />
+        </div>
+
+
+
+
         <div className={styles.buttonContainer}>
           <ThemeSwitcher />
           <input
@@ -86,14 +110,14 @@ export const EditorPage: FC<EditorPageProps> = () => {
             onChange={(e) => {
               const value = e.target.value;
               localStorage.setItem(LS_FONTSIZEKEY, value);
-              setFontSize(Number(value));
+              dispatch(optionsActions.setFontSize(Number(value)))
             }}
-            value={fontSize}
+            value={options.fontSize}
             type='number'
             title={'editor font size'}
           />
 
-          <button onClick={() => { setMiniMap(prev => !prev) }}>{miniMap ? 'off' : 'on'}</button>
+          <button onClick={() => { dispatch(optionsActions.setMiniMapEnabled(!options.miniMap.enabled)) }}>{options.miniMap.enabled ? 'off' : 'on'}</button>
         </div>
         <div className={styles.buttonContainer}>
           <button title='Ctrl+S' onClick={() => {
@@ -113,12 +137,12 @@ export const EditorPage: FC<EditorPageProps> = () => {
         <div className={styles.editorContainer}>
 
           <div className={classNames(styles.CodeEditor)}>
-            {editorMode ? (
+            {options.editors.mode === 'html' ? (
 
-              <CodeEditor fontSize={fontSize} selection={selection} editorRef={editorRef} miniMap={miniMap} />
+              <CodeEditor selection={selection} editorRef={editorRef} />
 
             ) : (
-              <JSONEditor fontSize={fontSize} miniMap={miniMap} />
+              <JSONEditor />
             )}
 
 
@@ -126,23 +150,29 @@ export const EditorPage: FC<EditorPageProps> = () => {
         </div>
 
         <div className={styles.frameContainer}>
-          <div>
-            <button onClick={() => setMode('stats')}>
-              Stats
-            </button>
-            <button onClick={() => setMode('iframe')}>
-              Preview
-            </button>
-            <button onClick={() => setMode('images')}>
-              Images
-            </button>
-            <button onClick={() => setMode('source')}>
-              Source
-            </button></div>
-          {mode === "iframe" && <Frame testData={json} />}
-          {mode === 'stats' && <Stats source={source} revealLine={revealLine} />}
-          {mode === 'images' && <Images />}
-          {mode === 'source' && <Editor
+          <div className={styles.tabContainer}>
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                className={classNames(styles.tab, { [styles.tabActive]: options.frameMode === tab.key })}
+                onClick={() => dispatch(optionsActions.setFrameMode(tab.key))}
+              >
+                {tab.label}
+              </button>
+            ))}
+            <div
+              className={styles.tabIndicator}
+              style={{
+                width: `${100 / tabs.length}%`,
+                transform: `translateX(${(tabs.findIndex(t => t.key === options.frameMode)) * 100}%)`,
+              }}
+            />
+          </div>
+
+          {options.frameMode === "iframe" && <Frame testData={json} />}
+          {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
+          {options.frameMode === 'images' && <Images />}
+          {options.frameMode === 'source' && <Editor
             theme={localStorage.getItem(LS_MONACOTHEME) || 'vs-dark'}
             width={'100%'}
             height='100%'
@@ -152,7 +182,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
             options={{
               wordWrap: 'on',
               minimap: { enabled: false, size: 'proportional' },
-              fontSize: fontSize,
+              fontSize: options.fontSize,
               readOnly: true
 
             }}
