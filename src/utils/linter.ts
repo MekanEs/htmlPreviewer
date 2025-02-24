@@ -1,7 +1,8 @@
 import { HTMLHint } from 'htmlhint';
-import { editor, rulesets } from '../constants';
+import { editor, } from '../constants';
 import type { Hint } from 'htmlhint/types';
 import { reportTypeToMarkerSeverity } from '../types/typeTransform';
+import { ruleset } from '../constants/htmlHintRules';
 
 
 
@@ -9,7 +10,7 @@ import { reportTypeToMarkerSeverity } from '../types/typeTransform';
 
 export const HTMLHintInstance = HTMLHint
 export const verify = (model: editor.ITextModel) => {
-  const results = HTMLHintInstance.verify(model.getValue(), rulesets);
+  const results = HTMLHintInstance.verify(model.getValue(), ruleset);
 
 
   if (model) {
