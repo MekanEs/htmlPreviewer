@@ -46,7 +46,7 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
                         className={classNames(styles.tab, { [styles.active]: owner === activeOwner })}
                         onClick={() => setActiveOwner(owner)}
                     >
-                        {owner}:{markers[owner]?.length || 0}|{owner === 'custom' ? '?' : ''}
+                        {owner}:{markers[owner]?.length || 0}{owner === 'custom' ? '|?' : ''}
                     </button>
                 ))}
             </div>

@@ -7,7 +7,7 @@ import { HintList } from '../List/HintList';
 import { RegErrors, regExpsToFind } from '../../constants/regExp';
 import { FindInText } from '../../utils/findInText';
 import { IRange } from '../../constants';
-import { LangList } from '../List/LangList';
+import { LangList } from '../List/LangList1';
 
 interface StatsProps {
   className?: string;
