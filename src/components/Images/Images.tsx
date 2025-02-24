@@ -17,9 +17,9 @@ export const Images: FC = () => {
       <ul >
         {images?.map(el =>
           <li key={el} onClick={() => navigator.clipboard.writeText(el)}>
-            <div><span  >{el}</span></div>
+            <span className={styles.url}  >{el}</span>
 
-            <img src={el} alt="tech" />
+            <img className={styles.img} src={el} alt="tech" />
           </li>)}
       </ul>
     </div>

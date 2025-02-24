@@ -57,7 +57,7 @@ export function validateCSS(model: editor.ITextModel) {
 
     diagnosticsPusher(diagnostics, markers)
   }
-
+  console.log(markers)
   // Устанавливаем маркеры в редакторе
   editor.setModelMarkers(model, 'css', markers);
 }
