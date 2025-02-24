@@ -14,9 +14,9 @@ export const diagnosticsPusher = (diagnostics: Diagnostic[], arrayToPush: editor
       severity: diagnosticToMarkerSeverity[diag.severity || 1],
       message: diag.message,
       startLineNumber: hasPlus ? diag.range.start.line + 1 : diag.range.start.line,
-      startColumn: diag.range.start.character,
+      startColumn: diag.range.start.character + 1,
       endLineNumber: diag.range.end.line,
-      endColumn: diag.range.end.character,
+      endColumn: diag.range.end.character + 1,
     });
   });
 }
