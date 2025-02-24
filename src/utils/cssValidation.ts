@@ -1,5 +1,5 @@
 import { Diagnostic, getCSSLanguageService, newCSSDataProvider, } from 'vscode-css-languageservice';
-import { customCssData, editor, monaco } from '../constants';
+import { customCssData, editor, } from '../constants';
 import { htmlRegionCache } from '../editor-ex/html/htmlRegionCache';
 import { languageNames } from '../editor-ex/constants';
 import { diagnosticToMarkerSeverity } from '../types/typeTransform';

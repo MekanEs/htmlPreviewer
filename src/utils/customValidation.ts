@@ -1,7 +1,7 @@
 import { ReportType } from "htmlhint/types";
 import { editor } from "../constants"
 import { reportTypeToMarkerSeverity } from "../types/typeTransform";
-const rules1: ValidationRule[] = [
+export const customValidationRules: ValidationRule[] = [
     { message: "cryptocurrency with game_currency", regex: /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gi },
     { message: 'неверная ссылка отписки', regex: /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gi },
     { message: 'пустой alt', regex: /alt=""|alt=''/gi, type: 'warning' as ReportType.error },
@@ -25,7 +25,7 @@ export const CustomValidation = (model: editor.ITextModel) => {
     const htmlContent = model.getValue();
     const markers: editor.IMarkerData[] = [];
 
-    rules1.forEach(({ message, regex, type, replace }) => {
+    customValidationRules.forEach(({ message, regex, type, replace }) => {
         let diff: number = 0
         let newHtmlContent = htmlContent
         if (replace) {

@@ -5,6 +5,7 @@ import { IRange } from '../../constants';
 import { useAppSelector } from '../../store/store';
 import { reportTypeSeverityToMarker } from '../../types/typeTransform';
 import { useFindClasses } from '../../hooks/classFinder';
+import { customValidationRules } from '../../utils/customValidation';
 
 interface HintListProps {
     className?: string;
@@ -18,6 +19,7 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
     const undClasses = useFindClasses(source);
     const owners = ['html', 'css', 'custom']
     const [activeOwner, setActiveOwner] = useState<string>(owners[0] || 'html');
+    const customValidationInfo = customValidationRules.map(el => '\n' + el.message).join('')
     return (
         <div className={classNames(styles.List)}>
             <div style={{ marginBottom: '10px' }}>
@@ -40,10 +42,11 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
                 {owners.map(owner => (
                     <button
                         key={owner}
+                        title={owner === 'custom' ? customValidationInfo : ''}
                         className={classNames(styles.tab, { [styles.active]: owner === activeOwner })}
                         onClick={() => setActiveOwner(owner)}
                     >
-                        {owner}:{markers[owner]?.length || 0}
+                        {owner}:{markers[owner]?.length || 0}|{owner === 'custom' ? '?' : ''}
                     </button>
                 ))}
             </div>
