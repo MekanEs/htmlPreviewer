@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router.tsx';
-import './App.css';
+import './App.scss';
 import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es'
 
 import { loader } from '@monaco-editor/react';
@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { addRule } from './utils';
 import { custom_snippets_emmet, monaco } from './constants.ts';
+import { registerHBZ } from './utils/registerHandlebars.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -22,11 +23,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </React.StrictMode>,
 );
-
- emmetHTML(
+registerHBZ()
+emmetHTML(
   monaco,
   ['html'],
 )
+
+
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {
@@ -42,9 +45,14 @@ self.MonacoEnvironment = {
 };
 
 loader.config({ monaco });
-loader.init().then(/* ... */);
-
-
+loader.init().then(() => {
+  monaco.languages.register({ id: 'html' });
+  monaco.languages.register({ id: 'json' });
+});
 
 registerCustomSnippets('html', custom_snippets_emmet)
 addRule()
+// await supabase.auth.signUp({
+//   email: "mekan.es1997@gmail.com",
+//   password: "password123",
+// })

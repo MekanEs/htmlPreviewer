@@ -2,19 +2,153 @@
   width: 100%;
   display: flex;
   height: 95vh;
+  gap: 10px;
 }
 
 .editorContainer {
-  width: 55%;
+  width: calc(55% - 5px);
 }
+
 .frameContainer {
-  width: 45%;
+  width: calc(45% - 5px);
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 2px 2px;
+  gap: 3px;
+  padding: 3px;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Анимация смены контента */
+@keyframes fade-change {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+/* Стили для табов */
+.tabContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background: #222;
+  border-radius: 8px;
+  padding: 4px;
+  position: relative;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  background: none;
+  border: none;
+  transition: color 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.tab:hover {
+  color: #bbb;
+}
+
+/* Активный таб */
+.tabActive {
+  color: white;
+  font-weight: bold;
+}
+
+/* Индикатор активного таба */
+.tabIndicator {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  height: 2px;
+  background: #f33535;
+  border-radius: 4px;
+  transition: transform 0.3s ease-out, width 0.3s ease-out;
+}
+
+/* Эффект нажатия */
+@keyframes tab-press {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tab:active {
+  animation: tab-press 0.1s ease-in-out;
+}
+
 .CodeEditor {
   width: 100%;
   height: 100%;
+}
+
+.buttonContainer {
+  padding: 0px 6px;
+  display: inline-block;
+}
+
+.codeTab {
+  display: flex;
+  justify-content: space-around;
+  width: 150px;
+  background: #222;
+  border-radius: 8px;
+  padding: 2px 4px;
+  position: relative;
+
+  .tab {
+    padding: 4px 8px;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  width: 55%;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@keyframes fade-change {
+  0% {
+    transform: translateY(100%);
+  }
+
+
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.frameContainer>* {
+  animation: fade-change 0.1s ease-out;
 }

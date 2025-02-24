@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './List.module.scss';
-import { RegErrorDesc } from '../../constants';
+import { RegErrorDesc } from '../../constants/regExp';
 
 interface ListItemProps {
   className?: string;

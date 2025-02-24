@@ -1,18 +1,21 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
-import { initialJson, LS_SOURCEHTML,  str } from '../../constants';
+import { initialJson, str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
+import { editor } from '../../constants';
+import { LS_SOURCEHTML } from '../../constants/localStorage';
 
 export interface IHtmlSlice {
   json: string;
   source: string;
   selection: EditorSelection;
   htmlWithDataAttr: string;
-  htmlToSource:string;
+  htmlToSource: string;
   htmlToRender: string;
   langs: string[];
-  images:string[],
-  userSearchInput:string[]
+  images: string[],
+  userSearchInput: string[],
+  markers: Record<string, Omit<editor.IMarker, 'resource'>[]>
 }
 const initialState: IHtmlSlice = {
   json: initialJson,
@@ -23,17 +26,18 @@ const initialState: IHtmlSlice = {
     addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
     initialJson,
   ),
-  htmlToSource:compileHbs(
+  htmlToSource: compileHbs(
     localStorage.getItem(LS_SOURCEHTML) || str,
     initialJson,
   ),
   langs: [],
-  images:[],
-  userSearchInput:[]
+  images: [],
+  userSearchInput: [],
+  markers: {}
 };
 
 export const htmlSlice: Slice<IHtmlSlice> = createSlice({
-  name: 'counter',
+  name: 'html',
   initialState,
   reducers: {
     setJson: (state, action: PayloadAction<string>) => {
@@ -54,11 +58,22 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
     },
     setLangs: (state, action: PayloadAction<string[]>) => {
       state.langs = action.payload;
-    },setImages: (state, action: PayloadAction<string[]>) => {
+    }, setImages: (state, action: PayloadAction<string[]>) => {
       state.images = action.payload;
     },
-    setUserSearchInput:(state, action: PayloadAction<string>)=>{
-       state.userSearchInput = [action.payload];
+    setUserSearchInput: (state, action: PayloadAction<string>) => {
+      state.userSearchInput = [action.payload];
+    },
+    setMarkers: (state, action: PayloadAction<Omit<editor.IMarker, 'resource'>[]>) => {
+      //resource is non-serializable
+      state.markers = action.payload.reduce((stateObj, marker) => {
+        if (!stateObj[marker.owner]) {
+          stateObj[marker.owner] = [{ ...marker }]
+        } else {
+          stateObj[marker.owner].push(marker)
+        }
+        return stateObj
+      }, {} as Record<string, Omit<editor.IMarker, 'resource'>[]>)
     }
   },
 });

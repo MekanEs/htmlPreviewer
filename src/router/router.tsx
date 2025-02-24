@@ -13,6 +13,7 @@ export const router = createBrowserRouter(
         </Suspense>
       }
     >
+
       <Route index element={<EditorPage />} />
       <Route path='/eee' element={<div>E page</div>} />
     </Route>,

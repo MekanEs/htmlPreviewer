@@ -9,6 +9,9 @@
 .mobile {
   width: 320px;
   min-width: 320px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .borderedFrame {
@@ -28,23 +31,42 @@
 
 .buttonContainer {
   display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 .buttonGroup {
   padding: 5px 10px;
   border: 1px solid #1e3300c3;
+  display: flex;
+  justify-content: center;
 }
 
-.resizable{
+.resizable {
   resize: both;
   overflow: auto;
+  padding: 0 0 20px 0;
 }
-.full{
+
+.iframe {
+  overflow: hidden;
+}
+
+.full {
   width: 100% !important;
   height: 100% !important;
 }
-.inputContainer{
+
+.inputContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  font-size: smaller;
+}
+
+.sizeControlsContainer {
+  display: flex;
+  flex-direction: column;
+
 }

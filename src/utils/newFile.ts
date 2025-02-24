@@ -9,9 +9,10 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
     return options.fn(this);
   }
 });
+
 export const compileHbs = (str: string, testData: string) => {
   try {
-    const newStr = str.replaceAll('https://maxclientstatapi.com', '');
+    const newStr = str.replaceAll('https://maxclientstatapi.com', 'baseUrl_maxclientstatapi.com');
     const template = Handlebars.compile(newStr);
     const data = JSON.parse(testData);
     return template(data);

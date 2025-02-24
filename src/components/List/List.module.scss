@@ -4,38 +4,54 @@
   padding: 5px;
   margin: 10px 0px;
   overflow: auto;
+  height: fit-content;
+
   ul {
     padding-inline-start: 0;
     margin-block-start: 0;
     margin-block-end: 0;
   }
 }
+
 .List_additional {
-  border: 1px solid #404040;
+  border: 1px solid #ffffff;
 }
+
 .item {
   cursor: pointer;
-  padding: 2px 4px;
+  padding: 3px 6px;
   border: 1px solid #949494;
-  background-color: #080c2c;
+  background: #222;
   list-style: none;
   margin-block-start: 0;
   margin-block-end: 0;
   word-wrap: break-word;
+  border-radius: 4px;
+
   &:hover {
-    opacity: 0.9;
+    color: #bbb;
   }
 }
+
+
 .error {
-  color: #760f0f;
-  color: #a51313;
+  color: #f33535;
 }
+
 .warning {
-  color: rgb(140, 140, 71);
+  color: rgb(144, 144, 72);
 }
+
 .header {
   margin: 0;
 }
+
 .count {
-  color: #fa9b7b;
+  color: #f33535;
+
+
+}
+
+.active {
+  background-color: #404040;
 }

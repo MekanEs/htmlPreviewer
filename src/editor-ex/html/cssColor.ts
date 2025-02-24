@@ -1,6 +1,6 @@
 import { languageNames } from '../constants';
 import { fromRange, getCssService, toRange, toTextEdit } from '../css/utils';
-import type {  editor, languages } from '../monaco';
+import type { editor, languages } from '../monaco';
 import { htmlRegionCache } from './htmlRegionCache';
 import { monaco } from '../monaco';
 
@@ -9,8 +9,13 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
     model: editor.IReadOnlyModel,
 
   ): Promise<languages.IColorInformation[] | undefined> {
+
+
+
+
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
+
     const cssService = getCssService();
     const style = cssService.parseStylesheet(cssDocument);
     const infos = cssService.findDocumentColors(cssDocument, style);
@@ -27,6 +32,7 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
     info: languages.IColorInformation,
 
   ): Promise<languages.IColorPresentation[] | undefined> {
+    console.log('provideColorPresentations')
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
     const cssService = getCssService();
@@ -47,7 +53,7 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
         item.textEdit = toTextEdit(presentation.textEdit);
       }
       if (presentation.additionalTextEdits) {
-        const newValue= presentation.additionalTextEdits.map(toTextEdit);
+        const newValue = presentation.additionalTextEdits.map(toTextEdit);
         if (newValue.every((el) => el !== undefined)) {
           item.additionalTextEdits = newValue as languages.TextEdit[] | undefined;
         }

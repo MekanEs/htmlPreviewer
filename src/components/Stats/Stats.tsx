@@ -1,82 +1,63 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
-import {useRegMatcher} from '../../utils';
-import {
-  findLinks,
-  findRedirectsProps,
-  findSubscriptionProps,
-  findUtmCampaign,
-  findUtmCampaignPixel,
-  findUtmContent,
-  findUtmContentPixel,
-  RegErrors,
-  findLangs,
-  findLangs2,
-  findLocales,
-  IRange,
-} from '../../constants';
-import { LangList } from '../List/langList';
+import { useRegMatcher } from '../../utils';
 import { RedirList } from '../List/RedirList';
-import { HtmlHintList } from '../List/htmlHintList';
-import { useUtmFinder } from '../../hooks/utmFinder';
+import { HintList } from '../List/HintList';
+import { RegErrors, regExpsToFind } from '../../constants/regExp';
+import { FindInText } from '../../utils/findInText';
+import { IRange } from '../../constants';
+import { LangList } from '../List/LangList';
 
 interface StatsProps {
   className?: string;
   source: string;
-  revealLine: (line: number, range: IRange) => void;
+  revealLine: (range: IRange) => void;
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
- 
-  const langs2 = useUtmFinder(source, findLangs);
-  const langs = useUtmFinder(source, findLangs2);
-  const regContent = useUtmFinder(source, findUtmContent);
-  const regContentPixel = useUtmFinder(source, findUtmContentPixel);
-  const regCampaign = useUtmFinder(source, findUtmCampaign);
-  const regCampaignPixel = useUtmFinder(source, findUtmCampaignPixel);
-  const regRedir = useUtmFinder(source, findRedirectsProps);
-  const regLinks = useUtmFinder(source, findLinks);
-  const regSubscription = useUtmFinder(source, findSubscriptionProps);
-const regLocales = useUtmFinder(source,findLocales)
+  // Используем useMemo для оптимизированного вычисления textMatches
+  const textMatches = useMemo(() => {
+    return Object.keys(regExpsToFind).reduce((acc, key) => {
+      acc[key] = FindInText(source, regExpsToFind[key]);
+      return acc;
+    }, {} as Record<string, Record<string, number>>);
+  }, [source]);
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
+
   return (
-    <div className={classNames(styles.Stats, {}, [className])}>
-      <div style={{ display: 'flex' }}>
-        <div className={classNames(styles.List, styles['half-w'])}>
-          <h3 className={styles.header}>Utm_Campaign</h3>
-          <RedirList regMatches={regCampaign} />
-          <RedirList regMatches={regCampaignPixel} />
-        </div>
-        <div className={classNames(styles.List, styles['half-w'])}>
-          <h3 className={styles.header}>Utm_Content</h3>
-          <RedirList regMatches={regContent} />
-          <RedirList regMatches={regContentPixel} />
-        </div>
+    <div className={classNames(styles.Stats, className)}>
+      <div className={styles.flex}>
+        <UtmSection title="Utm_Campaign" matches={[textMatches.regCampaign, textMatches.regCampaignPixel]} />
+        <UtmSection title="Utm_Content" matches={[textMatches.regContent, textMatches.regContentPixel]} />
       </div>
-      <div className={styles.List}>
-        <h3 className={styles.header}>Redirections</h3>
-        <RedirList regMatches={regRedir} />
-        <RedirList regMatches={regSubscription} />
-        <RedirList regMatches={regLinks} />
-      </div>
- <div className={styles.List}>
-        
-        
-      </div>
-      <div style={{ display: 'flex', width:'100%',gap:'10px'}}>
-        <div className={styles.half} style={{ display: 'flex',flexWrap:'wrap',minWidth:'40%' }}>
-        <LangList className={styles.half} regMatches={regLocales} />
-        <LangList className={styles.half} regMatches={langs} />
-        <LangList className={styles.half} regMatches={langs2} /></div>
-        <LangList regMatches={err} hasDesc />
-      </div>
-<div>
-</div>
-      <div>
-        <HtmlHintList source={source} revealLine={revealLine} />
-      </div>
+      <RedirectionsSection matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]} />
+      <LanguagesSection matches={[textMatches.regLocales, textMatches.langs2, textMatches.langs]} errors={err} />
+      <HintList revealLine={revealLine} source={source} />
     </div>
   );
 };
+
+const UtmSection: FC<{ title: string; matches: (Record<string, number> | undefined)[] }> = ({ title, matches }) => (
+  <div className={classNames(styles.List, styles['half-w'])}>
+    <h3 className={styles.header}>{title}</h3>
+    {matches.map((match, i) => match && <RedirList key={i} regMatches={match} />)}
+  </div>
+);
+
+const RedirectionsSection: FC<{ matches: (Record<string, number> | undefined)[] }> = ({ matches }) => (
+  <div className={styles.List}>
+    <h3 className={styles.header}>Redirections</h3>
+    {matches.map((match, i) => match && <RedirList key={i} regMatches={match} />)}
+  </div>
+);
+
+const LanguagesSection: FC<{ matches: (Record<string, number> | undefined)[]; errors: Record<string, number> }> = ({ matches, errors }) => (
+  <div className={styles.flexContainer}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', minWidth: '40%', height: 'fit-content' }}>
+      {matches.map((match, i) => match && <LangList key={i} regMatches={match} />)}
+    </div>
+    <LangList className={styles.flexGrow} regMatches={errors} hasDesc />
+  </div>
+);
