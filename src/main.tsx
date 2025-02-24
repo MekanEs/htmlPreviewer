@@ -47,8 +47,6 @@ self.MonacoEnvironment = {
 loader.config({ monaco });
 loader.init().then(/* ... */);
 
-
-
 registerCustomSnippets('html', custom_snippets_emmet)
 addRule()
 // await supabase.auth.signUp({

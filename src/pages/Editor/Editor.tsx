@@ -7,18 +7,18 @@ import { useAppSelector } from '../../store/store';
 import { editor, IRange, LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
+
 interface EditorPageProps {
   className?: string;
 }
 type frameMode = 'iframe' | 'stats' | 'images' | 'source'
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
-  const user = useAppSelector((state) => state.userReducer.user)
+  const { user } = useAppSelector((state) => state.userReducer)
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
   const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const [miniMap, setMiniMap] = useState(true);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-
   const [editorMode, setEditorMode] = useState(true);
   const [mode, setMode] = useState<frameMode>('stats');
 
@@ -72,10 +72,11 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
   useEffect(() => {
-    if (!user || !user.confirmed_at) {
-      navigate('/'); // Используем navigate для редиректа
+    if (!user) {
+      navigate('/')
     }
-  }, [user, navigate]);
+
+  }, [navigate, user]);
 
   return (
     <div>

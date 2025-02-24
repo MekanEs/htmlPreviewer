@@ -68,7 +68,7 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
 
       return item;
     });
-
+    console.log(items, info)
     return {
       incomplete: info.isIncomplete,
       suggestions: items,

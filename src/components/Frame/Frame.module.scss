@@ -42,21 +42,22 @@
   justify-content: center;
 }
 
-.resizable{
+.resizable {
   resize: both;
   overflow: auto;
-  padding: 0 0 20px  0;
+  padding: 0 0 20px 0;
 }
 
 .iframe {
   overflow: hidden;
 }
 
-.full{
+.full {
   width: 100% !important;
   height: 100% !important;
 }
-.inputContainer{
+
+.inputContainer {
   display: flex;
   align-items: center;
   justify-content: center;

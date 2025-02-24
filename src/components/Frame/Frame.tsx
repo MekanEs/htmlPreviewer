@@ -16,7 +16,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   const htmlToRender = useAppSelector((state) => state.htmlReducer.htmlToRender);
   const debouncedHtml = useDebounce(htmlToRender, 500);
   const dispatch = useAppDispatch();
-  
+
   // Состояния компонента, объединенные в один объект
   const [settings, setSettings] = useState({
     mode: true,
@@ -36,13 +36,13 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   );
 
   const handleModeToggle = () => {
-    setSettings((prev) => ({...prev,mode:!prev.mode}))
-    
-      if (settings.mode) {
-        ref.current.style['width'] = '320px';
-        ref.current.style['height'] = '800px';
-      }
-     updateSize()
+    setSettings((prev) => ({ ...prev, mode: !prev.mode }))
+
+    if (settings.mode) {
+      ref.current.style['width'] = '320px';
+      ref.current.style['height'] = '800px';
+    }
+    updateSize()
   };
 
   const handleBorderToggle = () => {
@@ -57,21 +57,21 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
     const { width, height } = ref.current.style;
     setSettings((prev) => ({ ...prev, width, height }));
   };
- const handleResize = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleResize = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
     const newWidth = String(container.offsetWidth);
     const newHeight = String(container.offsetHeight);
 
-   setSettings((prev) => ({ ...prev, width:newWidth, height:newHeight }));
+    setSettings((prev) => ({ ...prev, width: newWidth, height: newHeight }));
   };
 
   const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings((prev) => ({ ...prev, width:e.target.value,  }));
+    setSettings((prev) => ({ ...prev, width: e.target.value, }));
     ref.current.style['width'] = `${e.target.value}px`;
   };
 
   const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings((prev) => ({ ...prev, height:e.target.value,  }));
+    setSettings((prev) => ({ ...prev, height: e.target.value, }));
     ref.current.style['height'] = `${e.target.value}px`;
   };
   useEffect(() => {
@@ -79,7 +79,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
 
     const loadHandlerFunc = () => loadHandler(frame, setSelection, settings.bordered, settings.imagesMode);
     frame.addEventListener('load', loadHandlerFunc);
-    
+
     toggleFrameBorder(settings.bordered, frame);
     toggleImages(settings.imagesMode, frame);
 
@@ -87,7 +87,7 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   }, [debouncedHtml, settings, setSelection, testData]);
 
   return (
-    <div className={classNames(styles.Frame, )}>
+    <div className={classNames(styles.Frame,)}>
       <div className={styles.buttonContainer}>
         <div className={styles.buttonGroup}>
           <button onClick={handleModeToggle}>
@@ -103,25 +103,25 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
         <div className={styles.inputContainer}>
           {!settings.mode && (
             <>
-           
-            <div style={{display:'flex',flexDirection:"column"}}>
-        <label >Width:</label>
-        <input
-          type="number"
-          value={settings.width}
-          onChange={handleWidthChange}
-          style={{ marginLeft: '10px', width: '80px', }}
-        /></div>
-         <div style={{display:'flex',flexDirection:"column"}}>
-        <label style={{ marginLeft: '20px' }}>Height:</label>
-        <input
-          type="number"
-          value={settings.height}
-          onChange={handleHeightChange}
-          style={{ marginLeft: '10px', width: '80px' }}
-        />
-        </div>
-      </>
+
+              <div style={{ display: 'flex', flexDirection: "column" }}>
+                <label >Width:</label>
+                <input
+                  type="number"
+                  value={settings.width}
+                  onChange={handleWidthChange}
+                  style={{ marginLeft: '10px', width: '80px', }}
+                /></div>
+              <div style={{ display: 'flex', flexDirection: "column" }}>
+                <label style={{ marginLeft: '20px' }}>Height:</label>
+                <input
+                  type="number"
+                  value={settings.height}
+                  onChange={handleHeightChange}
+                  style={{ marginLeft: '10px', width: '80px' }}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -129,15 +129,15 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
       <iframe
         onMouseUp={handleResize}
         onMouseMove={handleResize}
-        className={classNames(styles.iframe,{ [styles.resizable]: !settings.mode, [styles.full]: settings.mode })}
+        className={classNames(styles.iframe, { [styles.resizable]: !settings.mode, [styles.full]: settings.mode })}
         sandbox='allow-same-origin allow-scripts'
         width={'100%'}
         height={'100%'}
         ref={ref}
         srcDoc={debouncedHtml}
       />
-     
-      
+
+
     </div>
   );
 };

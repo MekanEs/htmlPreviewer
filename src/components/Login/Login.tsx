@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../api/supabaseclient";
-import { User } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { userActions } from "../../store/user/user";
 import { Register } from "../Register/Register";
 
@@ -10,12 +9,12 @@ export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [user, setUser] = useState<User | null>(null);
     const dispatch = useAppDispatch();
     const navigate = useNavigate(); // Инициализация useNavigate
+    const userState = useAppSelector((state) => state.userReducer)
 
     const handleLogin = async () => {
-        setError(""); // Очистка ошибок
+        setError("");
 
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
@@ -25,16 +24,32 @@ export const Login = () => {
         if (error) {
             setError(error.message);
         } else {
-            setUser(data.user);
             dispatch(userActions.setUser(data.user));
+            dispatch(userActions.setAccessToken(data.session.access_token));
         }
     };
 
+
     useEffect(() => {
-        if (user && user.confirmed_at) {
+        const checkAuth = async () => {
+            if (userState.user_accessToken) {
+                const { data, error } = await supabase.auth.getUser(userState.user_accessToken)
+                if (!error) {
+                    dispatch(userActions.setAuth(true))
+                    dispatch(userActions.setUser(data.user))
+                } else {
+                    navigate('/')
+                }
+            }
+        }
+        checkAuth()
+    }, [])
+    useEffect(() => {
+
+        if (userState.user && userState.user.confirmed_at) {
             navigate('/editor'); // Используем navigate для редиректа
         }
-    }, [user, navigate]);
+    }, [userState, navigate]);
 
     return (
         <div>
