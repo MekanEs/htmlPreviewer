@@ -16,7 +16,7 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
 
     const markers = useAppSelector((state) => state.htmlReducer.markers)
     const undClasses = useFindClasses(source);
-    const owners = ['hmtl', 'css', 'custom']
+    const owners = ['html', 'css', 'custom']
     const [activeOwner, setActiveOwner] = useState<string>(owners[0] || 'html');
     return (
         <div className={classNames(styles.List)}>
