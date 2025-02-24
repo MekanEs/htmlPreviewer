@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Layout } from '../components';
 import { EditorPage } from '../pages';
-import { Login } from '../components/Login/Login';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,8 +14,7 @@ export const router = createBrowserRouter(
       }
     >
 
-      <Route index element={<Login />} />
-      <Route path='editor' element={<EditorPage />} />
+      <Route index element={<EditorPage />} />
       <Route path='/eee' element={<div>E page</div>} />
     </Route>,
   ),

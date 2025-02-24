@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { useAppSelector } from '../../store/store';
 import { editor, IRange, LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
-import { useNavigate } from 'react-router-dom';
 
 interface EditorPageProps {
   className?: string;
@@ -14,7 +13,6 @@ interface EditorPageProps {
 type frameMode = 'iframe' | 'stats' | 'images' | 'source'
 export const EditorPage: FC<EditorPageProps> = () => {
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
-  const { user } = useAppSelector((state) => state.userReducer)
   const savedFontSize = Number(localStorage.getItem(LS_FONTSIZEKEY));
   const [fontSize, setFontSize] = useState(savedFontSize || 12);
   const [miniMap, setMiniMap] = useState(true);
@@ -23,7 +21,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const [mode, setMode] = useState<frameMode>('stats');
 
   const [ctrlPressed, setctrlPressed] = useState(false);
-  const navigate = useNavigate();
   const revealLine = (line: number, range: IRange) => {
     console.log(range);
 
@@ -71,12 +68,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   });
 
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/')
-    }
 
-  }, [navigate, user]);
 
   return (
     <div>
