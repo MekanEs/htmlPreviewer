@@ -111,7 +111,6 @@ export const titleRequire: Rule = {
             const tagName = event.tagName.toLowerCase();
             if (hasTitle && tagName === 'title') {
                 const lastEvent = event.lastEvent;
-                console.log(lastEvent)
                 if (!lastEvent) return
                 if (lastEvent.type === "text" && /[\w]/.test(lastEvent.raw || '') === true || titleStack[titleStack.length - 1] !== 'title') {
                     reporter.error('<title></title> must be empty.', event.line, event.col, this, event.raw);

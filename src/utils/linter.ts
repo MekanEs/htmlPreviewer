@@ -1,16 +1,13 @@
-import { HTMLHint } from 'htmlhint';
-import { editor, } from '../constants';
+import { HTMLHint, } from 'htmlhint';
 import type { Hint } from 'htmlhint/types';
 import { reportTypeToMarkerSeverity } from '../types/typeTransform';
 import { ruleset } from '../constants/htmlHintRules';
+import { editor } from 'monaco-editor';
 
 
 
-
-
-export const HTMLHintInstance = HTMLHint
 export const verify = (model: editor.ITextModel) => {
-  const results = HTMLHintInstance.verify(model.getValue(), ruleset);
+  const results = HTMLHint.verify(model.getValue(), ruleset);
 
 
   if (model) {

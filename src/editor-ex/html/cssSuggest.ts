@@ -5,7 +5,7 @@ import { getWordRange } from '../utils';
 import { htmlRegionCache } from './htmlRegionCache';
 import { toLsPosition } from './utils';
 import { monaco } from '../monaco';
-import { InsertTextFormat } from 'vscode-css-languageservice';
+import { InsertTextFormat, Stylesheet } from 'vscode-css-languageservice';
 import { stylesheetCache } from './cssCache';
 class CssSuggestAdapter implements languages.CompletionItemProvider {
   triggerCharacters = ['/', '-', ':'];
@@ -22,7 +22,7 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     const cssService = getCssService();
     const style = stylesheetCache.get(model);
     const info = cssService.doComplete(cssDocument, toLsPosition(position), style);
-
+    console.log(style)
 
 
 
@@ -68,7 +68,6 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
 
       return item;
     });
-    console.log(items, info)
     return {
       incomplete: info.isIncomplete,
       suggestions: items,

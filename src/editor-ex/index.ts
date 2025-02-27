@@ -5,8 +5,10 @@ import {
   CssHoverInHtml,
   CssSymbolInHtml,
   CssColorInHtml,
+  CssFoldingRangeInHtml,
 } from './html';
 import { tryInitMonaco } from './monaco';
+import { CssClassSuggestInHtml } from './html/classSuggest';
 
 export function MonacoEx(monacoInstance: Monaco) {
   if (!tryInitMonaco(monacoInstance)) return;
@@ -15,4 +17,6 @@ export function MonacoEx(monacoInstance: Monaco) {
   CssHoverInHtml()
   CssSymbolInHtml()
   CssColorInHtml()
+  CssFoldingRangeInHtml()
+  CssClassSuggestInHtml()
 }
