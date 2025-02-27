@@ -64,6 +64,17 @@ export const registerHBZ = () => {
           "attribute.value",
           "@attributeValue"
         ],
+        [
+          /(href=["'])/,
+          "attribute.name",
+          "@attributeHrefValue"
+        ],
+        [
+          /(style=["'])/,
+          "attribute.name",
+          "@attributeStyleValue"
+        ],
+
         [/\/?>/, "delimiter.html", "@pop"],
         [/[\w-]+/, "attribute.name"],
         [/=/, "delimiter"],
@@ -71,13 +82,37 @@ export const registerHBZ = () => {
       ],
 
       attributeValue: [
+
         [
           /(\{\{)([^{}]+)(\}\})/,
           ["delimiter.handlebars", "variable.parameter.handlebars", "delimiter.handlebars"]
         ],
         [
           /%[0-9A-Fa-f]{2}/,
-          "delimiter.attribute.query"
+          "comment.content.html"
+        ],
+
+        [
+          /[^"{%]+/,
+          "attribute.value"
+        ],
+        [
+          /(["'])/,
+          { token: "attribute.name", next: "@pop" }
+        ]
+      ],
+      attributeHrefValue: [
+        [
+          /(\{\{)([^{}]+)(\}\})/,
+          ["delimiter.handlebars", "variable.parameter.handlebars", "delimiter.handlebars"]
+        ],
+        [
+          /%[0-9A-Fa-f]{2}/,
+          "keyword"
+        ],
+        [
+          /(%|&|=|\?)/,
+          "keyword"
         ],
 
         [
@@ -89,8 +124,25 @@ export const registerHBZ = () => {
           { token: "attribute.value", next: "@pop" }
         ]
       ],
+      attributeStyleValue: [
+        [
+          /(\{\{)([^{}]+)(\}\})/,
+          ["delimiter.handlebars", "variable.parameter.handlebars", "delimiter.handlebars"]
+        ],
+        [
+          /[^]\s*([\w-]+)\s*:/,
+          "keyword"
+        ],
 
-
+        [
+          /[^"{;]+/,
+          "attribute.value"
+        ],
+        [
+          /(["'])/,
+          { token: "attribute.name", next: "@pop" }
+        ]
+      ],
 
       // -- BEGIN <script> tags handling
       // After <script

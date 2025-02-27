@@ -45,7 +45,7 @@ export function getDirectiveRegion(
     if (match) {
       let start = scanner.getTokenOffset();
       let end = scanner.getTokenEnd();
-      let firstChar = document.getText()[start];
+      const firstChar = document.getText()[start];
       if (firstChar === "'" || firstChar === '"') {
         start++;
         end--;

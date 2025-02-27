@@ -8,6 +8,7 @@ import { editor, IRange, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
 import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML } from '../../constants/localStorage';
+import { registerHBZ } from '../../utils/registerHandlebars';
 
 interface EditorPageProps {
   className?: string;
@@ -26,6 +27,8 @@ const codeTabs = [
   { key: 'html', label: 'Code' },
   { key: 'json', label: 'TestData' }]
 export const EditorPage: FC<EditorPageProps> = () => {
+  registerHBZ()
+
   const { json, source, selection, htmlToSource } = useAppSelector((state) => state.htmlReducer);
   const options = useAppSelector((state) => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);

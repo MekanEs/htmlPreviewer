@@ -9,8 +9,6 @@ export const addRule = () => {
   HTMLHint.addRule(targetAttributesValues)
   HTMLHint.addRule(trInTable)
   HTMLHint.addRule(titleRequire)
-
-
 }
 
 

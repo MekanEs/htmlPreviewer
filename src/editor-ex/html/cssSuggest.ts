@@ -47,8 +47,10 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
 
       if (entry.textEdit) {
         if ('range' in entry.textEdit) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item.range as any) = toRange(entry.textEdit.range);
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item.range as any) = {
             insert: toRange(entry.textEdit.insert),
             replace: toRange(entry.textEdit.replace),
@@ -58,6 +60,7 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
       }
 
       if (entry.additionalTextEdits) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const newValue = entry.additionalTextEdits.map<languages.TextEdit>(toTextEdit as any);
         if (newValue.every((el) => el !== undefined)) item.additionalTextEdits = newValue;
       }

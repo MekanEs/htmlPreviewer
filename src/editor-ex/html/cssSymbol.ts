@@ -1,13 +1,12 @@
 import { languageNames } from '../constants';
 import { getCssService, toRange, toSymbolKind } from '../css/utils';
-import { CancellationToken, editor, languages } from '../monaco';
+import { editor, languages } from '../monaco';
 import { htmlRegionCache } from './htmlRegionCache';
 import { monaco } from '../monaco';
 
 class CssDocumentSymbolAdapter implements languages.DocumentSymbolProvider {
   async provideDocumentSymbols(
     model: editor.ITextModel,
-    _token: CancellationToken,
   ): Promise<languages.DocumentSymbol[] | undefined> {
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
