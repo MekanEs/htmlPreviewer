@@ -130,7 +130,7 @@ export const registerHBZ = () => {
           ["delimiter.handlebars", "variable.parameter.handlebars", "delimiter.handlebars"]
         ],
         [
-          /[^]\s*([\w-]+)\s*:/,
+          /[^]([\w-]+)\s*:/,
           "keyword"
         ],
 
