@@ -5,7 +5,7 @@ import { getWordRange } from '../utils';
 import { htmlRegionCache } from './htmlRegionCache';
 import { toLsPosition } from './utils';
 import { monaco } from '../monaco';
-import { InsertTextFormat, Stylesheet } from 'vscode-css-languageservice';
+import { InsertTextFormat, } from 'vscode-css-languageservice';
 import { stylesheetCache } from './cssCache';
 class CssSuggestAdapter implements languages.CompletionItemProvider {
   triggerCharacters = ['/', '-', ':'];
