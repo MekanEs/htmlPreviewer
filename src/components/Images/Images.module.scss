@@ -1,9 +1,12 @@
+@import '../../styles/abstracts/variables';
+@import '../../styles/abstracts/mixins';
+
 .ImagesContainer {
     width: 100%;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     align-items: center;
+    @include custom-scrollbar;
 
     ul {
         list-style: none;
@@ -13,27 +16,25 @@
     }
 
     li {
-        cursor: pointer;
-        padding: 10px;
-        border: 1px solid;
+        @include button-base;
         text-align: center;
-
-        margin: 5px auto 0;
+        margin: $spacing-sm auto 0;
 
         img {
-            border: 1px solid;
+            @include bordered;
             max-width: 70%;
             margin: 0 auto;
         }
 
         &:hover {
             opacity: 0.6;
+            @include transition;
         }
     }
 }
 
 .url {
-    word-wrap: break-word;
+    @include text-truncate;
 }
 
 .img {

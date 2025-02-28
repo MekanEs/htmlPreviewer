@@ -22,7 +22,6 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     const cssService = getCssService();
     const style = stylesheetCache.get(model);
     const info = cssService.doComplete(cssDocument, toLsPosition(position), style);
-    console.log(style)
 
 
 

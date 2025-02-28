@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { themes } from '../../themes/themes';
 import { themeSwitcher } from '../../utils';
-import { LS_MONACOTHEME } from '../../constants/localStorage';
+import { LS_MONACOTHEME } from '../../constants';
 
 
 

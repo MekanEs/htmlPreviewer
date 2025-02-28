@@ -1,0 +1,128 @@
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Custom scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($dark-color, 0.2);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($dark-color, 0.8);
+    border-radius: $border-radius-sm;
+    
+    &:hover {
+      background: $dark-color;
+    }
+  }
+}
+
+// Border styles
+@mixin bordered {
+  outline: 1px solid $dark-color;
+  box-shadow: 0 0 2px #fff;
+}
+
+// Media queries
+@mixin breakpoint-up($size) {
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($size) {
+  @media (max-width: ($size - 1)) {
+    @content;
+  }
+}
+
+// Typography
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Transitions
+@mixin transition($property: all) {
+  transition: $property $transition-base;
+}
+
+// Box shadow
+@mixin box-shadow-sm {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@mixin box-shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@mixin box-shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+// Hover effect
+@mixin hover-lift {
+  transition: transform $transition-base;
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Focus outline
+@mixin focus-outline {
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+  }
+}
+
+// Container styles
+@mixin container-base {
+  width: 100%;
+  height: 100%;
+}
+
+// Button styles
+@mixin button-base {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid rgba($dark-color, 0.3);
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  @include transition;
+  
+  &:hover {
+    background-color: rgba($dark-color, 0.05);
+  }
+}
+
+// Input styles
+@mixin input-base {
+  padding: $spacing-sm;
+  border: 1px solid rgba($dark-color, 0.2);
+  border-radius: $border-radius-md;
+  @include transition;
+  
+  &:focus {
+    @include focus-outline;
+  }
+} 

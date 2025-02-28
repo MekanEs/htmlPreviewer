@@ -5,7 +5,8 @@ import { IRange } from '../../constants';
 import { useAppSelector } from '../../store/store';
 import { reportTypeSeverityToMarker } from '../../types/typeTransform';
 import { useFindClasses } from '../../hooks/classFinder';
-import { customValidationRules } from '../../utils/customValidation';
+// import { customValidationRules } from '../../utils/customValidation';
+import { TabContainer } from '../common/TabContainer';
 
 interface HintListProps {
     className?: string;
@@ -14,42 +15,31 @@ interface HintListProps {
 }
 
 export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
-
     const markers = useAppSelector((state) => state.htmlReducer.markers)
     const undClasses = useFindClasses(source);
-    const owners = ['html', 'css', 'custom']
+    const owners = ['html', 'css', 'custom'];
     const [activeOwner, setActiveOwner] = useState<string>(owners[0] || 'html');
-    const customValidationInfo = customValidationRules.map(el => '\n' + el.message).join('')
+    // const customValidationInfo = customValidationRules.map(el => '\n' + el.message).join('');
+
     return (
         <div className={classNames(styles.List)}>
             <div style={{ marginBottom: '10px' }}>
-                {undClasses.map((el, i) => {
-                    return (
-                        <div
-                            key={i}
-                            title='copyable'
-                            onClick={() => {
-                                navigator.clipboard.writeText('.' + el);
-                            }}
-                            className={classNames(styles.item)}
-                        >
-                            <span className={styles.error}>{el}</span> class is undefined
-                        </div>
-                    );
-                })}
-            </div>
-            <div className={classNames(styles.List, styles.tabs)}>
-                {owners.map(owner => (
-                    <button
-                        key={owner}
-                        title={owner === 'custom' ? customValidationInfo : ''}
-                        className={classNames(styles.tab, { [styles.active]: owner === activeOwner })}
-                        onClick={() => setActiveOwner(owner)}
+                {undClasses.map((el, i) => (
+                    <div
+                        key={i}
+                        title='copyable'
+                        onClick={() => {
+                            navigator.clipboard.writeText('.' + el);
+                        }}
+                        className={classNames(styles.item)}
                     >
-                        {owner}:{markers[owner]?.length || 0}{owner === 'custom' ? '|?' : ''}
-                    </button>
+                        <span className={styles.error}>{el}</span> class is undefined
+                    </div>
                 ))}
             </div>
+
+
+            <TabContainer className={styles.content} tabs={owners.map(el => { return { key: el, label: el + ': ' + (markers[el] ? markers[el]?.length : 0) } })} activeTab={activeOwner} callBack={(tabKey) => setActiveOwner(tabKey)} />
             <ul className={styles.content}>
                 {markers[activeOwner]?.map((marker, index) => {
                     const range = {
@@ -69,6 +59,7 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
                     );
                 })}
             </ul>
+
         </div>
     );
 };

@@ -1,0 +1,39 @@
+@import '../../styles/abstracts/variables';
+@import '../../styles/abstracts/mixins';
+
+.inputWrapper {
+    @include flex-column;
+    gap: $spacing-xs;
+    width: 100%;
+}
+
+.label {
+    color: $light-color;
+    font-size: 0.9em;
+}
+
+.input {
+    @include input-base;
+    color: $light-color;
+    background: rgba($dark-color, 0.2);
+    
+    &.error {
+        border-color: $danger-color;
+        &:focus {
+            box-shadow: 0 0 0 3px rgba($danger-color, 0.3);
+        }
+    }
+
+    &[type="number"] {
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            opacity: 1;
+            height: 20px;
+        }
+    }
+}
+
+.errorMessage {
+    color: $danger-color;
+    font-size: 0.8em;
+} 

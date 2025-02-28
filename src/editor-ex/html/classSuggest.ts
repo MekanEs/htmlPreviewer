@@ -90,14 +90,12 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     // const text = model.getValueInRange(range);
     const text = model.getValue()
     const match = this.canComplete.exec(text);
-    console.log(match)
     if (!match) return
     const completionList = await this.getCompletionItems(
       model,
       position,
       match[1] === "id" ? StyleType.ID : StyleType.CLASS
     )
-    console.log(completionList)
     return {
       suggestions: completionList
     }

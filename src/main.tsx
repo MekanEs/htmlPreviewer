@@ -13,7 +13,7 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { addRule } from './utils';
-import { custom_snippets_emmet, monaco } from './constants.ts';
+import { custom_snippets_emmet, monaco } from './constants';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

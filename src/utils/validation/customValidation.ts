@@ -1,6 +1,6 @@
 import { ReportType } from "htmlhint/types";
-import { editor } from "../constants"
-import { reportTypeToMarkerSeverity } from "../types/typeTransform";
+import { reportTypeToMarkerSeverity } from "../../types/typeTransform";
+import { editor } from "../../constants";
 export const customValidationRules: ValidationRule[] = [
     { message: "cryptocurrency with game_currency", regex: /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gi },
     { message: 'неверная ссылка отписки', regex: /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gi },

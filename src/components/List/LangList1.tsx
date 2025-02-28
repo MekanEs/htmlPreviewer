@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './List.module.scss';
 import classNames from 'classnames';
-import { RegErrorDesc } from '../../constants/regExp';
+import { RegErrorDesc } from '../../constants';
 interface LangListProps {
   className?: string;
   regMatches?: Record<string, number>;
@@ -23,6 +23,7 @@ export const LangList: FC<LangListProps> = ({ regMatches, hasDesc = false, class
     <div className={classNames(styles.List, className)}>
       {hasDesc && (
         <button
+          className='btn'
           style={{ width: '100%', display: hasDesc ? 'inherit' : 'none' }}
           onClick={toggleShowMode}
 

@@ -1,4 +1,4 @@
-import { monaco } from "../constants";
+import { monaco } from "../../constants";
 
 export const registerHBZ = () => {
   monaco.languages.setMonarchTokensProvider('html', {

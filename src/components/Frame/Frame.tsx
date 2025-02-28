@@ -1,12 +1,13 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Frame.module.scss';
 import classNames from 'classnames';
-import { loadHandler, toggleFrameBorder, useDebounce, toggleImages } from '../../utils';
+import { loadHandler, toggleFrameBorder, useDebounce, } from '../../utils';
 import { EditorSelection } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { FrameControls } from './FrameControls';
 import { FrameSizeControls } from './FrameSizeControls';
+import { toggleImages } from '../../utils/frame/toggleFrameBorder';
 
 interface FrameProps {
   className?: string;
@@ -87,8 +88,8 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   return (
     <div className={classNames(styles.Frame)}>
       <div className={styles.buttonContainer}>
-        <FrameControls settings={settings} setSettings={setSettings} />
-        <FrameSizeControls settings={settings} setSettings={setSettings} />
+        <FrameControls settings={settings} setSettings={setSettings} ><FrameSizeControls settings={settings} setSettings={setSettings} /></FrameControls>
+
       </div>
       <iframe
         className={classNames(styles.iframe, {

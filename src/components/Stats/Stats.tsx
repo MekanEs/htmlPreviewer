@@ -1,11 +1,10 @@
 import { FC, useMemo } from 'react';
 import styles from './Stats.module.scss';
 import classNames from 'classnames';
-import { useRegMatcher } from '../../utils';
+import { FindInText, useRegMatcher } from '../../utils';
 import { RedirList } from '../List/RedirList';
 import { HintList } from '../List/HintList';
-import { RegErrors, regExpsToFind } from '../../constants/regExp';
-import { FindInText } from '../../utils/findInText';
+import { RegErrors, regExpsToFind } from '../../constants';
 import { IRange } from '../../constants';
 import { LangList } from '../List/LangList1';
 
@@ -49,7 +48,7 @@ const UtmSection: FC<{ title: string; matches: (Record<string, number> | undefin
 const RedirectionsSection: FC<{ matches: (Record<string, number> | undefined)[] }> = ({ matches }) => (
   <div className={styles.List}>
     <h3 className={styles.header}>Redirections</h3>
-    {matches.map((match, i) => match && <RedirList key={i} regMatches={match} />)}
+    {matches.map((match, i) => match && <RedirList key={i} regMatches={match} bordered />)}
   </div>
 );
 

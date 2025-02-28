@@ -4,6 +4,8 @@ import { User } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import { useAppDispatch } from "../../store/store";
 import { userActions } from "../../store/user/user";
+import { Button } from '../common/Button';
+import { Input } from '../common/Input';
 
 export const Register = () => {
     const [email, setEmail] = useState("");
@@ -51,20 +53,25 @@ export const Register = () => {
 
     return (
         <div>
-            <input
+            <Input
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={error}
             />
-            <input
+            <Input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleRegistration}>Register</button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <Button 
+                variant="primary"
+                onClick={handleRegistration}
+            >
+                Register
+            </Button>
             {message && <p style={{ color: "green" }}>{message}</p>}
         </div>
     );

@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
-import { initialJson, str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
-import { editor } from '../../constants';
-import { LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants/localStorage';
+import { editor, initialJson, defaultTemplate } from '../../constants';
+import { LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 
 export interface IHtmlSlice {
   json: string;
@@ -19,15 +18,15 @@ export interface IHtmlSlice {
 }
 const initialState: IHtmlSlice = {
   json: localStorage.getItem(LS_SOURCEJSON) || initialJson,
-  source: localStorage.getItem(LS_SOURCEHTML) || str,
+  source: localStorage.getItem(LS_SOURCEHTML) || defaultTemplate,
   selection: { from: 0, to: 0 },
-  htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
+  htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || defaultTemplate),
   htmlToRender: compileHbs(
-    addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
+    addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || defaultTemplate),
     initialJson,
   ),
   htmlToSource: compileHbs(
-    localStorage.getItem(LS_SOURCEHTML) || str,
+    localStorage.getItem(LS_SOURCEHTML) || defaultTemplate,
     initialJson,
   ),
   langs: [],

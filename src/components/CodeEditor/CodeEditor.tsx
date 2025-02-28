@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import styles from './CodeEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, OnChange, OnMount, OnValidate } from '@monaco-editor/react';
@@ -8,9 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { EditorSelection } from '../../types/types';
 import { themeSwitcher } from '../../utils';
-import { editor as editorNS, } from '../../constants';
+import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
 import { CustomValidation } from '../../utils';
-import { LS_MONACOTHEME } from '../../constants/localStorage';
 
 
 
@@ -23,23 +22,54 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, }) => {
   const value = useAppSelector((state) => state.htmlReducer.source);
   const { fontSize, miniMap } = useAppSelector((state) => state.optionsReducer);
   const dispatch = useAppDispatch();
+  const debounceTimerRef = useRef<NodeJS.Timeout>();
+  const validationTimerRef = useRef<NodeJS.Timeout>();
+
+  const runValidation = useCallback((model: editorNS.ITextModel) => {
+    if (validationTimerRef.current) {
+      clearTimeout(validationTimerRef.current);
+    }
+
+    validationTimerRef.current = setTimeout(() => {
+      validateCSSInStyleAttributes(model);
+      CustomValidation(model);
+      verify(model);
+    }, 800); // 500ms debounce for validation
+  }, []);
 
   const changeHandler: OnChange = useCallback((string,) => {
     if (string !== undefined) {
-      dispatch(htmlActions.setSourceHtml(string));
-      dispatch(htmlActions.setCompiledHTMl(string));
-    }
-    if (editorRef.current) {
-      const ed = editorRef.current;
-      const model = ed.getModel();
+      // Clear any existing timer
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
 
-      if (!model) return
-      validateCSSInStyleAttributes(model)
-      CustomValidation(model)
-      verify(model)
-    }
-  }, [dispatch, editorRef]);
+      // Set a new timer
+      debounceTimerRef.current = setTimeout(() => {
+        dispatch(htmlActions.setSourceHtml(string));
+        dispatch(htmlActions.setCompiledHTMl(string));
+        if (editorRef.current) {
+          const ed = editorRef.current;
+          const model = ed.getModel();
 
+          if (!model) return;
+          runValidation(model);
+        }
+      }, 800); // 300ms debounce delay
+    }
+  }, [dispatch, editorRef, runValidation]);
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+      if (validationTimerRef.current) {
+        clearTimeout(validationTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (editorRef.current) {
@@ -58,9 +88,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, }) => {
     themeSwitcher(savedTheme);
     const model = editor.getModel();
     if (!model) return
-    validateCSSInStyleAttributes(model)
-    CustomValidation(model)
-    verify(model)
+    runValidation(model)
   }
   const handleValidate: OnValidate = (markers) => {
     const newMarkers: Omit<editorNS.IMarker, 'resource'>[] = markers.map((marker) => {
@@ -77,20 +105,18 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef, }) => {
     fontSize
   }), [fontSize, miniMap]);
   return (
-    <div className={classNames(styles.CodeEditor)}>
-
-      <Editor
-        theme={'vs-dark'}
-        width={'100%'}
-        height='100%'
-        defaultLanguage='html'
-        defaultValue={value}
-        onChange={changeHandler}
-        language='html'
-        onMount={handleMount}
-        onValidate={handleValidate}
-        options={editorOptions}
-      />
+    <div className={classNames(styles.CodeEditor)}><Editor
+      theme={'vs-dark'}
+      width={'100%'}
+      height='100%'
+      defaultLanguage='html'
+      defaultValue={value}
+      onChange={changeHandler}
+      language='html'
+      onMount={handleMount}
+      onValidate={handleValidate}
+      options={editorOptions}
+    />
     </div>
   );
 };

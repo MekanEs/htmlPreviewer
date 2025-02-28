@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { editor, } from '../../constants';
 import { themeSwitcher } from '../../utils';
-import { LS_MONACOTHEME } from '../../constants/localStorage';
+import { LS_MONACOTHEME } from '../../constants';
 
 export const JSONEditor: FC = () => {
   const json = useAppSelector((state) => state.htmlReducer.json);

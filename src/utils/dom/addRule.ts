@@ -1,6 +1,6 @@
 
 import { HTMLHint } from 'htmlhint';
-import { targetAttributesValues, titleRequire, trInTable } from '../constants/htmlHintRules';
+import { targetAttributesValues, titleRequire, trInTable } from '../../constants';
 
 
 

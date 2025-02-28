@@ -7,8 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { editor, IRange, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
-import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants/localStorage';
-import { registerHBZ } from '../../utils/registerHandlebars';
+import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
+import { TabContainer } from '../../components/common/TabContainer';
+import { Button } from '../../components/common/Button';
+import { Input } from '../../components/common/Input';
+import { registerHBZ } from '../../utils';
 
 interface EditorPageProps {
   className?: string;
@@ -84,58 +87,51 @@ export const EditorPage: FC<EditorPageProps> = () => {
   return (
     <div>
       <div className={styles.buttonGroup}>
-        <div className={classNames([styles.tabContainer, styles.codeTab])}>
-          {codeTabs.map((tab) => (
-            <button
-              key={tab.key}
-              className={classNames(styles.tab, { [styles.tabActive]: options.frameMode === tab.key })}
-              onClick={() => dispatch(optionsActions.setEditorMode(tab.key))}
-            >
-              {tab.label}
-            </button>
-          ))}
-          <div
-            className={styles.tabIndicator}
-            style={{
-              width: `${100 / codeTabs.length}%`,
-              transform: `translateX(${(codeTabs.findIndex(t => t.key === options.editors.mode)) * 100}%)`,
-            }}
-          />
-        </div>
 
+        <TabContainer activeTab={options.editors.mode} callBack={(tabKey) => dispatch(optionsActions.setEditorMode(tabKey))} tabs={codeTabs} className={classNames([styles.tabContainer, styles.codeTab])} />
 
 
 
         <div className={styles.buttonContainer}>
           <ThemeSwitcher />
-          <input
-            style={{ width: '40px' }}
+          <Input
+            type="number"
+            value={options.fontSize}
             onChange={(e) => {
               const value = e.target.value;
               localStorage.setItem(LS_FONTSIZEKEY, value);
               dispatch(optionsActions.setFontSize(Number(value)))
             }}
-            value={options.fontSize}
-            type='number'
-            title={'editor font size'}
+            title="editor font size"
+            className={classNames(styles.fontSizeInput, styles.input)}
           />
-
-          <button onClick={() => { dispatch(optionsActions.setMiniMapEnabled(!options.miniMap.enabled)) }}>{options.miniMap.enabled ? 'off' : 'on'}</button>
+          <Button
+            variant="secondary"
+            onClick={() => { dispatch(optionsActions.setMiniMapEnabled(!options.miniMap.enabled)) }}
+          >
+            {options.miniMap.enabled ? 'off' : 'on'}
+          </Button>
         </div>
         <div className={styles.buttonContainer}>
-          <button title='Ctrl+S' onClick={() => {
-            localStorage.setItem(LS_SOURCEHTML, source)
-          }}>
+          <Button
+            variant="primary"
+            title='Ctrl+S'
+            onClick={() => {
+              localStorage.setItem(LS_SOURCEHTML, source)
+            }}
+          >
             Save
-          </button>
-          <button onClick={() => {
-
-
-            localStorage.removeItem(LS_SOURCEHTML)
-            localStorage.removeItem(LS_SOURCEJSON)
-          }}>
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              localStorage.removeItem(LS_SOURCEHTML)
+              localStorage.removeItem(LS_SOURCEJSON)
+            }}
+          >
             Reset
-          </button></div>
+          </Button>
+        </div>
       </div>
       <div className={styles.container}>
         <div className={styles.editorContainer}>
@@ -154,24 +150,8 @@ export const EditorPage: FC<EditorPageProps> = () => {
         </div>
 
         <div className={styles.frameContainer}>
-          <div className={styles.tabContainer}>
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                className={classNames(styles.tab, { [styles.tabActive]: options.frameMode === tab.key })}
-                onClick={() => dispatch(optionsActions.setFrameMode(tab.key))}
-              >
-                {tab.label}
-              </button>
-            ))}
-            <div
-              className={styles.tabIndicator}
-              style={{
-                width: `${100 / tabs.length}%`,
-                transform: `translateX(${(tabs.findIndex(t => t.key === options.frameMode)) * 100}%)`,
-              }}
-            />
-          </div>
+
+          <TabContainer tabs={tabs} activeTab={options.frameMode} callBack={(tabKey) => dispatch(optionsActions.setFrameMode(tabKey))} className={styles.tabContainer} />
 
           {options.frameMode === "iframe" && <Frame testData={json} />}
           {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}

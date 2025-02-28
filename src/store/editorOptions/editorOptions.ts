@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
 import { editorMode, frameMode } from '../types.ts';
-import { LS_FONTSIZEKEY } from '../../constants/localStorage.ts';
+import { LS_FONTSIZEKEY } from '../../constants';
 
 export interface IOptionsSlice {
     editors: {

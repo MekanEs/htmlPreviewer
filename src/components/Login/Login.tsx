@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"; // Импортируем useNav
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { userActions } from "../../store/user/user";
 import { Register } from "../Register/Register";
+import { Button } from '../common/Button';
+import { Input } from '../common/Input';
 
 export const Login = () => {
     const [email, setEmail] = useState("");
@@ -55,19 +57,24 @@ export const Login = () => {
         <div>
             Login
             <div>
-                <input
+                <Input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <input
+                <Input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={handleLogin}>Login</button>
+                <Button 
+                    variant="primary"
+                    onClick={handleLogin}
+                >
+                    Login
+                </Button>
                 {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
             or Register
