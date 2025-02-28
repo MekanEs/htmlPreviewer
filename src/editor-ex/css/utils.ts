@@ -12,6 +12,7 @@ import {
   Location,
   DocumentHighlightKind,
 } from 'vscode-css-languageservice';
+
 import type { IMarkdownString, IRange, languages, Range as MonacoRange } from '../monaco';
 import { monaco } from '../monaco';
 
@@ -77,7 +78,7 @@ export function toRange(range: Range | undefined): MonacoRange | undefined {
     range.start.line + 1,
     range.start.character + 1,
     range.end.line + 1,
-    range.end.character + 1,
+    range.end.character + 1
   );
 }
 
@@ -92,7 +93,7 @@ export function toTextEdit(textEdit: TextEdit | undefined): languages.TextEdit |
 }
 
 export function toMarkedStringArray(
-  contents: MarkupContent | MarkedString | MarkedString[],
+  contents: MarkupContent | MarkedString | MarkedString[]
 ): IMarkdownString[] | undefined {
   if (!contents) {
     return void 0;
@@ -123,8 +124,10 @@ function toMarkdownString(entry: MarkupContent | MarkedString): IMarkdownString 
   return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isMarkupContent(thing: any): thing is MarkupContent {
-  return thing && typeof thing === 'object' && typeof (<MarkupContent>thing).kind === 'string';
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return thing && typeof thing === 'object' && typeof (thing as MarkupContent).kind === 'string';
 }
 
 export function toFoldingRangeKind(kind: FoldingRangeKind): languages.FoldingRangeKind | undefined {
@@ -154,7 +157,7 @@ export function fromRange(range: IRange | undefined): Range | undefined {
 }
 
 export function toWorkspaceEdit(edit: WorkspaceEdit | null): languages.WorkspaceEdit | undefined {
-  if (!edit || !edit.changes) {
+  if (!edit?.changes) {
     return void 0;
   }
   const resourceEdits: languages.IWorkspaceTextEdit[] = [];
@@ -228,7 +231,7 @@ export function toLocation(location: Location): languages.Location {
 }
 
 export function toDocumentHighlightKind(
-  kind: DocumentHighlightKind | undefined,
+  kind: DocumentHighlightKind | undefined
 ): languages.DocumentHighlightKind {
   switch (kind) {
     case DocumentHighlightKind.Read:

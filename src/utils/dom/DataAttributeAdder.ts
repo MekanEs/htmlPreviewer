@@ -5,7 +5,7 @@ export const addDataAttribute = (text: string) => {
       '>',
       ` data-start-index="${matched_letter[0]}" data-end-index="${
         matched_letter[0] + complete_match.length
-      }">`,
+      }">`
     );
   });
 };

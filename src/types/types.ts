@@ -1,8 +1,8 @@
-export type EditorSelection = {
+export interface EditorSelection {
   from: number;
   to: number;
-};
-export type FindPropsObject = {
+}
+export interface FindPropsObject {
   regexp: RegExp;
   replace: string;
-};
+}

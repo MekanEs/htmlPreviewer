@@ -18,4 +18,4 @@ export const borderStyle = `* {outline: 1px solid #000;box-shadow: 0 0 2px #fff;
 export const findImages = {
   regexp: /src="([^"]+)/g,
   replace: '\\',
-}; 
+};

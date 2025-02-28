@@ -1,4 +1,5 @@
 import { Monaco } from '@monaco-editor/react';
+
 import {
   CssHighlightInHtml,
   CssSuggestInHtml,
@@ -7,16 +8,16 @@ import {
   CssColorInHtml,
   CssFoldingRangeInHtml,
 } from './html';
-import { tryInitMonaco } from './monaco';
 import { CssClassSuggestInHtml } from './html/classSuggest';
+import { tryInitMonaco } from './monaco';
 
 export function MonacoEx(monacoInstance: Monaco) {
   if (!tryInitMonaco(monacoInstance)) return;
   CssSuggestInHtml();
-  CssHighlightInHtml()
-  CssHoverInHtml()
-  CssSymbolInHtml()
-  CssColorInHtml()
-  CssFoldingRangeInHtml()
-  CssClassSuggestInHtml()
+  CssHighlightInHtml();
+  CssHoverInHtml();
+  CssSymbolInHtml();
+  CssColorInHtml();
+  CssFoldingRangeInHtml();
+  CssClassSuggestInHtml();
 }

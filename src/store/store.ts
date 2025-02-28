@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { optionsReducer } from './editorOptions/editorOptions';
 import { htmlReducer } from './sourceHtml/sourceHtml';
 import { userReducer } from './user/user';
-import { optionsReducer } from './editorOptions/editorOptions';
 export const store = configureStore({
   reducer: { htmlReducer, userReducer, optionsReducer },
 });

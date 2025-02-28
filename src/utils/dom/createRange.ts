@@ -1,10 +1,7 @@
-import { editor, IRange } from "../../constants";
-import { EditorSelection } from "../../types/types";
+import { editor, IRange } from '../../constants';
+import { EditorSelection } from '../../types/types';
 
-export const createRange = (
-  selection: EditorSelection,
-  editor: editor.IStandaloneCodeEditor,
-) => {
+export const createRange = (selection: EditorSelection, editor: editor.IStandaloneCodeEditor) => {
   const from = editor.getModel()?.getPositionAt(selection.from);
   const to = editor.getModel()?.getPositionAt(selection.to);
 
@@ -17,5 +14,4 @@ export const createRange = (
     endLineNumber: to.lineNumber,
   };
   return range;
-
 };

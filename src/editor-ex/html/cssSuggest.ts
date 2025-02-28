@@ -1,17 +1,19 @@
+import { InsertTextFormat } from 'vscode-css-languageservice';
+
 import { languageNames } from '../constants';
 import { getCssService, toCommand, toCompletionItemKind, toRange, toTextEdit } from '../css/utils';
 import { Position, Uri, editor, languages } from '../monaco';
+import { monaco } from '../monaco';
 import { getWordRange } from '../utils';
+
+import { stylesheetCache } from './cssCache';
 import { htmlRegionCache } from './htmlRegionCache';
 import { toLsPosition } from './utils';
-import { monaco } from '../monaco';
-import { InsertTextFormat, } from 'vscode-css-languageservice';
-import { stylesheetCache } from './cssCache';
 class CssSuggestAdapter implements languages.CompletionItemProvider {
   triggerCharacters = ['/', '-', ':'];
   async provideCompletionItems(
     model: editor.ITextModel,
-    position: Position,
+    position: Position
   ): Promise<languages.CompletionList | undefined> {
     const regions = htmlRegionCache.get(model);
     if (regions.getLanguageAtPosition(position) != languageNames.css) return;
@@ -23,18 +25,14 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     const style = stylesheetCache.get(model);
     const info = cssService.doComplete(cssDocument, toLsPosition(position), style);
 
-
-
-
-
     if (!info || model.isDisposed()) return;
 
-    const items: languages.CompletionItem[] = info.items.map((entry) => {
+    const items: languages.CompletionItem[] = info.items.map(entry => {
       const item: languages.CompletionItem & { uri: Uri; position: Position } = {
         uri: model.uri,
         position: position,
         label: entry.label,
-        insertText: entry.insertText || entry.label,
+        insertText: entry.insertText ?? entry.label,
         sortText: entry.sortText,
         filterText: entry.filterText,
         documentation: entry.documentation,
@@ -59,9 +57,9 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
       }
 
       if (entry.additionalTextEdits) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
         const newValue = entry.additionalTextEdits.map<languages.TextEdit>(toTextEdit as any);
-        if (newValue.every((el) => el !== undefined)) item.additionalTextEdits = newValue;
+        if (newValue.every(el => el !== undefined)) item.additionalTextEdits = newValue;
       }
 
       if (entry.insertTextFormat === InsertTextFormat.Snippet) {

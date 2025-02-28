@@ -1,4 +1,5 @@
 import { Scanner, TextDocument, Range } from 'vscode-html-languageservice';
+
 import { EmbeddedRegion } from './embeddedSupport';
 
 let _directives: Directive[] | undefined;
@@ -31,7 +32,7 @@ export function useContentRegin(regin?: ContentRegin[]) {
 export function getDirectiveRegion(
   attributeName: string,
   scanner: Scanner,
-  document: TextDocument,
+  document: TextDocument
 ): EmbeddedRegion | undefined {
   if (!_directives) return;
   let match: boolean | RegExpMatchArray | null = false;
@@ -67,7 +68,7 @@ export function getDirectiveRegion(
 
 export function getContentRegions(
   scanner: Scanner,
-  document: TextDocument,
+  document: TextDocument
 ): EmbeddedRegion[] | undefined {
   if (!_contents) return;
   const start = scanner.getTokenOffset();

@@ -7,8 +7,8 @@ export type { IRange };
 
 // Add any editor-specific configuration constants here
 export const editorDefaults = {
-    wordWrap: 'on',
-    minimap: { enabled: false, size: 'proportional' },
-    fontSize: 14,
-    readOnly: false
-}; 
+  wordWrap: 'on',
+  minimap: { enabled: false, size: 'proportional' },
+  fontSize: 14,
+  readOnly: false,
+};

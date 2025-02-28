@@ -1,16 +1,18 @@
-import { FC, useRef, useState } from 'react';
-import styles from './JSONEditor.module.scss';
-import classNames from 'classnames';
 import { Editor, Monaco } from '@monaco-editor/react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { editor, } from '../../constants';
-import { themeSwitcher } from '../../utils';
+import classNames from 'classnames';
+import { FC, useRef, useState } from 'react';
+
+import { editor } from '../../constants';
 import { LS_MONACOTHEME } from '../../constants';
+import { htmlActions } from '../../store/sourceHtml/sourceHtml';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { themeSwitcher } from '../../utils';
+
+import styles from './JSONEditor.module.scss';
 
 export const JSONEditor: FC = () => {
-  const json = useAppSelector((state) => state.htmlReducer.json);
-  const { fontSize, miniMap } = useAppSelector((state) => state.optionsReducer);
+  const json = useAppSelector(state => state.htmlReducer.json);
+  const { fontSize, miniMap } = useAppSelector(state => state.optionsReducer);
   const dispatch = useAppDispatch();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +20,6 @@ export const JSONEditor: FC = () => {
     if (str) {
       dispatch(htmlActions.setJson(str));
     }
-
   };
 
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
@@ -26,16 +27,14 @@ export const JSONEditor: FC = () => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
     });
-    const savedTheme = localStorage.getItem(LS_MONACOTHEME)
+    const savedTheme = localStorage.getItem(LS_MONACOTHEME);
     if (savedTheme) {
-      themeSwitcher(savedTheme)
+      themeSwitcher(savedTheme);
     } else {
-      localStorage.setItem(LS_MONACOTHEME, 'all-hallows-eve')
-      themeSwitcher("all-hallows-eve")
+      localStorage.setItem(LS_MONACOTHEME, 'all-hallows-eve');
+      themeSwitcher('all-hallows-eve');
     }
   };
-
-
 
   return (
     <div className={classNames(styles.JSONEditor)}>
@@ -46,11 +45,11 @@ export const JSONEditor: FC = () => {
         value={json}
         theme={'vs-dark'}
         width={'100%'}
-        height='100%'
-        defaultLanguage='json'
+        height="100%"
+        defaultLanguage="json"
         onMount={handleMount}
-        onValidate={(e) => {
-          console.log(e)
+        onValidate={e => {
+          console.log(e);
           if (e.length) {
             setError('TestData has errors');
           } else {

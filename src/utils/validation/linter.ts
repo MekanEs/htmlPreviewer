@@ -1,14 +1,12 @@
-import { HTMLHint, } from 'htmlhint';
+import { HTMLHint } from 'htmlhint';
 import type { Hint } from 'htmlhint/types';
 import { editor } from 'monaco-editor';
+
 import { ruleset } from '../../constants';
 import { reportTypeToMarkerSeverity } from '../../types/typeTransform';
 
-
-
 export const verify = (model: editor.ITextModel) => {
   const results = HTMLHint.verify(model.getValue(), ruleset);
-
 
   if (model) {
     const markers: editor.IMarkerData[] = [];
@@ -21,11 +19,7 @@ export const verify = (model: editor.ITextModel) => {
         endLineNumber: hint.line,
         endColumn: hint.col + +hint.raw.length,
       });
-    })
+    });
     editor.setModelMarkers(model, 'html', markers);
   }
-
-
 };
-
-

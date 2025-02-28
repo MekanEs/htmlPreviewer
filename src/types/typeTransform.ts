@@ -1,6 +1,7 @@
 import { ReportType } from 'htmlhint/types';
-import { monaco } from '../constants';
 import { DiagnosticSeverity } from 'vscode-css-languageservice';
+
+import { monaco } from '../constants';
 
 export const reportTypeToMarkerSeverity: Record<ReportType, monaco.MarkerSeverity> = {
   ['error' as ReportType.error]: monaco.MarkerSeverity.Error,
@@ -12,7 +13,7 @@ export const reportTypeSeverityToMarker: Record<monaco.MarkerSeverity, ReportTyp
   [8 as monaco.MarkerSeverity.Error]: 'error' as ReportType.error,
   [4 as monaco.MarkerSeverity.Warning]: 'warning' as ReportType.warning,
   [2 as monaco.MarkerSeverity.Info]: 'info' as ReportType.info,
-  [1 as monaco.MarkerSeverity.Hint]: 'hint' as ReportType.info
+  [1 as monaco.MarkerSeverity.Hint]: 'hint' as ReportType.info,
 };
 
 export const diagnosticToMarkerSeverity: Record<DiagnosticSeverity, monaco.MarkerSeverity> = {

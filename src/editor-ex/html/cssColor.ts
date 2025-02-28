@@ -1,18 +1,14 @@
 import { languageNames } from '../constants';
 import { fromRange, getCssService, toRange, toTextEdit } from '../css/utils';
 import type { editor, languages } from '../monaco';
-import { htmlRegionCache } from './htmlRegionCache';
 import { monaco } from '../monaco';
+
+import { htmlRegionCache } from './htmlRegionCache';
 
 class CssDocumentColorAdapter implements languages.DocumentColorProvider {
   async provideDocumentColors(
-    model: editor.IReadOnlyModel,
-
+    model: editor.IReadOnlyModel
   ): Promise<languages.IColorInformation[] | undefined> {
-
-
-
-
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
 
@@ -21,7 +17,7 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
     const infos = cssService.findDocumentColors(cssDocument, style);
     if (!infos) return;
 
-    return infos.map((item) => ({
+    return infos.map(item => ({
       color: item.color,
       range: toRange(item.range)!,
     }));
@@ -29,10 +25,9 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
 
   async provideColorPresentations(
     model: editor.IReadOnlyModel,
-    info: languages.IColorInformation,
-
+    info: languages.IColorInformation
   ): Promise<languages.IColorPresentation[] | undefined> {
-    console.log('provideColorPresentations')
+    console.log('provideColorPresentations');
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
     const cssService = getCssService();
@@ -41,11 +36,11 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
       cssDocument,
       style,
       info.color,
-      fromRange(info.range)!,
+      fromRange(info.range)!
     );
     if (!presentations) return;
 
-    return presentations.map((presentation) => {
+    return presentations.map(presentation => {
       const item: languages.IColorPresentation = {
         label: presentation.label,
       };
@@ -54,7 +49,7 @@ class CssDocumentColorAdapter implements languages.DocumentColorProvider {
       }
       if (presentation.additionalTextEdits) {
         const newValue = presentation.additionalTextEdits.map(toTextEdit);
-        if (newValue.every((el) => el !== undefined)) {
+        if (newValue.every(el => el !== undefined)) {
           item.additionalTextEdits = newValue as languages.TextEdit[] | undefined;
         }
       }

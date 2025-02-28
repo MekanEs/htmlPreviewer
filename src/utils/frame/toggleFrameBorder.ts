@@ -1,4 +1,4 @@
-import { borderStyle } from "../../constants";
+import { borderStyle } from '../../constants';
 
 export function toggleFrameBorder(bordered: boolean, frame: HTMLIFrameElement) {
   const doc = frame.contentDocument;
@@ -24,7 +24,7 @@ export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
   const doc = frame.contentDocument;
   if (!doc) return;
 
-  doc.querySelectorAll<HTMLImageElement>('img').forEach((img) => {
+  doc.querySelectorAll<HTMLImageElement>('img').forEach(img => {
     const hasMarker = img.src.endsWith('1#');
 
     if (imgMode && !hasMarker) {
@@ -34,4 +34,3 @@ export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
     }
   });
 }
-

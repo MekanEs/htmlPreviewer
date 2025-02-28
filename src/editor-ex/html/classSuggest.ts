@@ -1,16 +1,14 @@
 import { languageNames } from '../constants';
 import { Position, editor, languages } from '../monaco';
-import { getWordRange } from '../utils';
 import { monaco } from '../monaco';
-
-
+import { getWordRange } from '../utils';
 
 export function parse(model: editor.ITextModel) {
   const selector =
     /([.#])(-?[_a-zA-Z\]+[\\!+_a-zA-Z0-9-]*)(?=[#.,()\s[\]^:*"'>=_a-zA-Z0-9-]*{[^}]*})/g;
   const styles: Style[] = [];
-  const text = model.getValue()
-  let match
+  const text = model.getValue();
+  let match;
 
   while ((match = selector.exec(text))) {
     const index = match.index;
@@ -22,15 +20,15 @@ export function parse(model: editor.ITextModel) {
       line,
       col,
       type: match[1] as StyleType,
-      selector: match[2].replaceAll("\\", ""),
-    }
+      selector: match[2].replaceAll('\\', ''),
+    };
     styles.push(style);
   }
   return styles;
 }
 export const enum StyleType {
-  ID = "#",
-  CLASS = ".",
+  ID = '#',
+  CLASS = '.',
 }
 
 export interface Style {
@@ -52,9 +50,8 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     const wordRange = getWordRange(model, position);
     for (const value of styles.values()) {
       for (const style of value) {
-
         if (style.type === type) {
-          const label = style.selector
+          const label = style.selector;
           const item: languages.CompletionItem = {
             label: label,
             insertText: style.selector,
@@ -67,12 +64,7 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     }
     return map;
   }
-  private async getCompletionItems(
-    model: editor.ITextModel,
-    position: Position,
-    type: StyleType
-  ) {
-
+  private async getCompletionItems(model: editor.ITextModel, position: Position, type: StyleType) {
     const map = await this.getCompletionMap(model, type, position);
     const items = [];
     for (const item of map.values()) {
@@ -80,25 +72,24 @@ class CssSuggestAdapter implements languages.CompletionItemProvider {
     }
     return items;
   }
-  private get canComplete() {
-    // return /(id|class|className|[.#])\s*[=:]?\s*(["'])(?:.(?!\2))*$/is;
-    return /(?:class=["'])([^"']+)(?:["'])/is
-  }
-  async provideCompletionItems(model: editor.ITextModel,
-    position: Position,): Promise<languages.CompletionList | undefined> {
+  private readonly canComplete = /(?:class=["'])([^"']+)(?:["'])/is;
+  async provideCompletionItems(
+    model: editor.ITextModel,
+    position: Position
+  ): Promise<languages.CompletionList | undefined> {
     // const range = new Range({0,0}, position);
     // const text = model.getValueInRange(range);
-    const text = model.getValue()
+    const text = model.getValue();
     const match = this.canComplete.exec(text);
-    if (!match) return
+    if (!match) return;
     const completionList = await this.getCompletionItems(
       model,
       position,
-      match[1] === "id" ? StyleType.ID : StyleType.CLASS
-    )
+      match[1] === 'id' ? StyleType.ID : StyleType.CLASS
+    );
     return {
-      suggestions: completionList
-    }
+      suggestions: completionList,
+    };
   }
 }
 

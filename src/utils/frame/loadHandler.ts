@@ -1,4 +1,5 @@
 import { EditorSelection } from '../../types/types';
+
 import { toggleFrameBorder, toggleImages } from './toggleFrameBorder';
 
 export function loadHandler(

@@ -1,32 +1,28 @@
+import { loader } from '@monaco-editor/react';
+import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
+
+import { custom_snippets_emmet, monaco } from './constants';
 import { router } from './router/router.tsx';
 import './App.scss';
-import { emmetHTML, registerCustomSnippets } from 'emmet-monaco-es'
-
-import { loader } from '@monaco-editor/react';
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
-import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { addRule } from './utils';
-import { custom_snippets_emmet, monaco } from './constants';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
-emmetHTML(
-  monaco,
-  ['html'],
-)
-
+emmetHTML(monaco, ['html']);
 
 self.MonacoEnvironment = {
   getWorker(_, label) {
@@ -48,5 +44,5 @@ loader.init().then(() => {
   monaco.languages.register({ id: 'json' });
 });
 
-registerCustomSnippets('html', custom_snippets_emmet)
-addRule()
+registerCustomSnippets('html', custom_snippets_emmet);
+addRule();

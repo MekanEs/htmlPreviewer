@@ -1,18 +1,20 @@
-import { Diagnostic, getCSSLanguageService, newCSSDataProvider, } from 'vscode-css-languageservice';
-import { diagnosticToMarkerSeverity } from '../../types/typeTransform';
+import { Diagnostic, getCSSLanguageService, newCSSDataProvider } from 'vscode-css-languageservice';
+
 import { customCssData, editor } from '../../constants';
-import { htmlRegionCache } from '../../editor-ex/html/htmlRegionCache';
 import { languageNames } from '../../editor-ex/constants';
+import { htmlRegionCache } from '../../editor-ex/html/htmlRegionCache';
+import { diagnosticToMarkerSeverity } from '../../types/typeTransform';
 
-
-
-
-export const diagnosticsPusher = (diagnostics: Diagnostic[], arrayToPush: editor.IMarkerData[], hasPlus?: boolean) => {
+export const diagnosticsPusher = (
+  diagnostics: Diagnostic[],
+  arrayToPush: editor.IMarkerData[],
+  hasPlus?: boolean
+) => {
   diagnostics.forEach(diag => {
     // Диагностика возвращает диапазон относительно виртуального документа.
     // Преобразуем его в позиции в исходном HTML.
     arrayToPush.push({
-      severity: diagnosticToMarkerSeverity[diag.severity || 1],
+      severity: diagnosticToMarkerSeverity[diag.severity ?? 1],
       message: diag.message,
       startLineNumber: hasPlus ? diag.range.start.line + 1 : diag.range.start.line,
       startColumn: diag.range.start.character + 1,
@@ -20,14 +22,12 @@ export const diagnosticsPusher = (diagnostics: Diagnostic[], arrayToPush: editor
       endColumn: diag.range.end.character + 1,
     });
   });
-}
-
-
+};
 
 const customDataProvider = newCSSDataProvider(customCssData);
 const cssService = getCSSLanguageService();
 cssService.setDataProviders(true, [customDataProvider]);
-const cssLanguageService = cssService
+const cssLanguageService = cssService;
 
 export function validateCSSInStyleAttributes(model: editor.ITextModel) {
   const markers: editor.IMarkerData[] = [];
@@ -37,8 +37,8 @@ export function validateCSSInStyleAttributes(model: editor.ITextModel) {
   const regions = htmlRegionCache.get(model);
   const cssDocument = regions.getEmbeddedDocument(languageNames.css);
   const styleSheet1 = cssLanguageService.parseStylesheet(cssDocument);
-  const diagnostics1 = cssLanguageService.doValidation(cssDocument, styleSheet1,);
-  diagnosticsPusher(diagnostics1, markers, true)
+  const diagnostics1 = cssLanguageService.doValidation(cssDocument, styleSheet1);
+  diagnosticsPusher(diagnostics1, markers, true);
 
   // while ((match = regex.exec(htmlContent)) !== null) {
   //   const cssCode = match[2] || match[3];

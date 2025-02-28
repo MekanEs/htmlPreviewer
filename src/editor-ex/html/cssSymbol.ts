@@ -1,12 +1,13 @@
 import { languageNames } from '../constants';
 import { getCssService, toRange, toSymbolKind } from '../css/utils';
 import { editor, languages } from '../monaco';
-import { htmlRegionCache } from './htmlRegionCache';
 import { monaco } from '../monaco';
+
+import { htmlRegionCache } from './htmlRegionCache';
 
 class CssDocumentSymbolAdapter implements languages.DocumentSymbolProvider {
   async provideDocumentSymbols(
-    model: editor.ITextModel,
+    model: editor.ITextModel
   ): Promise<languages.DocumentSymbol[] | undefined> {
     const regions = htmlRegionCache.get(model);
     const cssDocument = regions.getEmbeddedDocument(languageNames.css);
@@ -15,7 +16,7 @@ class CssDocumentSymbolAdapter implements languages.DocumentSymbolProvider {
     const items = cssService.findDocumentSymbols(cssDocument, style);
     if (!items) return;
 
-    return items.map<languages.DocumentSymbol>((item) => ({
+    return items.map<languages.DocumentSymbol>(item => ({
       name: item.name,
       detail: '',
       containerName: item.containerName,
@@ -30,6 +31,6 @@ class CssDocumentSymbolAdapter implements languages.DocumentSymbolProvider {
 export function CssSymbolInHtml() {
   monaco.languages.registerDocumentSymbolProvider(
     languageNames.html,
-    new CssDocumentSymbolAdapter(),
+    new CssDocumentSymbolAdapter()
   );
 }

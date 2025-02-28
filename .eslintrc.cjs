@@ -10,9 +10,18 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:prettier/recommended',  // Add Prettier integration
   ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  parserOptions: {
+    project: './tsconfig.json',
+    sourceType: 'module',
+  },
+  plugins: ['react-refresh',"import"],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -23,8 +32,12 @@ module.exports = {
      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
      '@typescript-eslint/explicit-function-return-type': 'off',
      '@typescript-eslint/explicit-module-boundary-types': 'off',
+     "@typescript-eslint/require-await": "off",
+     "@typescript-eslint/no-floating-promises": "off",
+     "@typescript-eslint/restrict-template-expressions": "off",
      '@typescript-eslint/no-explicit-any': 'warn',
-     'no-console': ['warn', { allow: ['warn', 'error'] }],
+     'no-console': ['off'],
+     
      "import/order": [
          "error",
          {
