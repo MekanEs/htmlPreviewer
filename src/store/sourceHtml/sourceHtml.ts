@@ -3,7 +3,7 @@ import { initialJson, str } from '../../constants';
 import { EditorSelection } from '../../types/types';
 import { compileHbs, addDataAttribute } from '../../utils';
 import { editor } from '../../constants';
-import { LS_SOURCEHTML } from '../../constants/localStorage';
+import { LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants/localStorage';
 
 export interface IHtmlSlice {
   json: string;
@@ -18,17 +18,17 @@ export interface IHtmlSlice {
   markers: Record<string, Omit<editor.IMarker, 'resource'>[]>
 }
 const initialState: IHtmlSlice = {
-  json: initialJson(),
+  json: localStorage.getItem(LS_SOURCEJSON) || initialJson,
   source: localStorage.getItem(LS_SOURCEHTML) || str,
   selection: { from: 0, to: 0 },
   htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
   htmlToRender: compileHbs(
     addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
-    initialJson(),
+    initialJson,
   ),
   htmlToSource: compileHbs(
     localStorage.getItem(LS_SOURCEHTML) || str,
-    initialJson(),
+    initialJson,
   ),
   langs: [],
   images: [],

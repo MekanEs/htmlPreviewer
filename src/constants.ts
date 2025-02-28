@@ -3,7 +3,6 @@ import * as monaco from 'monaco-editor';
 import { editor } from 'monaco-editor';
 import { IRange } from 'monaco-editor';
 import { CSSDataV1 } from 'vscode-css-languageservice';
-import { LS_SOURCEJSON } from './constants/localStorage';
 
 export { monaco }
 export { editor }
@@ -14,10 +13,7 @@ export type { IRange }
 
 export const str = `<div>1234</div>
 <div>1234</div>`;
-export const initialJson = (): string => {
-  let savedJson = JSON.parse(localStorage.getItem(LS_SOURCEJSON) || '')
-  if (savedJson.length === 0) {
-    savedJson = `{
+export const initialJson = `{
    "locales": {
     "ru": true
   },
@@ -25,9 +21,6 @@ export const initialJson = (): string => {
   "game_currency": "EUR"
 }
 `;
-  }
-  return savedJson
-}
 export const borderStyle = `* {outline: 1px solid #000;box-shadow: 0 0 2px #fff;}`;
 
 

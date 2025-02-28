@@ -56,7 +56,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
       localStorage.setItem(LS_SOURCEHTML, source)
-      localStorage.setItem(LS_SOURCEJSON, JSON.stringify(json, null, 2))
+      localStorage.setItem(LS_SOURCEJSON, JSON.stringify(JSON.parse(json), null, 2))
 
     }
     if (ctrlPressed && e.code === 'KeyB') {
