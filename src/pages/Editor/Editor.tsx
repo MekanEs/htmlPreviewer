@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { editor, IRange, } from '../../constants';
 import { Editor } from '@monaco-editor/react';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
-import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML } from '../../constants/localStorage';
+import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants/localStorage';
 import { registerHBZ } from '../../utils/registerHandlebars';
 
 interface EditorPageProps {
@@ -56,7 +56,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
       localStorage.setItem(LS_SOURCEHTML, source)
-
+      localStorage.setItem(LS_SOURCEJSON, JSON.stringify(json, null, 2))
 
     }
     if (ctrlPressed && e.code === 'KeyB') {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import styles from './JSONEditor.module.scss';
 import classNames from 'classnames';
 import { Editor, Monaco } from '@monaco-editor/react';
@@ -19,8 +19,8 @@ export const JSONEditor: FC = () => {
       dispatch(htmlActions.setJson(str));
     }
 
-
   };
+
   const handleMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor;
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -35,9 +35,7 @@ export const JSONEditor: FC = () => {
     }
   };
 
-  useEffect(() => {
-    // editor.setTheme('vs');
-  }, [json]);
+
 
   return (
     <div className={classNames(styles.JSONEditor)}>

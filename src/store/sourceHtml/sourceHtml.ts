@@ -18,17 +18,17 @@ export interface IHtmlSlice {
   markers: Record<string, Omit<editor.IMarker, 'resource'>[]>
 }
 const initialState: IHtmlSlice = {
-  json: initialJson,
+  json: initialJson(),
   source: localStorage.getItem(LS_SOURCEHTML) || str,
   selection: { from: 0, to: 0 },
   htmlWithDataAttr: addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
   htmlToRender: compileHbs(
     addDataAttribute(localStorage.getItem(LS_SOURCEHTML) || str),
-    initialJson,
+    initialJson(),
   ),
   htmlToSource: compileHbs(
     localStorage.getItem(LS_SOURCEHTML) || str,
-    initialJson,
+    initialJson(),
   ),
   langs: [],
   images: [],
@@ -44,6 +44,7 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
       state.json = action.payload;
       state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
       state.htmlToSource = compileHbs(state.source, action.payload);
+
     },
     setSourceHtml: (state, action: PayloadAction<string>) => {
       state.source = action.payload;
