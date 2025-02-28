@@ -24,7 +24,7 @@ export const HintList: FC<HintListProps> = ({ revealLine, source }) => {
   // const customValidationInfo = customValidationRules.map(el => '\n' + el.message).join('');
 
   return (
-    <div className={classNames(styles.List)}>
+    <div className={classNames(styles.List, styles.bordered)}>
       <div style={{ marginBottom: '10px' }}>
         {undClasses.map((el, i) => (
           <div

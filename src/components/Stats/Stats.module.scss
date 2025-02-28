@@ -25,6 +25,8 @@
   @include flex-center;
   width: 100%;
   gap: $spacing-md;
+  align-items: baseline;
+  border: 1px solid;
 }
 
 .flex {
