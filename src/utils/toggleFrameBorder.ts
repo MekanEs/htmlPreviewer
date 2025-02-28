@@ -1,46 +1,37 @@
 import { borderStyle } from '../constants';
 
-export function toggleFrameBorder(bordered: boolean, {contentDocument}: HTMLIFrameElement) {
-  if (contentDocument) {
-    if (bordered) {
-      let style = contentDocument.querySelector('#style123');
-      if (style === null) {
-        style = document.createElement('style');
-        style.setAttribute('type', 'text/css');
-        style.setAttribute('id', 'style123');
-      }
+export function toggleFrameBorder(bordered: boolean, frame: HTMLIFrameElement) {
+  const doc = frame.contentDocument;
+  if (!doc) return;
 
-      style.innerHTML = borderStyle;
-      contentDocument.querySelector('head')?.prepend(style);
-      return
-    } 
+  let style = doc.querySelector<HTMLStyleElement>('#style123');
 
-    const style = contentDocument.querySelector('#style123');
-    if (style) {
-      style.innerHTML = '';
+  if (bordered) {
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'style123';
+      doc.head?.prepend(style);
     }
-    
+    if (style.textContent !== borderStyle) {
+      style.textContent = borderStyle;
+    }
+  } else {
+    style?.remove();
   }
 }
 
-export function toggleImages(imgMode: boolean, {contentDocument}: HTMLIFrameElement) {
-  if (!contentDocument) {return}
-    if (imgMode) {
-      const images = contentDocument.querySelectorAll('img');
-      images.forEach(el=>{
-        if(!el.src.endsWith("1#")){
-        el.src +='1#'}
-      })
-     
+export function toggleImages(imgMode: boolean, frame: HTMLIFrameElement) {
+  const doc = frame.contentDocument;
+  if (!doc) return;
 
-    }else{
-      const images = contentDocument.querySelectorAll('img');
-      images.forEach(el=>{
-        if(el.src.endsWith("1#")){
-          el.src = el.src.slice(0,-2)
-        }
-      
-      })
+  doc.querySelectorAll<HTMLImageElement>('img').forEach((img) => {
+    const hasMarker = img.src.endsWith('1#');
+
+    if (imgMode && !hasMarker) {
+      img.src += '1#';
+    } else if (!imgMode && hasMarker) {
+      img.src = img.src.slice(0, -2);
     }
-  
+  });
 }
+

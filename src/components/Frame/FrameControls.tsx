@@ -1,27 +1,28 @@
-import { FC, } from "react";
-import { frameSettings, setSettingType } from "./Frame";
-import styles from './Frame.module.scss'
-interface FrameControlsProps { settings: frameSettings; setSettings: setSettingType }
+import { FC } from "react";
+import { FrameSettings, SetSettingType } from "./Frame";
+import styles from './Frame.module.scss';
+
+interface FrameControlsProps {
+    settings: FrameSettings;
+    setSettings: SetSettingType;
+}
+
 export const FrameControls: FC<FrameControlsProps> = ({ settings, setSettings }) => {
-
-    const handleModeToggle = () => {
-        setSettings((prev) => ({ ...prev, mode: !prev.mode }));
-    };
-
-    const handleBorderToggle = () => {
-        setSettings((prev) => ({ ...prev, bordered: !prev.bordered }));
-    };
-
-    const handleImagesToggle = () => {
-        setSettings((prev) => ({ ...prev, imagesMode: !prev.imagesMode }));
+    const toggleSetting = (key: keyof FrameSettings) => {
+        setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
     };
 
     return (
         <div className={styles.buttonGroup}>
-            <button onClick={handleBorderToggle}>{settings.bordered ? 'hide border' : 'show border'}</button>
-            <button onClick={handleImagesToggle}>{settings.imagesMode ? 'show img' : 'hide img'}</button>
-            <button onClick={handleModeToggle}>{settings.mode ? 'responsive' : 'full'}</button>
-
+            <button onClick={() => toggleSetting('bordered')}>
+                {settings.bordered ? 'Hide Border' : 'Show Border'}
+            </button>
+            <button onClick={() => toggleSetting('imagesMode')}>
+                {settings.imagesMode ? 'Show Images' : 'Hide Images'}
+            </button>
+            <button onClick={() => toggleSetting('mode')}>
+                {settings.mode ? 'Responsive' : 'Full'}
+            </button>
         </div>
     );
 };
