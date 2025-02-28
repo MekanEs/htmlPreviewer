@@ -132,6 +132,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
 
 
             localStorage.removeItem(LS_SOURCEHTML)
+            localStorage.removeItem(LS_SOURCEJSON)
           }}>
             Reset
           </button></div>
