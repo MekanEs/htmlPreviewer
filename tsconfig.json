@@ -18,8 +18,18 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@store/*": ["src/store/*"]
+    }
   },
-  "include": ["src"],
+  "include": [
+    "src/**/*",
+    "vite.config.ts" // Добавьте эту строку
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

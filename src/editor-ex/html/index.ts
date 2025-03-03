@@ -3,7 +3,5 @@ export * from './cssSuggest';
 export * from './cssHover';
 export * from './cssFoldingRange';
 export * from './cssColor';
-export * from './cssRename';
 export * from './cssSymbol';
-export * from './cssReference';
 export * from './cssHighlight';

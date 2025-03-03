@@ -1,0 +1,85 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius-md;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  // Button variants
+  &-primary {
+    background-color: $primary-color;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  &-secondary {
+    background-color: $secondary-color;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+
+  &-outline {
+    background-color: transparent;
+    border: 2px solid currentColor;
+
+    &.btn-primary {
+      color: $primary-color;
+
+      &:hover:not(:disabled) {
+        background-color: rgba($primary-color, 0.1);
+      }
+    }
+
+    &.btn-secondary {
+      color: $secondary-color;
+
+      &:hover:not(:disabled) {
+        background-color: rgba($secondary-color, 0.1);
+      }
+    }
+  }
+
+  // Button sizes
+  &-sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.875rem;
+  }
+
+  &-lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: 1.125rem;
+  }
+
+  // Icon buttons
+  &-icon {
+    padding: $spacing-sm;
+    border-radius: 50%;
+
+    svg {
+      width: 1.25em;
+      height: 1.25em;
+    }
+  }
+}
+
+.active {
+  border: 1px solid $secondary-color;
+}

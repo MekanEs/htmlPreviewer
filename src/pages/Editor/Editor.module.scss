@@ -1,3 +1,6 @@
+@import '../../styles/abstracts/variables';
+@import '../../styles/abstracts/mixins';
+
 .container {
   width: 100%;
   display: flex;
@@ -11,9 +14,8 @@
 
 .frameContainer {
   width: calc(45% - 5px);
-  display: flex;
+  @include flex-column;
   align-items: center;
-  flex-direction: column;
   gap: 3px;
   padding: 3px;
   position: relative;
@@ -38,12 +40,9 @@
   }
 }
 
-
-
 /* Стили для табов */
 .tabContainer {
-  display: flex;
-  justify-content: space-around;
+  @include flex-between;
   width: 100%;
   background: #222;
   border-radius: 8px;
@@ -57,21 +56,21 @@
   padding: 8px 12px;
   cursor: pointer;
   font-size: 14px;
-  color: white;
+  color: $light-color;
   background: none;
   border: none;
-  transition: color 0.2s ease;
+  @include transition(color);
   position: relative;
   z-index: 2;
 }
 
 .tab:hover {
-  color: #bbb;
+  color: darken($light-color, 20%);
 }
 
 /* Активный таб */
 .tabActive {
-  color: white;
+  color: $light-color;
   font-weight: bold;
 }
 
@@ -81,9 +80,9 @@
   bottom: 3px;
   left: 0;
   height: 2px;
-  background: #f33535;
+  background: $danger-color;
   border-radius: 4px;
-  transition: transform 0.3s ease-out, width 0.3s ease-out;
+  @include transition(transform);
 }
 
 /* Эффект нажатия */
@@ -106,18 +105,16 @@
 }
 
 .CodeEditor {
-  width: 100%;
-  height: 100%;
+  @include container-base;
 }
 
 .buttonContainer {
   padding: 0px 6px;
-  display: inline-block;
+  display: flex;
 }
 
 .codeTab {
-  display: flex;
-  justify-content: space-around;
+  @include flex-between;
   width: 150px;
   background: #222;
   border-radius: 8px;
@@ -130,19 +127,14 @@
 }
 
 .buttonGroup {
-  display: flex;
+  @include flex-center;
   width: 55%;
-  justify-content: center;
-  align-items: center;
 }
-
 
 @keyframes fade-change {
   0% {
     transform: translateY(100%);
   }
-
-
 
   100% {
     transform: translateY(0%);
@@ -151,4 +143,11 @@
 
 .frameContainer>* {
   animation: fade-change 0.1s ease-out;
+}
+
+.fontSizeInput {
+  width: 60px !important;
+  min-width: unset !important;
+  padding: $spacing-xs $spacing-sm !important;
+  height: 95%;
 }

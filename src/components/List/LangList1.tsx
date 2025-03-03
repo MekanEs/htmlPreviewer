@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './List.module.scss';
 import classNames from 'classnames';
-import { RegErrorDesc } from '../../constants/regExp';
+import { FC, useEffect, useState } from 'react';
+
+import { RegErrorDesc } from '../../constants';
+
+import styles from './List.module.scss';
 interface LangListProps {
   className?: string;
   regMatches?: Record<string, number>;
@@ -9,7 +11,12 @@ interface LangListProps {
 }
 
 export const LangList: FC<LangListProps> = ({ regMatches, hasDesc = false, className }) => {
-  const [showMode, setShowMode] = useState<{ mode: boolean }>(() => JSON.parse(localStorage.getItem('regErrorMode') || JSON.stringify({ mode: false })));
+  const [showMode, setShowMode] = useState<{ mode: boolean }>(
+    () =>
+      JSON.parse(localStorage.getItem('regErrorMode') ?? JSON.stringify({ mode: false })) as {
+        mode: boolean;
+      }
+  );
 
   useEffect(() => {
     localStorage.setItem('regErrorMode', JSON.stringify(showMode));
@@ -18,35 +25,36 @@ export const LangList: FC<LangListProps> = ({ regMatches, hasDesc = false, class
   const toggleShowMode = () => {
     setShowMode(prev => ({ mode: !prev.mode }));
   };
-  if (!regMatches) return <></>
+  if (!regMatches) return <></>;
   return (
     <div className={classNames(styles.List, className)}>
       {hasDesc && (
         <button
+          className="btn"
           style={{ width: '100%', display: hasDesc ? 'inherit' : 'none' }}
           onClick={toggleShowMode}
-
         >
           {showMode.mode ? 'show regexp' : 'show description'}
         </button>
       )}
-      <ul >
+      <ul>
         {Object.keys(regMatches).map((regexMatch, i) => {
           const splittedRegEx = regexMatch.split('/')[1] || regexMatch;
-          const displayText = hasDesc && showMode.mode ? RegErrorDesc[i] : splittedRegEx
-          return <li
-            key={regexMatch}
-            className={classNames(styles.item, { [styles.count]: regMatches[regexMatch] > 0 })}
-
-            onClick={() => {
-              navigator.clipboard.writeText(splittedRegEx);
-            }}
-            title={hasDesc ? RegErrorDesc[i] : undefined}
-          >
-            {`${displayText}: ${regMatches[regexMatch]}`}
-          </li>
+          const displayText = hasDesc && showMode.mode ? RegErrorDesc[i] : splittedRegEx;
+          return (
+            <li
+              key={regexMatch}
+              className={classNames(styles.item, { [styles.count]: regMatches[regexMatch] > 0 })}
+              onClick={() => {
+                navigator.clipboard.writeText(splittedRegEx);
+              }}
+              title={hasDesc ? RegErrorDesc[i] : undefined}
+            >
+              {`${displayText}: ${regMatches[regexMatch]}`}
+            </li>
+          );
         })}
       </ul>
-    </div >
+    </div>
   );
 };

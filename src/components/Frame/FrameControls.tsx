@@ -1,27 +1,46 @@
-import { FC, } from "react";
-import { frameSettings, setSettingType } from "./Frame";
-import styles from './Frame.module.scss'
-interface FrameControlsProps { settings: frameSettings; setSettings: setSettingType }
-export const FrameControls: FC<FrameControlsProps> = ({ settings, setSettings }) => {
+import classNames from 'classnames';
+import { FC, ReactNode } from 'react';
 
-    const handleModeToggle = () => {
-        setSettings((prev) => ({ ...prev, mode: !prev.mode }));
-    };
+import { Button } from '../common/Button';
 
-    const handleBorderToggle = () => {
-        setSettings((prev) => ({ ...prev, bordered: !prev.bordered }));
-    };
+import { FrameSettings, SetSettingType } from './Frame';
+import styles from './Frame.module.scss';
 
-    const handleImagesToggle = () => {
-        setSettings((prev) => ({ ...prev, imagesMode: !prev.imagesMode }));
-    };
+interface FrameControlsProps {
+  settings: FrameSettings;
+  setSettings: SetSettingType;
+  children: ReactNode;
+}
 
-    return (
-        <div className={styles.buttonGroup}>
-            <button onClick={handleBorderToggle}>{settings.bordered ? 'hide border' : 'show border'}</button>
-            <button onClick={handleImagesToggle}>{settings.imagesMode ? 'show img' : 'hide img'}</button>
-            <button onClick={handleModeToggle}>{settings.mode ? 'responsive' : 'full'}</button>
+export const FrameControls: FC<FrameControlsProps> = ({ settings, setSettings, children }) => {
+  const toggleSetting = (key: keyof FrameSettings) => {
+    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
-        </div>
-    );
+  return (
+    <div className={styles.buttonGroup}>
+      <Button
+        variant="secondary"
+        onClick={() => toggleSetting('bordered')}
+        className={classNames(styles.button, {
+          [styles.active]: settings.bordered,
+        })}
+      >
+        {settings.bordered ? 'Hide Border' : 'Show Border'}
+      </Button>
+      <Button
+        variant="secondary"
+        onClick={() => toggleSetting('imagesMode')}
+        className={classNames(styles.button, {
+          [styles.active]: settings.imagesMode,
+        })}
+      >
+        {settings.imagesMode ? 'Show Images' : 'Hide Images'}
+      </Button>
+      <Button variant="primary" onClick={() => toggleSetting('mode')} className={styles.button}>
+        {settings.mode ? 'Responsive' : 'Full'}
+      </Button>
+      {children}
+    </div>
+  );
 };

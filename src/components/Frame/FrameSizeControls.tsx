@@ -1,35 +1,65 @@
-import React, { FC } from "react";
-import { frameSettings, setSettingType } from "./Frame";
-import styles from './Frame.module.scss'
+import classNames from 'classnames';
+import React, { FC, useEffect, useState } from 'react';
+
+import { FrameSettings, SetSettingType } from './Frame';
+import styles from './Frame.module.scss';
 
 interface FrameSizeControlsProps {
-    settings: frameSettings;
-    setSettings: setSettingType;
-    frameRef: React.MutableRefObject<HTMLIFrameElement>
+  settings: FrameSettings;
+  setSettings: SetSettingType;
 }
-export const FrameSizeControls: FC<FrameSizeControlsProps> = ({ settings, setSettings, frameRef }) => {
-    const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSettings((prev) => ({ ...prev, width: e.target.value }));
-        frameRef.current.style.width = `${e.target.value}px`;
+
+export const FrameSizeControls: FC<FrameSizeControlsProps> = ({ settings, setSettings }) => {
+  const [isVisible, setIsVisible] = useState(!settings.mode);
+
+  useEffect(() => {
+    if (!settings.mode) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [settings.mode]);
+
+  const handleSizeChange =
+    (key: 'width' | 'height') => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (
+        value === '' ||
+        (parseInt(value) >= 200 && parseInt(value) <= (key === 'width' ? 3840 : 2160))
+      ) {
+        setSettings(prev => ({ ...prev, [key]: value }));
+      }
     };
 
-    const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSettings((prev) => ({ ...prev, height: e.target.value }));
-        frameRef.current.style.height = `${e.target.value}px`;
-    };
+  if (!isVisible && settings.mode) return null;
 
-    if (settings.mode) return null;
-
-    return (
-        <div className={styles.inputContainer}>
-            <div className={styles.sizeControlsContainer}>
-                <label>Width:</label>
-                <input type="number" value={settings.width} onChange={handleWidthChange} style={{ width: '80px' }} />
-            </div>
-            <div className={styles.sizeControlsContainer}>
-                <label>Height:</label>
-                <input type="number" value={settings.height} onChange={handleHeightChange} style={{ width: '80px' }} />
-            </div>
-        </div>
-    );
+  return (
+    <div
+      className={classNames(styles.inputContainer, {
+        [styles.hidden]: settings.mode,
+      })}
+    >
+      <div className={styles.sizeControlsContainer}>
+        <label>Width:</label>
+        <input
+          type="number"
+          value={settings.width}
+          onChange={handleSizeChange('width')}
+          min="200"
+          max="3840"
+        />
+      </div>
+      <div className={styles.sizeControlsContainer}>
+        <label>Height:</label>
+        <input
+          type="number"
+          value={settings.height}
+          onChange={handleSizeChange('height')}
+          min="200"
+          max="2160"
+        />
+      </div>
+    </div>
+  );
 };

@@ -1,10 +1,14 @@
+@import '../../styles/abstracts/variables';
+@import '../../styles/abstracts/mixins';
+
 .List {
-  color: #d9d9d9;
+  color: $light-color;
   padding-inline-start: 0;
-  padding: 5px;
-  margin: 10px 0px;
+  padding: $spacing-sm;
+  margin: $spacing-md 0;
   overflow: auto;
   height: fit-content;
+  @include custom-scrollbar;
 
   ul {
     padding-inline-start: 0;
@@ -14,32 +18,30 @@
 }
 
 .List_additional {
-  border: 1px solid #ffffff;
+  border: 1px solid $light-color;
 }
 
 .item {
-  cursor: pointer;
-  padding: 3px 6px;
-  border: 1px solid #949494;
-  background: #222;
+  @include button-base;
   list-style: none;
   margin-block-start: 0;
   margin-block-end: 0;
   word-wrap: break-word;
-  border-radius: 4px;
+  background: rgba($dark-color, 0.9);
+  color: $light-color;
+  padding: 4px 8px;
 
   &:hover {
-    color: #bbb;
+    color: darken($light-color, 10%);
   }
 }
 
-
 .error {
-  color: #f33535;
+  color: $danger-color;
 }
 
 .warning {
-  color: rgb(144, 144, 72);
+  color: $warning-color;
 }
 
 .header {
@@ -47,11 +49,82 @@
 }
 
 .count {
-  color: #f33535;
-
-
+  color: $danger-color;
 }
 
 .active {
-  background-color: #404040;
+  background-color: lighten($dark-color, 5%);
+}
+
+/* Tab styles */
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: $light-color;
+  background: none;
+  border: none;
+  @include transition(color);
+  position: relative;
+  z-index: 2;
+
+  &:hover {
+    color: darken($light-color, 20%);
+  }
+
+  &.active {
+    color: $light-color;
+    font-weight: bold;
+  }
+
+  &:active {
+    animation: tab-press 0.1s ease-in-out;
+  }
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  height: 2px;
+  background: $danger-color;
+  border-radius: 4px;
+  @include transition(transform);
+}
+
+@keyframes tab-press {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.content {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bordered {
+  border: 1px solid;
 }

@@ -1,15 +1,16 @@
 import { languageNames } from '../constants';
 import { getCssService, toDocumentHighlightKind, toRange } from '../css/utils';
 import type { CancellationToken, Position, editor, languages } from '../monaco';
+import { monaco } from '../monaco';
+
 import { htmlRegionCache } from './htmlRegionCache';
 import { toLsPosition } from './utils';
-import { monaco } from '../monaco';
 
 class CssDocumentHighlightAdapter implements languages.DocumentHighlightProvider {
   async provideDocumentHighlights(
     model: editor.IReadOnlyModel,
     position: Position,
-    _token: CancellationToken,
+    _token: CancellationToken
   ): Promise<languages.DocumentHighlight[] | undefined> {
     const regions = htmlRegionCache.get(model);
     if (regions.getLanguageAtPosition(position) != languageNames.css) return;
@@ -17,14 +18,13 @@ class CssDocumentHighlightAdapter implements languages.DocumentHighlightProvider
     const cssService = getCssService();
     const style = cssService.parseStylesheet(cssDocument);
     const entries = cssService.findDocumentHighlights(cssDocument, toLsPosition(position), style);
-    if (!entries) return
-    
+    if (!entries) return;
 
-    return entries.map((entry) => {
-      return <languages.DocumentHighlight>{
+    return entries.map(entry => {
+      return {
         range: toRange(entry.range),
         kind: toDocumentHighlightKind(entry.kind),
-      };
+      } as languages.DocumentHighlight;
     });
   }
 }
@@ -32,6 +32,6 @@ class CssDocumentHighlightAdapter implements languages.DocumentHighlightProvider
 export function CssHighlightInHtml() {
   monaco.languages.registerDocumentHighlightProvider(
     languageNames.html,
-    new CssDocumentHighlightAdapter(),
+    new CssDocumentHighlightAdapter()
   );
 }

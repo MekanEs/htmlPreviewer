@@ -1,0 +1,76 @@
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: $spacing-md;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+// Paragraphs
+p {
+  margin-bottom: $spacing-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Lists
+ul, ol {
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+// Small text
+small {
+  font-size: 0.875em;
+}
+
+// Bold text
+strong {
+  font-weight: 600;
+}
+
+// Code
+code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9em;
+  padding: $spacing-xs $spacing-sm;
+  background-color: rgba($dark-color, 0.05);
+  border-radius: $border-radius-sm;
+}
+
+// Blockquotes
+blockquote {
+  margin: $spacing-md 0;
+  padding: $spacing-md;
+  border-left: 4px solid $primary-color;
+  background-color: rgba($primary-color, 0.05);
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+} 

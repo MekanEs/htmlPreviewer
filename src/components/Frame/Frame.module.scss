@@ -1,8 +1,33 @@
+@import '../../styles/abstracts/variables';
+@import '../../styles/abstracts/mixins';
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    width: 300px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+    width: 0;
+  }
+}
+
 .Frame {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  @include container-base;
+  @include flex-column;
   align-items: center;
 }
 
@@ -10,14 +35,12 @@
   width: 320px;
   min-width: 320px;
   height: 100%;
-  display: flex;
-  justify-content: center;
+  @include flex-center;
 }
 
 .borderedFrame {
   div {
-    outline: 1px solid #000;
-    box-shadow: 0 0 2px #fff;
+    @include bordered;
   }
 }
 
@@ -25,21 +48,21 @@
   visibility: visible;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 .buttonContainer {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+  @include flex-center;
+  width: fit-content;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  min-height: 80px;
+  @include transition(all);
 }
 
 .buttonGroup {
-  padding: 5px 10px;
-  border: 1px solid #1e3300c3;
-  display: flex;
-  justify-content: center;
+  @include button-base;
+  @include flex-center;
+  opacity: 1;
+  transform: translateY(0);
+  @include transition(all);
 }
 
 .resizable {
@@ -58,15 +81,47 @@
 }
 
 .inputContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   gap: 12px;
   font-size: smaller;
+  width: 300px;
+  animation: slideIn 300ms ease-in-out forwards;
 }
 
 .sizeControlsContainer {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
+  gap: $spacing-xs;
+  min-width: 120px;
 
+  label {
+    color: $light-color;
+    font-size: 0.9em;
+  }
+
+  input {
+    @include input-base;
+    width: 80px;
+    background: rgba($dark-color, 0.2);
+    color: $light-color;
+    
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      opacity: 1;
+      height: 20px;
+    }
+  }
+}
+
+.button {
+  min-width: 130px;
+  &.active {
+    background-color: rgba($light-color, 0.2);
+    border-color: $light-color;
+    color: $light-color;
+  }
+}
+
+.hidden {
+  animation: slideOut 300ms ease-in-out forwards;
+  pointer-events: none;
 }
