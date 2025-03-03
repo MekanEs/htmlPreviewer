@@ -13,7 +13,7 @@ import { custom_snippets_emmet, monaco } from './constants';
 import { router } from './router/router.tsx';
 import './App.scss';
 import { store } from './store/store.ts';
-import { addRule } from './utils';
+import { addRule, registerHBZ } from './utils';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -46,3 +46,4 @@ loader.init().then(() => {
 
 registerCustomSnippets('html', custom_snippets_emmet);
 addRule();
+registerHBZ();
