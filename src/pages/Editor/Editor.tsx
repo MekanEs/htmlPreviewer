@@ -10,7 +10,6 @@ import { editor, IRange } from '../../constants';
 import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { registerHBZ } from '../../utils';
 
 import styles from './Editor.module.scss';
 
@@ -30,8 +29,6 @@ const codeTabs = [
   { key: 'json', label: 'TestData' },
 ];
 export const EditorPage: FC<EditorPageProps> = () => {
-  registerHBZ();
-
   const { json, source, selection, htmlToSource } = useAppSelector(state => state.htmlReducer);
   const options = useAppSelector(state => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
