@@ -75,7 +75,8 @@ export const registerHBZ = () => {
           ['delimiter.handlebars', 'variable.parameter.handlebars', 'delimiter.handlebars'],
         ],
 
-        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
+        [/[^"{]+/, 'attribute.value'],
+        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
       attributeHrefValue: [
         [
@@ -86,7 +87,7 @@ export const registerHBZ = () => {
         [/(%|&|=|\?)/, 'keyword'],
 
         [/[^"{%]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
       attributeStyleValue: [
         [
@@ -96,7 +97,7 @@ export const registerHBZ = () => {
         [/[^]([\w-]+)\s*:/, 'keyword'],
 
         [/[^"{;]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
 
       // -- BEGIN <script> tags handling
