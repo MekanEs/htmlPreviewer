@@ -36,5 +36,13 @@ export const customCssData: CSSDataV1 = {
       name: 'align',
       description: 'Устаревшее свойство выравнивания',
     },
+    {
+      name: 'mso-hide',
+      description: 'Устаревшее свойство выравнивания',
+    },
+    {
+      name: 'supported-color-scheme',
+      description: 'Устаревшее свойство выравнивания',
+    },
   ],
 };
