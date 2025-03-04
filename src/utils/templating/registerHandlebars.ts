@@ -84,9 +84,9 @@ export const registerHBZ = () => {
           ['delimiter.handlebars', 'variable.parameter.handlebars', 'delimiter.handlebars'],
         ],
         [/%[0-9A-Fa-f]{2}/, 'keyword'],
-        [/(%|&|=|\?)/, 'keyword'],
+        [/&|=|\?|:/, 'keyword'],
 
-        [/[^"{%]+/, 'attribute.value'],
+        [/[^"{%&=?:]+/, 'attribute.value'],
         [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
       attributeStyleValue: [
