@@ -87,7 +87,7 @@ export const registerHBZ = () => {
         [/&|=|\?|:/, 'keyword'],
 
         [/[^"{%&=?:]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
       ],
       attributeStyleValue: [
         [
@@ -97,7 +97,7 @@ export const registerHBZ = () => {
         [/[^]([\w-]+)\s*:/, 'keyword'],
 
         [/[^"{;]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
       ],
 
       // -- BEGIN <script> tags handling
