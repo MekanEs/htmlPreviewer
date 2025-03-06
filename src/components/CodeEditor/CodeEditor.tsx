@@ -34,7 +34,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
       validateCSSInStyleAttributes(model);
       CustomValidation(model);
       verify(model);
-    }, 800); // 500ms debounce for validation
+    }, 300); // 500ms debounce for validation
   }, []);
 
   const changeHandler: OnChange = useCallback(
@@ -56,7 +56,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
             if (!model) return;
             runValidation(model);
           }
-        }, 800); // 300ms debounce delay
+        }, 200); // 300ms debounce delay
       }
     },
     [dispatch, editorRef, runValidation]
