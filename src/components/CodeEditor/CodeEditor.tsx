@@ -1,6 +1,6 @@
 import { Editor, OnChange, OnMount, OnValidate } from '@monaco-editor/react';
 import classNames from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 
 import '../../App.scss';
 import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
@@ -17,25 +17,16 @@ interface CodeEditorProps {
   selection: EditorSelection;
   editorRef: React.MutableRefObject<editorNS.IStandaloneCodeEditor | null>;
 }
-
+const runValidation = (model: editorNS.ITextModel) => {
+  validateCSSInStyleAttributes(model);
+  CustomValidation(model);
+  verify(model);
+};
 export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
   const value = useAppSelector(state => state.htmlReducer.source);
   const { fontSize, miniMap } = useAppSelector(state => state.optionsReducer);
   const dispatch = useAppDispatch();
   const debounceTimerRef = useRef<NodeJS.Timeout>();
-  const validationTimerRef = useRef<NodeJS.Timeout>();
-
-  const runValidation = useCallback((model: editorNS.ITextModel) => {
-    if (validationTimerRef.current) {
-      clearTimeout(validationTimerRef.current);
-    }
-
-    validationTimerRef.current = setTimeout(() => {
-      validateCSSInStyleAttributes(model);
-      CustomValidation(model);
-      verify(model);
-    }, 300); // 500ms debounce for validation
-  }, []);
 
   const changeHandler: OnChange = useCallback(
     string => {
@@ -58,7 +49,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         }, 200); // 300ms debounce delay
       }
     },
-    [dispatch, editorRef, runValidation]
+    [dispatch, editorRef]
   );
 
   // Cleanup timers on unmount
@@ -66,9 +57,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
     return () => {
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
-      }
-      if (validationTimerRef.current) {
-        clearTimeout(validationTimerRef.current);
       }
     };
   }, []);
@@ -101,15 +89,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
     });
     dispatch(htmlActions.setMarkers(newMarkers));
   };
-  const editorOptions: editorNS.IStandaloneEditorConstructionOptions = useMemo(
-    () => ({
-      wordWrap: 'on',
-      minimap: { enabled: miniMap.enabled, size: 'proportional' as const },
-      verify: true,
-      fontSize,
-    }),
-    [fontSize, miniMap]
-  );
+
   return (
     <div className={classNames(styles.CodeEditor)}>
       <Editor
@@ -122,7 +102,11 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         language="html"
         onMount={handleMount}
         onValidate={handleValidate}
-        options={editorOptions}
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: miniMap.enabled, size: 'proportional' as const },
+          fontSize,
+        }}
       />
     </div>
   );
