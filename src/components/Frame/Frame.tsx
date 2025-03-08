@@ -24,20 +24,20 @@ export interface FrameSettings {
   height: string;
 }
 export type SetSettingType = React.Dispatch<React.SetStateAction<FrameSettings>>;
-
+const initialFrameSettings = {
+  mode: true,
+  bordered: false,
+  imagesMode: false,
+  width: '320',
+  height: '800',
+};
 export const Frame: FC<FrameProps> = ({ testData }) => {
   const htmlToRender = useAppSelector(state => state.htmlReducer.htmlToRender);
   const debouncedHtml = useDebounce(htmlToRender, 500);
   const dispatch = useAppDispatch();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
-  const [settings, setSettings] = useState<FrameSettings>({
-    mode: true,
-    bordered: false,
-    imagesMode: false,
-    width: '320',
-    height: '800',
-  });
+  const [settings, setSettings] = useState<FrameSettings>(initialFrameSettings);
 
   const setSelection = useCallback(
     (selection: EditorSelection) => {
@@ -104,9 +104,6 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
         height={settings.height}
         ref={frameRef}
         srcDoc={debouncedHtml}
-        onMouseUp={() => {
-          /* Можно оставить для будущей логики */
-        }}
       />
     </div>
   );

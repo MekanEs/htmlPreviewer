@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
 import { custom_snippets_emmet, monaco } from './constants';
+import { MonacoEx } from './editor-ex/index.ts';
 import { router } from './router/router.tsx';
 import './App.scss';
 import { store } from './store/store.ts';
@@ -22,7 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </React.StrictMode>
 );
-emmetHTML(monaco, ['html']);
 
 self.MonacoEnvironment = {
   getWorker(_, label) {
@@ -47,3 +47,5 @@ loader.init().then(() => {
 registerCustomSnippets('html', custom_snippets_emmet);
 addRule();
 registerHBZ();
+emmetHTML(monaco, ['html']);
+MonacoEx(monaco);

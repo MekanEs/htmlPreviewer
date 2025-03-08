@@ -2,9 +2,6 @@ import classNames from 'classnames';
 import { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { monaco } from '../../constants';
-import { MonacoEx } from '../../editor-ex';
-
 import styles from './Layout.module.scss';
 
 export const Layout: FC = () => {
@@ -19,7 +16,6 @@ export const Layout: FC = () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
-  MonacoEx(monaco);
   return (
     <div className={classNames(styles.Layout)}>
       <Outlet />
