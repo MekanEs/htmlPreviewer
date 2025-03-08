@@ -12,14 +12,15 @@ export { addDataAttribute } from './dom/DataAttributeAdder';
 export { addRule } from './dom/addRule';
 export { createRange } from './dom/createRange';
 export { FindInText } from './dom/findInText';
-
 // Frame Controls
 export { toggleFrameBorder } from './frame/toggleFrameBorder';
 export { loadHandler } from './frame/loadHandler';
+export { toggleImages } from './frame/toggleFrameBorder';
 
 // Templating
 export { registerHBZ } from './templating/registerHandlebars';
 export { compileHbs } from './templating/newFile';
+export { compileHandlebars } from './templating/compileHandlebars';
 
 // Editor Settings
 export { HTMLOptionsSetter } from './editor/htmlOptionsSetter';

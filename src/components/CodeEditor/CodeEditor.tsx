@@ -48,7 +48,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         // Set a new timer
         debounceTimerRef.current = setTimeout(() => {
           dispatch(htmlActions.setSourceHtml(string));
-          dispatch(htmlActions.setCompiledHTMl(string));
           if (editorRef.current) {
             const ed = editorRef.current;
             const model = ed.getModel();

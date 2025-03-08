@@ -10,6 +10,7 @@ import { editor, IRange } from '../../constants';
 import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
 import { useAppDispatch, useAppSelector } from '../../store/store';
+import { compileHandlebars } from '../../utils';
 
 import styles from './Editor.module.scss';
 
@@ -29,7 +30,7 @@ const codeTabs = [
   { key: 'json', label: 'TestData' },
 ];
 export const EditorPage: FC<EditorPageProps> = () => {
-  const { json, source, selection, htmlToSource } = useAppSelector(state => state.htmlReducer);
+  const { json, source, selection } = useAppSelector(state => state.htmlReducer);
   const options = useAppSelector(state => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const dispatch = useAppDispatch();
@@ -147,7 +148,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
             className={styles.tabContainer}
           />
 
-          {options.frameMode === 'iframe' && <Frame testData={json} />}
+          {options.frameMode === 'iframe' && <Frame />}
           {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
           {options.frameMode === 'images' && <Images />}
           {options.frameMode === 'source' && (
@@ -156,7 +157,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
               width={'100%'}
               height="100%"
               defaultLanguage="html"
-              value={htmlToSource}
+              value={compileHandlebars(source, json, false)}
               language="html"
               options={{
                 wordWrap: 'on',

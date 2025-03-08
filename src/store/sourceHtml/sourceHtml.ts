@@ -39,16 +39,10 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
   reducers: {
     setJson: (state, action: PayloadAction<string>) => {
       state.json = action.payload;
-      state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
       state.htmlToSource = compileHbs(state.source, action.payload);
     },
     setSourceHtml: (state, action: PayloadAction<string>) => {
       state.source = action.payload;
-    },
-    setCompiledHTMl: (state, action: PayloadAction<string>) => {
-      state.htmlWithDataAttr = addDataAttribute(action.payload);
-      state.htmlToRender = compileHbs(state.htmlWithDataAttr, state.json);
-      state.htmlToSource = compileHbs(action.payload, state.json);
     },
     setSelection: (state, action: PayloadAction<EditorSelection>) => {
       state.selection = action.payload;

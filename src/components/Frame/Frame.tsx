@@ -4,17 +4,11 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { EditorSelection } from '../../types/types';
-import { loadHandler, toggleFrameBorder, useDebounce } from '../../utils';
-import { toggleImages } from '../../utils/frame/toggleFrameBorder';
+import { loadHandler, toggleFrameBorder, compileHandlebars, toggleImages } from '../../utils';
 
 import styles from './Frame.module.scss';
 import { FrameControls } from './FrameControls';
 import { FrameSizeControls } from './FrameSizeControls';
-
-interface FrameProps {
-  className?: string;
-  testData: string;
-}
 
 export interface FrameSettings {
   mode: boolean;
@@ -31,9 +25,9 @@ const initialFrameSettings = {
   width: '320',
   height: '800',
 };
-export const Frame: FC<FrameProps> = ({ testData }) => {
-  const htmlToRender = useAppSelector(state => state.htmlReducer.htmlToRender);
-  const debouncedHtml = useDebounce(htmlToRender, 500);
+export const Frame: FC = () => {
+  const { source, json } = useAppSelector(state => state.htmlReducer);
+  const htmlToRender = compileHandlebars(source, json);
   const dispatch = useAppDispatch();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
@@ -49,21 +43,22 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
-
     const loadHandlerFunc = () =>
       loadHandler(frame, setSelection, settings.bordered, settings.imagesMode);
     frame.addEventListener('load', loadHandlerFunc);
-
-    toggleFrameBorder(settings.bordered, frame);
-    toggleImages(settings.imagesMode, frame);
-
     return () => frame.removeEventListener('load', loadHandlerFunc);
-  }, [debouncedHtml, settings, setSelection, testData]);
+  }, [htmlToRender, settings.bordered, setSelection, json, settings.imagesMode]);
 
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
+    toggleFrameBorder(settings.bordered, frame);
+    toggleImages(settings.imagesMode, frame);
+  }, [frameRef, settings.bordered, settings.imagesMode]);
 
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
     const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect;
@@ -76,7 +71,6 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
         }
       }
     });
-
     resizeObserver.observe(frame);
     return () => resizeObserver.disconnect();
   }, [settings.mode]);
@@ -95,15 +89,12 @@ export const Frame: FC<FrameProps> = ({ testData }) => {
         </FrameControls>
       </div>
       <iframe
-        className={classNames(styles.iframe, {
-          [styles.resizable]: !settings.mode,
-          [styles.full]: settings.mode,
-        })}
+        className={classNames(styles.iframe, settings.mode ? styles.full : styles.resizable)}
         sandbox="allow-same-origin allow-scripts"
         width={settings.width}
         height={settings.height}
         ref={frameRef}
-        srcDoc={debouncedHtml}
+        srcDoc={htmlToRender}
       />
     </div>
   );
