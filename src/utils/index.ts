@@ -21,6 +21,7 @@ export { toggleImages } from './frame/toggleFrameBorder';
 export { registerHBZ } from './templating/registerHandlebars';
 export { compileHbs } from './templating/newFile';
 export { compileHandlebars } from './templating/compileHandlebars';
+export { getLocalesFromJSONString, changeLocaleInLocale } from './templating/getLocaleFromJSON';
 
 // Editor Settings
 export { HTMLOptionsSetter } from './editor/htmlOptionsSetter';

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { RegErrors, regExpsToFind } from '../../constants';
 import { IRange } from '../../constants';
@@ -17,14 +17,16 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
-  // Используем useMemo для оптимизированного вычисления textMatches
-  const textMatches = useMemo(() => {
-    return Object.keys(regExpsToFind).reduce(
-      (acc, key) => {
-        acc[key] = FindInText(source, regExpsToFind[key]);
-        return acc;
-      },
-      {} as Record<string, Record<string, number>>
+  const [textMatches, setTextMatches] = useState<Record<string, Record<string, number>>>({});
+  useEffect(() => {
+    setTextMatches(
+      Object.keys(regExpsToFind).reduce(
+        (acc, key) => {
+          acc[key] = FindInText(source, regExpsToFind[key]);
+          return acc;
+        },
+        {} as Record<string, Record<string, number>>
+      )
     );
   }, [source]);
 

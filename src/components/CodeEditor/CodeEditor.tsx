@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import { FC, useCallback, useEffect, useRef } from 'react';
 
 import '../../App.scss';
-import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
+import { editor as editorNS, LS_MONACOTHEME, regExpsToFind } from '../../constants';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { EditorSelection } from '../../types/types';
-import { themeSwitcher } from '../../utils';
+import { FindInText, themeSwitcher } from '../../utils';
 import { HTMLOptionsSetter, createRange, validateCSSInStyleAttributes, verify } from '../../utils';
 import { CustomValidation } from '../../utils';
 
@@ -39,6 +39,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
         // Set a new timer
         debounceTimerRef.current = setTimeout(() => {
           dispatch(htmlActions.setSourceHtml(string));
+
           if (editorRef.current) {
             const ed = editorRef.current;
             const model = ed.getModel();
@@ -51,6 +52,13 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
     },
     [dispatch, editorRef]
   );
+
+  useEffect(() => {
+    //find languages used in html
+    const langsMatches = FindInText(value, regExpsToFind.langs2);
+    const langs = Object.keys(langsMatches).map(el => el.split('%3D')[1]);
+    dispatch(htmlActions.setLangs(langs));
+  }, [value, dispatch]);
 
   // Cleanup timers on unmount
   useEffect(() => {

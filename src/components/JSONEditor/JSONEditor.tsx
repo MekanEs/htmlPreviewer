@@ -6,7 +6,7 @@ import { editor } from '../../constants';
 import { LS_MONACOTHEME } from '../../constants';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { themeSwitcher } from '../../utils';
+import { getLocalesFromJSONString, themeSwitcher } from '../../utils';
 
 import styles from './JSONEditor.module.scss';
 
@@ -19,6 +19,8 @@ export const JSONEditor: FC = () => {
   const changeHandler = (str: string | undefined) => {
     if (str) {
       dispatch(htmlActions.setJson(str));
+      const locale = getLocalesFromJSONString(str);
+      dispatch(htmlActions.setActiveLang(locale));
     }
   };
 
