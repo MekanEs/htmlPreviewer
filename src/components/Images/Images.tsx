@@ -19,7 +19,7 @@ export const Images: FC = () => {
         ?.map((el: string) => el.replace('itemprop="image" content=', '').replaceAll('"', ''))
     ),
   ];
-  const images = [...src, ...content];
+  const images = src.concat(content);
   return (
     <div className={styles.ImagesContainer}>
       <ul>

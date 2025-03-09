@@ -55,9 +55,12 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
 
   useEffect(() => {
     //find languages used in html
-    const langsMatches = FindInText(value, regExpsToFind.langs2);
-    const langs = Object.keys(langsMatches).map(el => el.split('%3D')[1]);
-    dispatch(htmlActions.setLangs(langs));
+    const langsMatches = FindInText(value, regExpsToFind.langs);
+    const langsMatches2 = FindInText(value, regExpsToFind.langs2);
+    const langs = Object.keys(langsMatches).map(el => el.split('=')[1]);
+    const langs2 = Object.keys(langsMatches2).map(el => el.split('%3D')[1]);
+    const newLangs = Array.from(new Set(langs.concat(langs2)));
+    dispatch(htmlActions.setLangs(newLangs));
   }, [value, dispatch]);
 
   // Cleanup timers on unmount

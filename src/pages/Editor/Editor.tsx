@@ -114,7 +114,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
             }}
             value={activeLang}
           >
-            {[...new Set([activeLang, ...langs])].map(el => (
+            {Array.from(new Set(langs.concat(activeLang))).map(el => (
               <option key={el}>{el}</option>
             ))}
           </select>
