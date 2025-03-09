@@ -1,15 +1,17 @@
 import classNames from 'classnames';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
-import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { useAppDispatch, useAppSelector } from '../../store/store';
 import { EditorSelection } from '../../types/types';
 import { loadHandler, toggleFrameBorder, compileHandlebars, toggleImages } from '../../utils';
 
 import styles from './Frame.module.scss';
 import { FrameControls } from './FrameControls';
 import { FrameSizeControls } from './FrameSizeControls';
-
+interface FrameProps {
+  testData: string;
+  setSelection: (selection: EditorSelection) => void;
+  source: string;
+}
 export interface FrameSettings {
   mode: boolean;
   bordered: boolean;
@@ -25,20 +27,11 @@ const initialFrameSettings = {
   width: '320',
   height: '800',
 };
-export const Frame: FC = () => {
-  const { source, json } = useAppSelector(state => state.htmlReducer);
-  const htmlToRender = compileHandlebars(source, json);
-  const dispatch = useAppDispatch();
+export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
+  const htmlToRender = compileHandlebars(source, testData);
   const frameRef = useRef<HTMLIFrameElement>(null);
 
   const [settings, setSettings] = useState<FrameSettings>(initialFrameSettings);
-
-  const setSelection = useCallback(
-    (selection: EditorSelection) => {
-      dispatch(htmlActions.setSelection(selection));
-    },
-    [dispatch]
-  );
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -47,7 +40,7 @@ export const Frame: FC = () => {
       loadHandler(frame, setSelection, settings.bordered, settings.imagesMode);
     frame.addEventListener('load', loadHandlerFunc);
     return () => frame.removeEventListener('load', loadHandlerFunc);
-  }, [htmlToRender, settings.bordered, setSelection, json, settings.imagesMode]);
+  }, [htmlToRender, settings.bordered, setSelection, testData, settings.imagesMode]);
 
   useEffect(() => {
     const frame = frameRef.current;
