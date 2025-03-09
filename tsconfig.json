@@ -27,9 +27,6 @@
       "@store/*": ["src/store/*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "vite.config.ts" // Добавьте эту строку
-  ],
+  "include": ["src/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
