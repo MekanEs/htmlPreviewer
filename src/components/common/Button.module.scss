@@ -1,6 +1,7 @@
+@use 'sass:color';
+
 @import '../../styles/abstracts/variables';
 @import '../../styles/abstracts/mixins';
-
 .button {
   @include button-base;
   min-width: 130px;
@@ -10,7 +11,7 @@
     color: $light-color;
 
     &:hover {
-      background-color: darken($primary-color, 10%);
+      background-color: color.adjust($primary-color, $lightness: - 10%);
     }
   }
 
@@ -19,7 +20,7 @@
     color: $light-color;
 
     &:hover {
-      background-color: darken($secondary-color, 10%);
+      background-color: color.adjust($secondary-color, $lightness: - 10%);
     }
   }
 

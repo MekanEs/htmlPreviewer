@@ -1,55 +1,62 @@
+@use 'sass:color';
+
 @import '../../styles/abstracts/variables';
 @import '../../styles/abstracts/mixins';
-
 .tabContainer {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    background: #222;
-    border-radius: 8px;
-    padding: 4px;
-    position: relative;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background: #222;
+  border-radius: 8px;
+  padding: 4px;
+  position: relative;
 }
 
 .tab {
-    flex: 1;
-    text-align: center;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: $light-color;
+  background: none;
+  border: none;
+  transition: color 0.2s ease;
+  position: relative;
+  z-index: 2;
+
+  &:hover {
+    color: color.adjust($light-color, $lightness: - 20%);
+  }
+
+  &.active {
     color: $light-color;
-    background: none;
-    border: none;
-    transition: color 0.2s ease;
-    position: relative;
-    z-index: 2;
+    font-weight: bold;
+  }
 
-    &:hover {
-        color: darken($light-color, 20%);
-    }
-
-    &.active {
-        color: $light-color;
-        font-weight: bold;
-    }
-
-    &:active {
-        animation: tab-press 0.1s ease-in-out;
-    }
+  &:active {
+    animation: tab-press 0.1s ease-in-out;
+  }
 }
 
 .tabIndicator {
-    position: absolute;
-    bottom: 3px;
-    left: 0;
-    height: 2px;
-    background: $danger-color;
-    border-radius: 4px;
-    transition: transform 0.3s ease-out;
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  height: 2px;
+  background: $danger-color;
+  border-radius: 4px;
+  transition: transform 0.3s ease-out;
 }
 
 @keyframes tab-press {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-} 
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -14,7 +14,7 @@ export const getLocalesFromJSONString = (str: string) => {
   }
 };
 
-export const changeLocaleInLocale = (str: string, newLocale: string) => {
+export const changeLocaleInJSON = (str: string, newLocale: string) => {
   try {
     const jsonObject = JSON.parse(str);
     if (jsonObject?.locales) {

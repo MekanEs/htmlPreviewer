@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 import { Layout } from '../components';
-import { EditorPage } from '../pages';
+import { EditorPage, DiffEditorComponent } from '../pages';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +15,7 @@ export const router = createBrowserRouter(
       }
     >
       <Route index element={<EditorPage />} />
+      <Route path="diff" element={<DiffEditorComponent />} />
       <Route path="/eee" element={<div>E page</div>} />
     </Route>
   )

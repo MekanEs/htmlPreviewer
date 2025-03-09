@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '../../styles/abstracts/variables';
 @import '../../styles/abstracts/mixins';
 
@@ -32,7 +33,7 @@
   padding: 4px 8px;
 
   &:hover {
-    color: darken($light-color, 10%);
+    color: color.adjust($light-color, $lightness: - 10%);
   }
 }
 
@@ -72,7 +73,7 @@
   z-index: 2;
 
   &:hover {
-    color: darken($light-color, 20%);
+    color: color.adjust($light-color, $lightness: - 20%);
   }
 
   &.active {
