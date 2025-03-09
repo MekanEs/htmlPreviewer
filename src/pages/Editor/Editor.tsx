@@ -9,6 +9,7 @@ import { TabContainer } from '../../components/common/TabContainer';
 import { editor, IRange } from '../../constants';
 import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 import { optionsActions } from '../../store/editorOptions/editorOptions';
+import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { compileHandlebars } from '../../utils';
 
@@ -30,7 +31,7 @@ const codeTabs = [
   { key: 'json', label: 'TestData' },
 ];
 export const EditorPage: FC<EditorPageProps> = () => {
-  const { json, source, selection } = useAppSelector(state => state.htmlReducer);
+  const { json, source, selection, langs, activeLang } = useAppSelector(state => state.htmlReducer);
   const options = useAppSelector(state => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const dispatch = useAppDispatch();
@@ -75,7 +76,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
       window.removeEventListener('keyup', onKeyCtrlUp);
     };
   });
-
   return (
     <div>
       <div className={styles.buttonGroup}>
@@ -107,6 +107,17 @@ export const EditorPage: FC<EditorPageProps> = () => {
           >
             {options.miniMap.enabled ? 'off' : 'on'}
           </Button>
+          <select
+            onChange={e => {
+              dispatch(htmlActions.setActiveLang(e.target.value));
+              dispatch(htmlActions.seNewLangToJSON(null));
+            }}
+            value={activeLang}
+          >
+            {Array.from(new Set(langs.concat(activeLang))).map(el => (
+              <option key={el}>{el}</option>
+            ))}
+          </select>
         </div>
         <div className={styles.buttonContainer}>
           <Button
@@ -114,6 +125,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
             title="Ctrl+S"
             onClick={() => {
               localStorage.setItem(LS_SOURCEHTML, source);
+              localStorage.setItem(LS_SOURCEJSON, JSON.stringify(JSON.parse(json), null, 2));
             }}
           >
             Save

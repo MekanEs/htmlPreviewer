@@ -44,8 +44,8 @@ loader.init().then(() => {
   monaco.languages.register({ id: 'json' });
 });
 
-registerCustomSnippets('html', custom_snippets_emmet);
 addRule();
 registerHBZ();
 emmetHTML(monaco, ['html']);
+registerCustomSnippets('html', custom_snippets_emmet);
 MonacoEx(monaco);
