@@ -85,7 +85,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
     };
   });
   return (
-    <div>
+    <div className={styles.EditorPage}>
       <div className={styles.buttonGroup}>
         <TabContainer
           activeTab={options.editors.mode}
