@@ -40,7 +40,7 @@ export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
       loadHandler(frame, setSelection, settings.bordered, settings.imagesMode);
     frame.addEventListener('load', loadHandlerFunc);
     return () => frame.removeEventListener('load', loadHandlerFunc);
-  }, [htmlToRender, settings.bordered, setSelection, testData, settings.imagesMode]);
+  }, [settings.bordered, setSelection, testData, settings.imagesMode]);
 
   useEffect(() => {
     const frame = frameRef.current;
