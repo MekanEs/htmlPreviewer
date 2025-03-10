@@ -68,7 +68,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
     }
     if (ctrlPressed && e.code === 'KeyB') {
       e.preventDefault();
-      const selection = editorRef.current?.getSelection();
+      // const selection = editorRef.current?.getSelection();
     }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {

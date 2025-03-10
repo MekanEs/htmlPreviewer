@@ -6,7 +6,7 @@ interface WindowPortalProps {
   children: ReactNode;
 }
 
-export const WindowPortal: FC<WindowPortalProps> = ({ className, children }) => {
+export const WindowPortal: FC<WindowPortalProps> = ({ children }) => {
   const containerEl = document.createElement('div');
   containerEl.style.height = '400px';
   containerEl.style.padding = '20px';
