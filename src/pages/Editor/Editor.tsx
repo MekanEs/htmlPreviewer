@@ -1,6 +1,7 @@
 import { Editor } from '@monaco-editor/react';
 import classNames from 'classnames';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import { Button } from '../../components/common/Button';
@@ -11,6 +12,7 @@ import { LS_FONTSIZEKEY, LS_MONACOTHEME, LS_SOURCEHTML, LS_SOURCEJSON } from '..
 import { optionsActions } from '../../store/editorOptions/editorOptions';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
+import { EditorSelection } from '../../types/types';
 import { compileHandlebars } from '../../utils';
 
 import styles from './Editor.module.scss';
@@ -35,11 +37,18 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const options = useAppSelector(state => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const dispatch = useAppDispatch();
+  const nav = useNavigate();
   const [ctrlPressed, setctrlPressed] = useState(false);
   const revealLine = (range: IRange) => {
     editorRef.current?.revealRangeInCenter(range);
     editorRef.current?.setSelection(range);
   };
+  const setSelection = useCallback(
+    (selection: EditorSelection) => {
+      dispatch(htmlActions.setSelection(selection));
+    },
+    [dispatch]
+  );
   const onKeyCtrlPressed = (e: KeyboardEvent) => {
     if (e.key === 'Control') {
       setctrlPressed(true);
@@ -59,8 +68,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
     }
     if (ctrlPressed && e.code === 'KeyB') {
       e.preventDefault();
-      const selection = editorRef.current?.getSelection();
-      console.log(selection);
+      // const selection = editorRef.current?.getSelection();
     }
   };
   const onKeyCtrlUp = (e: KeyboardEvent) => {
@@ -77,7 +85,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
     };
   });
   return (
-    <div>
+    <div className={styles.EditorPage}>
       <div className={styles.buttonGroup}>
         <TabContainer
           activeTab={options.editors.mode}
@@ -139,6 +147,13 @@ export const EditorPage: FC<EditorPageProps> = () => {
           >
             Reset
           </Button>
+          <Button
+            onClick={() => {
+              nav('/diff');
+            }}
+          >
+            diff
+          </Button>
         </div>
       </div>
       <div className={styles.container}>
@@ -160,7 +175,9 @@ export const EditorPage: FC<EditorPageProps> = () => {
             className={styles.tabContainer}
           />
 
-          {options.frameMode === 'iframe' && <Frame />}
+          {options.frameMode === 'iframe' && (
+            <Frame testData={json} setSelection={setSelection} source={source} />
+          )}
           {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
           {options.frameMode === 'images' && <Images />}
           {options.frameMode === 'source' && (

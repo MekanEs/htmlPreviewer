@@ -3,7 +3,7 @@ import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 import { editor, initialJson, defaultTemplate } from '../../constants';
 import { LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 import { EditorSelection } from '../../types/types';
-import { changeLocaleInLocale, getLocalesFromJSONString } from '../../utils';
+import { changeLocaleInJSON, getLocalesFromJSONString } from '../../utils';
 
 export interface IHtmlSlice {
   json: string;
@@ -36,7 +36,7 @@ export const htmlSlice: Slice<IHtmlSlice> = createSlice({
       state.activeLang = action.payload;
     },
     seNewLangToJSON: state => {
-      state.json = changeLocaleInLocale(state.json, state.activeLang);
+      state.json = changeLocaleInJSON(state.json, state.activeLang);
     },
     setSourceHtml: (state, action: PayloadAction<string>) => {
       state.source = action.payload;

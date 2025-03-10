@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import { FC, useCallback, useEffect, useRef } from 'react';
 
 import '../../App.scss';
-import { editor as editorNS, LS_MONACOTHEME, regExpsToFind } from '../../constants';
+import { editor as editorNS, LS_MONACOTHEME } from '../../constants';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { EditorSelection } from '../../types/types';
-import { FindInText, themeSwitcher } from '../../utils';
+import { themeSwitcher } from '../../utils';
 import { HTMLOptionsSetter, createRange, validateCSSInStyleAttributes, verify } from '../../utils';
 import { CustomValidation } from '../../utils';
 
@@ -52,16 +52,6 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
     },
     [dispatch, editorRef]
   );
-
-  useEffect(() => {
-    //find languages used in html
-    const langsMatches = FindInText(value, regExpsToFind.langs);
-    const langsMatches2 = FindInText(value, regExpsToFind.langs2);
-    const langs = Object.keys(langsMatches).map(el => el.split('=')[1]);
-    const langs2 = Object.keys(langsMatches2).map(el => el.split('%3D')[1]);
-    const newLangs = Array.from(new Set(langs.concat(langs2)));
-    dispatch(htmlActions.setLangs(newLangs));
-  }, [value, dispatch]);
 
   // Cleanup timers on unmount
   useEffect(() => {

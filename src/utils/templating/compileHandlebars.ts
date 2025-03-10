@@ -4,8 +4,9 @@ import { addDataAttribute } from '../dom/DataAttributeAdder';
 
 export const compileHandlebars = (str: string, testData: string, mode = true) => {
   try {
-    let newStr = addDataAttribute(str);
+    let newStr = str;
     if (mode) {
+      newStr = addDataAttribute(newStr);
       newStr = newStr.replaceAll('https://maxclientstatapi.com', 'baseUrl_maxclientstatapi.com');
     }
     const template = Handlebars.compile(newStr);

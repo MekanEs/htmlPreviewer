@@ -2,6 +2,8 @@ import { monaco } from '../../constants';
 
 export const registerHBZ = () => {
   monaco.languages.setMonarchTokensProvider('html', {
+    defaultToken: '',
+    tokenPostfix: '',
     tokenizer: {
       root: [
         [/\{\{!--/, 'comment.block.start.handlebars', '@commentBlock'],
@@ -58,10 +60,9 @@ export const registerHBZ = () => {
             switchTo: '@handlebarsInSimpleState.otherTag',
           },
         ],
-
+        [/(href)/, 'attribute.name', '@attributeHrefValue'],
+        [/(style)/, 'attribute.name', '@attributeStyleValue'],
         [/(=["'])/, 'attribute.value', '@attributeValue'],
-        [/(href=["'])/, 'attribute.name', '@attributeHrefValue'],
-        [/(style=["'])/, 'attribute.name', '@attributeStyleValue'],
 
         [/\/?>/, 'delimiter.html', '@pop'],
         [/[\w-]+/, 'attribute.name'],
@@ -79,25 +80,25 @@ export const registerHBZ = () => {
         [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
       attributeHrefValue: [
+        [/(=["'])/, 'attribute.value'],
         [
           /(\{\{)([^{}]+)(\}\})/,
           ['delimiter.handlebars', 'variable.parameter.handlebars', 'delimiter.handlebars'],
         ],
-        [/%[0-9A-Fa-f]{2}/, 'keyword'],
-        [/&|=|\?|:/, 'keyword'],
-
+        [/%[0-9A-Fa-f]{2}/, 'variable.parameter'],
+        [/&|=|\?|:/, 'variable.parameter'],
         [/[^"{%&=?:]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
       attributeStyleValue: [
+        [/(=["'])/, 'attribute.value'],
         [
           /(\{\{)([^{}]+)(\}\})/,
           ['delimiter.handlebars', 'variable.parameter.handlebars', 'delimiter.handlebars'],
         ],
-        [/[^]([\w-]+)\s*:/, 'keyword'],
-
+        [/[^]([\w-]+)\s*:/, 'variable.parameter'],
         [/[^"{;]+/, 'attribute.value'],
-        [/(["'])/, { token: 'attribute.name', next: '@pop' }],
+        [/(["'])/, { token: 'attribute.value', next: '@pop' }],
       ],
 
       // -- BEGIN <script> tags handling
@@ -369,15 +370,12 @@ export const registerHBZ = () => {
         ],
         { include: 'handlebarsRoot' },
       ],
-
       handlebarsRoot: [
         [/"[^"]*"/, 'string.handlebars'],
         [/[#/][^\s}]+/, 'keyword.helper.handlebars'],
         [/else\b/, 'keyword.helper.handlebars'],
-        // [/\{\{/, "delimiter.handlebars"],
-        // [/\}\}/, "delimiter.handlebars"],
-        [/[\w.\s]+/, 'variable.parameter.handlebars'], // Теперь работает с `{{ some.variable }}`
         [/[\s]+/, ''],
+        [/[^}]/, 'variable.parameter.handlebars'],
       ],
     },
   });
