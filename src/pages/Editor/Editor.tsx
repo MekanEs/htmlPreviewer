@@ -1,7 +1,6 @@
 import { Editor } from '@monaco-editor/react';
 import classNames from 'classnames';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import { Button } from '../../components/common/Button';
@@ -37,7 +36,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const options = useAppSelector(state => state.optionsReducer);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const dispatch = useAppDispatch();
-  const nav = useNavigate();
   const [ctrlPressed, setctrlPressed] = useState(false);
   const revealLine = (range: IRange) => {
     editorRef.current?.revealRangeInCenter(range);
@@ -146,13 +144,6 @@ export const EditorPage: FC<EditorPageProps> = () => {
             }}
           >
             Reset
-          </Button>
-          <Button
-            onClick={() => {
-              nav('/diff');
-            }}
-          >
-            diff
           </Button>
         </div>
       </div>
