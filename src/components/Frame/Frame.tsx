@@ -71,8 +71,8 @@ export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
     const frame = frameRef.current;
     if (!frame || settings.mode) return;
 
-    frame.style.width = `${settings.width}px`;
-    frame.style.height = `${settings.height}px`;
+    frame.width = `${settings.width}px`;
+    frame.height = `${settings.height}px`;
   }, [settings.width, settings.height, settings.mode]);
   return (
     <div className={classNames(styles.Frame)}>
