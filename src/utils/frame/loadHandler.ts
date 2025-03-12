@@ -6,11 +6,23 @@ export function loadHandler(
   frame: HTMLIFrameElement,
   setSelection: (selection: EditorSelection) => void,
   bordered: boolean,
-  imagesMode: boolean
+  imagesMode: boolean,
+  scrollY: React.MutableRefObject<number>
 ) {
   const doc = frame.contentDocument;
   if (!doc) return;
+  console.log('scroll', scrollY);
 
+  // const observeScroll = () => {
+  //   console.log('now scrolled');
+  //   if (frame.contentDocument) {
+  //     scrollY.current = frame.contentDocument.scrollingElement?.scrollTop ?? 0;
+  //   }
+  // };
+  // if (frame.contentDocument) {
+  //   frame.contentDocument.addEventListener('scroll', observeScroll);
+  // }
+  // frame.contentDocument.scrollingElement?.scroll(0, scrollY.current);
   const handleClick = (event: Event) => {
     event.preventDefault();
     const target = event.target as HTMLElement;
