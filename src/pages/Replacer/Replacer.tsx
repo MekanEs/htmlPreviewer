@@ -76,7 +76,7 @@ export const Replacer: FC = () => {
     let newTXT = sourceTXT;
     for (const lang in replaceValues) {
       for (const key in replaceValues[lang]) {
-        const reg = new RegExp(`{{{\\s*${key}\\s*}}}`);
+        const reg = new RegExp(`{{{\\s*${key}\\s*}}}`, 'g');
         newTXT = newTXT.replaceAll(reg, replaceValues[lang][key]);
       }
     }
