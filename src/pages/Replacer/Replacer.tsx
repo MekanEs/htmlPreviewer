@@ -77,15 +77,30 @@ export const Replacer: FC = () => {
     for (const lang in replaceValues) {
       for (const key in replaceValues[lang]) {
         const reg = new RegExp(`{{{\\s*${key}\\s*}}}`);
-        newTXT = newTXT.replace(reg, replaceValues[lang][key]);
+        newTXT = newTXT.replaceAll(reg, replaceValues[lang][key]);
       }
     }
     setReplaced(newTXT);
   }, [sourceTXT]);
   return (
     <div style={{ width: '100%', height: '100vh', display: 'flex' }}>
-      <Editor width={'50%'} onChange={str => setSourceTXT(str ?? '')} value={sourceTXT} />
-      <Editor width={'50%'} value={replaced} />
+      <Editor
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: true },
+        }}
+        width={'50%'}
+        onChange={str => setSourceTXT(str ?? '')}
+        value={sourceTXT}
+      />
+      <Editor
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: true },
+        }}
+        width={'50%'}
+        value={replaced}
+      />
     </div>
   );
 };
