@@ -32,13 +32,15 @@ export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
 
   const [settings, setSettings] = useState<FrameSettings>(initialFrameSettings);
-
+  const scrollY = useRef<number>(0);
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
+
     const loadHandlerFunc = () =>
-      loadHandler(frame, setSelection, settings.bordered, settings.imagesMode);
+      loadHandler(frame, setSelection, settings.bordered, settings.imagesMode, scrollY);
     frame.addEventListener('load', loadHandlerFunc);
+
     return () => frame.removeEventListener('load', loadHandlerFunc);
   }, [settings.bordered, setSelection, testData, settings.imagesMode]);
 

@@ -31,7 +31,7 @@ export const findLinks: FindPropsObject = {
 };
 export const findLangs: FindPropsObject = {
   regexp: /lang=[^]{5}/g,
-  replace: '',
+  replace: '&ui',
 };
 export const findLangs2: FindPropsObject = {
   regexp: /lang%3D[^]{5}/g,
