@@ -8,7 +8,7 @@ export const customValidationRules: ValidationRule[] = [
     regex: /game_currency\s*("BTC"|"ETH"|"LTC"|"BCH"|"XRP"|"TRX"|"DOGE"|"USDT")/gi,
   },
   {
-    message: 'неверная ссылка отписки',
+    message: 'неверная ссылка отписки для ежедневок',
     regex:
       /\{\{\s*unsubscription_url\s*\}\}(?!&redirect_url=\{\{\s*redirect_url\s*\}\}&autologin_token=\{\{\s*autologin_token\s*\}\})/gi,
   },
