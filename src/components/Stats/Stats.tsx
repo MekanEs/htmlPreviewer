@@ -23,6 +23,9 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
       Object.keys(regExpsToFind).reduce(
         (acc, key) => {
           acc[key] = FindInText(source, regExpsToFind[key]);
+          if (key === 'langs') {
+            console.log(acc[key]);
+          }
           return acc;
         },
         {} as Record<string, Record<string, number>>
