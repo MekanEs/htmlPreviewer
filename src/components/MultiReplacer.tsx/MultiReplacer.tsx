@@ -12,13 +12,11 @@ export const MultiReplacer: FC<{
   id: number;
 }> = ({ editorRef, id }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`) ?? '');
+  const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`));
+  console.log(saved);
   const [values, setValues] = useState<ReplaceValue>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    saved || {
-      search: '',
-      replace: '',
-    }
+    saved === null ? { search: '', replace: '' } : saved
   );
   const source = useAppSelector(state => state.htmlReducer.source);
   const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
