@@ -13,7 +13,6 @@ export const MultiReplacer: FC<{
 }> = ({ editorRef, id }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`) ?? 'null');
-  console.log(saved);
   const [values, setValues] = useState<ReplaceValue>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     saved === null ? { search: '', replace: '' } : saved
@@ -48,8 +47,8 @@ export const MultiReplacer: FC<{
         <button
           onClick={() => {
             console.log('click');
-            const newSource = matches?.reduce((acc, el) => {
-              acc = acc.replace(el, values.replace);
+            const newSource = Array.from(new Set(matches))?.reduce((acc, el) => {
+              acc = acc.replaceAll(new RegExp(el, 'g'), values.replace);
               return acc;
             }, source);
             console.log(newSource);
