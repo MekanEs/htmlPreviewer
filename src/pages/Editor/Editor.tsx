@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
+import { MultiReplacerContainer } from '../../components/MultiReplacer.tsx/MultiReplacerContainer';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { TabContainer } from '../../components/common/TabContainer';
@@ -25,6 +26,7 @@ const tabs = [
   { key: 'iframe', label: 'Preview' },
   { key: 'images', label: 'Images' },
   { key: 'source', label: 'Source' },
+  { key: 'replacer', label: 'Replace' },
 ];
 
 const codeTabs = [
@@ -187,6 +189,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
               }}
             />
           )}
+          {options.frameMode === 'replacer' && <MultiReplacerContainer editorRef={editorRef} />}
         </div>
       </div>
     </div>
