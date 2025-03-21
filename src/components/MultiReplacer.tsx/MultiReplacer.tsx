@@ -12,7 +12,7 @@ export const MultiReplacer: FC<{
   id: number;
 }> = ({ editorRef, id }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`));
+  const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`) ?? 'null');
   console.log(saved);
   const [values, setValues] = useState<ReplaceValue>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
