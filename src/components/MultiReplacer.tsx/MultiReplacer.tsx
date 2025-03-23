@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { FC, useEffect, useState } from 'react';
 
 import { editor } from '../../constants';
@@ -7,6 +8,7 @@ interface ReplaceValue {
   search: string;
   replace: string;
   isRegexp: boolean;
+  isCaseSensitive: boolean;
 }
 export const MultiReplacer: FC<{
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
@@ -20,50 +22,83 @@ export const MultiReplacer: FC<{
   );
   const [error, setError] = useState('');
   const source = useAppSelector(state => state.htmlReducer.source);
-  const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
+  const [matches, setMatches] = useState<number>(0);
   useEffect(() => {
     setError('');
-    if (values.search !== '') {
+    if (!values.search) {
+      setMatches(0);
+      return;
+    }
+
+    const flags = values.isCaseSensitive ? 'g' : 'gi';
+    if (values.isRegexp) {
       try {
-        if (values.isRegexp) {
-          const foundMatches = source.match(new RegExp(values.search, 'gi'));
-          setMatches(foundMatches);
-        } else {
-          setMatches(source.match(new RegExp(values.search, 'gi')));
-        }
+        const regex = new RegExp(values.search, flags);
+
+        const foundMatches = [...source.matchAll(regex)];
+        setMatches(foundMatches.length);
       } catch (e) {
         if (e !== undefined && e !== null) {
           // eslint-disable-next-line @typescript-eslint/no-base-to-string
           setError(e.toString());
         }
       }
+    } else {
+      const regex = new RegExp(values.search.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&'), flags);
+      const matchArray = [...source.matchAll(regex)];
+      setMatches(matchArray.length);
     }
+
     localStorage.setItem(`LS_REP_${id}`, JSON.stringify(values));
   }, [values, source, id]);
+
   return (
-    <div>
-      <div style={{ padding: '6px 12px', border: '1px solid white' }}>
-        <input
-          onChange={e => {
-            setValues({ ...values, search: e.target.value });
-          }}
-          type="text"
-          value={values.search}
-        />
-        <input
-          onChange={e => {
-            setValues({ ...values, replace: e.target.value });
-          }}
-          type="text"
-          value={values.replace}
-        />
-        <input
-          type="checkbox"
-          checked={values.isRegexp}
-          onChange={e => {
-            setValues({ ...values, isRegexp: e.target.checked });
-          }}
-        />
+    <div style={{ width: '100%' }}>
+      <div style={{ padding: '6px 12px', border: '1px solid white', width: '100%' }}>
+        <div>
+          <label>
+            Поиск:
+            <input
+              type="text"
+              onChange={e => {
+                setValues({ ...values, search: e.target.value });
+              }}
+              value={values.search}
+            />
+          </label>
+
+          <label>
+            Замена:
+            <input
+              onChange={e => {
+                setValues({ ...values, replace: e.target.value });
+              }}
+              type="text"
+              value={values.replace}
+            />
+          </label>
+        </div>
+        <div>
+          <label style={{ padding: '6px' }}>
+            _*:
+            <input
+              type="checkbox"
+              checked={values.isRegexp}
+              onChange={e => {
+                setValues({ ...values, isRegexp: e.target.checked });
+              }}
+            />
+          </label>
+
+          <label style={{ padding: '6px' }}>
+            Aa:
+            <input
+              type="checkbox"
+              checked={values.isCaseSensitive}
+              onChange={e => setValues({ ...values, isCaseSensitive: e.target.checked })}
+            />
+          </label>
+        </div>
         <Button
           onClick={() => {
             if (editorRef.current) {
@@ -72,6 +107,7 @@ export const MultiReplacer: FC<{
                 searchString: values.search,
                 replaceString: values.replace,
                 isRegex: values.isRegexp,
+                isCaseSensitive: values.isCaseSensitive,
               });
             }
           }}
@@ -84,12 +120,13 @@ export const MultiReplacer: FC<{
               search: '',
               replace: '',
               isRegexp: false,
+              isCaseSensitive: false,
             });
           }}
         >
           Clear
         </Button>
-        <div>match count: {matches?.length ?? 0}</div>
+        <div>match count: {matches}</div>
         <span>{error}</span>
       </div>
     </div>
