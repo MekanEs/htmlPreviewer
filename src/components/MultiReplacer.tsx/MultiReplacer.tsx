@@ -1,11 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { editor } from '../../constants';
-import { htmlActions } from '../../store/sourceHtml/sourceHtml';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppSelector } from '../../store/store';
+import { Button } from '../common/Button';
 interface ReplaceValue {
   search: string;
   replace: string;
+  isRegexp: boolean;
 }
 export const MultiReplacer: FC<{
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
@@ -17,19 +18,31 @@ export const MultiReplacer: FC<{
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     saved === null ? { search: '', replace: '' } : saved
   );
+  const [error, setError] = useState('');
   const source = useAppSelector(state => state.htmlReducer.source);
   const [matches, setMatches] = useState<RegExpMatchArray | null>(null);
-  const dispatch = useAppDispatch();
   useEffect(() => {
+    setError('');
     if (values.search !== '') {
-      const foundMatches = source.match(new RegExp(values.search, 'g'));
-      setMatches(foundMatches);
+      try {
+        if (values.isRegexp) {
+          const foundMatches = source.match(new RegExp(values.search, 'gi'));
+          setMatches(foundMatches);
+        } else {
+          setMatches(source.match(new RegExp(values.search, 'gi')));
+        }
+      } catch (e) {
+        if (e !== undefined && e !== null) {
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
+          setError(e.toString());
+        }
+      }
     }
     localStorage.setItem(`LS_REP_${id}`, JSON.stringify(values));
   }, [values, source, id]);
   return (
     <div>
-      <div>
+      <div style={{ padding: '6px 12px', border: '1px solid white' }}>
         <input
           onChange={e => {
             setValues({ ...values, search: e.target.value });
@@ -44,33 +57,40 @@ export const MultiReplacer: FC<{
           type="text"
           value={values.replace}
         />
-        <button
+        <input
+          type="checkbox"
+          checked={values.isRegexp}
+          onChange={e => {
+            setValues({ ...values, isRegexp: e.target.checked });
+          }}
+        />
+        <Button
           onClick={() => {
-            console.log('click');
-            const newSource = Array.from(new Set(matches))?.reduce((acc, el) => {
-              acc = acc.replaceAll(new RegExp(el, 'g'), values.replace);
-              return acc;
-            }, source);
-            console.log(newSource);
-            dispatch(htmlActions.setSourceHtml(newSource));
             if (editorRef.current) {
-              editorRef.current.getModel()?.setValue(newSource ?? source);
+              console.log(editorRef.current.getSupportedActions());
+              editorRef.current.trigger('keyboard', 'editor.actions.findWithArgs', {
+                searchString: values.search,
+                replaceString: values.replace,
+                isRegex: values.isRegexp,
+              });
             }
           }}
         >
-          Replace
-        </button>
-        <button
+          Trigger
+        </Button>
+        <Button
           onClick={() => {
             setValues({
               search: '',
               replace: '',
+              isRegexp: false,
             });
           }}
         >
           Clear
-        </button>
+        </Button>
         <div>match count: {matches?.length ?? 0}</div>
+        <span>{error}</span>
       </div>
     </div>
   );

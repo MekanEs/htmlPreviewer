@@ -107,6 +107,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ selection, editorRef }) => {
           wordWrap: 'on',
           minimap: { enabled: miniMap.enabled, size: 'proportional' as const },
           fontSize,
+          multiCursorModifier: 'ctrlCmd',
         }}
       />
     </div>

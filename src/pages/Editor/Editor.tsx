@@ -148,6 +148,28 @@ export const EditorPage: FC<EditorPageProps> = () => {
             Reset
           </Button>
         </div>
+        <div>
+          <Button
+            title="undo"
+            onClick={() => {
+              if (editorRef.current) {
+                editorRef.current.trigger('keyboard', 'undo', null);
+              }
+            }}
+          >
+            ←
+          </Button>
+          <Button
+            title="redo"
+            onClick={() => {
+              if (editorRef.current) {
+                editorRef.current.trigger('keyboard', 'redo', null);
+              }
+            }}
+          >
+            →
+          </Button>
+        </div>
       </div>
       <div className={styles.container}>
         <div className={styles.editorContainer}>

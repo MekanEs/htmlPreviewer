@@ -13,7 +13,17 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
     return options.fn(this);
   }
 });
+Handlebars.registerHelper('and', function (...args) {
+  // Удаляем последний аргумент (Handlebars options)
+  args.pop();
+  return args.every(Boolean);
+});
 
+Handlebars.registerHelper('or', function (...args) {
+  // Удаляем последний аргумент (Handlebars options)
+  args.pop();
+  return args.some(Boolean);
+});
 export const compileHbs = (str: string, testData: string) => {
   try {
     const newStr = str.replaceAll('https://maxclientstatapi.com', 'baseUrl_maxclientstatapi.com');

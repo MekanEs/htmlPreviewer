@@ -18,6 +18,8 @@ export const MultiReplacerContainer: FC<{
       <MultiReplacer id={7} editorRef={editorRef} />
       <MultiReplacer id={8} editorRef={editorRef} />
       <MultiReplacer id={9} editorRef={editorRef} />
+      <MultiReplacer id={10} editorRef={editorRef} />
+      <MultiReplacer id={11} editorRef={editorRef} />
     </div>
   );
 };
