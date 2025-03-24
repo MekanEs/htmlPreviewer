@@ -122,6 +122,7 @@ export const MultiReplacer: FC<{
               isRegexp: false,
               isCaseSensitive: false,
             });
+            localStorage.setItem(`LS_REP_${id}`, JSON.stringify(values));
           }}
         >
           Clear
