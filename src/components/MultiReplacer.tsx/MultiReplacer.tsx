@@ -127,7 +127,9 @@ export const MultiReplacer: FC<{
         >
           Clear
         </Button>
-        <div>match count: {matches}</div>
+        <div>
+          match count: <b style={{ color: 'red' }}>{matches}</b>
+        </div>
         <span>{error}</span>
       </div>
     </div>
