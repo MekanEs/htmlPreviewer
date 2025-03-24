@@ -8,7 +8,7 @@ export const MultiReplacerContainer: FC<{
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
 }> = ({ editorRef }) => {
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', overflowY: 'scroll' }}>
       <MultiReplacer id={1} editorRef={editorRef} />
       <MultiReplacer id={2} editorRef={editorRef} />
       <MultiReplacer id={3} editorRef={editorRef} />
