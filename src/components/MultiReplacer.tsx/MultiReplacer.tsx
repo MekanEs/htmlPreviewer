@@ -18,7 +18,7 @@ export const MultiReplacer: FC<{
   const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`) ?? 'null');
   const [values, setValues] = useState<ReplaceValue>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    saved === null ? { search: '', replace: '' } : saved
+    saved === null ? { search: '', replace: '', isRegexp: false, isCaseSensitive: false } : saved
   );
   const [error, setError] = useState('');
   const source = useAppSelector(state => state.htmlReducer.source);
