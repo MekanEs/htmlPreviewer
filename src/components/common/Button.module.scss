@@ -2,9 +2,10 @@
 
 @import '../../styles/abstracts/variables';
 @import '../../styles/abstracts/mixins';
+
 .button {
   @include button-base;
-  min-width: 130px;
+  padding: 8px 20px;
 
   &.primary {
     background-color: $primary-color;

@@ -39,6 +39,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const dispatch = useAppDispatch();
   const [ctrlPressed, setctrlPressed] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const revealLine = (range: IRange) => {
     editorRef.current?.revealRangeInCenter(range);
     editorRef.current?.setSelection(range);
@@ -95,26 +96,38 @@ export const EditorPage: FC<EditorPageProps> = () => {
         />
 
         <div className={styles.buttonContainer}>
-          <ThemeSwitcher />
-          <Input
-            type="number"
-            value={options.fontSize}
-            onChange={e => {
-              const value = e.target.value;
-              localStorage.setItem(LS_FONTSIZEKEY, value);
-              dispatch(optionsActions.setFontSize(Number(value)));
-            }}
-            title="editor font size"
-            className={classNames(styles.fontSizeInput, styles.input)}
-          />
           <Button
-            variant="secondary"
+            style={{ padding: '8px 5px' }}
             onClick={() => {
-              dispatch(optionsActions.setMiniMapEnabled(!options.miniMap.enabled));
+              setShowSettings(prev => !prev);
             }}
           >
-            {options.miniMap.enabled ? 'off' : 'on'}
+            settings
           </Button>
+          {showSettings && (
+            <>
+              <ThemeSwitcher />
+              <Input
+                type="number"
+                value={options.fontSize}
+                onChange={e => {
+                  const value = e.target.value;
+                  localStorage.setItem(LS_FONTSIZEKEY, value);
+                  dispatch(optionsActions.setFontSize(Number(value)));
+                }}
+                title="editor font size"
+                className={classNames(styles.fontSizeInput, styles.input)}
+              />
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  dispatch(optionsActions.setMiniMapEnabled(!options.miniMap.enabled));
+                }}
+              >
+                {options.miniMap.enabled ? 'off' : 'on'}
+              </Button>
+            </>
+          )}
           <select
             onChange={e => {
               dispatch(htmlActions.setActiveLang(e.target.value));
