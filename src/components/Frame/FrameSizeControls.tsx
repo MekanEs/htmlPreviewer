@@ -24,10 +24,8 @@ export const FrameSizeControls: FC<FrameSizeControlsProps> = ({ settings, setSet
   const handleSizeChange =
     (key: 'width' | 'height') => (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      if (
-        value === '' ||
-        (parseInt(value) >= 200 && parseInt(value) <= (key === 'width' ? 3840 : 2160))
-      ) {
+
+      if (value !== '') {
         setSettings(prev => ({ ...prev, [key]: value }));
       }
     };
@@ -46,7 +44,6 @@ export const FrameSizeControls: FC<FrameSizeControlsProps> = ({ settings, setSet
           type="number"
           value={settings.width}
           onChange={handleSizeChange('width')}
-          min="200"
           max="3840"
         />
       </div>
@@ -56,7 +53,6 @@ export const FrameSizeControls: FC<FrameSizeControlsProps> = ({ settings, setSet
           type="number"
           value={settings.height}
           onChange={handleSizeChange('height')}
-          min="200"
           max="2160"
         />
       </div>
