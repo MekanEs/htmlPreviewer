@@ -30,7 +30,7 @@ const initialFrameSettings = {
 export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
   const htmlToRender = compileHandlebars(source, testData);
   const frameRef = useRef<HTMLIFrameElement>(null);
-
+  const timeoutRef = useRef<NodeJS.Timeout>();
   const [settings, setSettings] = useState<FrameSettings>(initialFrameSettings);
   const scrollY = useRef<number>(0);
   useEffect(() => {
@@ -71,10 +71,18 @@ export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
   }, [settings.mode]);
   useEffect(() => {
     const frame = frameRef.current;
-    if (!frame || settings.mode) return;
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-    frame.width = `${settings.width}px`;
-    frame.height = `${settings.height}px`;
+    if (!frame || settings.mode) return;
+    timeoutRef.current = setTimeout(() => {
+      frame.style.width = `${settings.width}px`;
+      frame.style.height = `${settings.height}px`;
+    }, 100);
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
   }, [settings.width, settings.height, settings.mode]);
   return (
     <div className={classNames(styles.Frame)}>
