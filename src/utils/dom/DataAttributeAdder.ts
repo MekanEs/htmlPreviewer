@@ -1,7 +1,6 @@
 export const addDataAttribute = (text: string) => {
   const reg = /<\w[^>][^{>]*>/g;
   return text.replace(reg, function (complete_match, ...matched_letter) {
-    console.log(complete_match);
     if (complete_match.endsWith('/>')) {
       return complete_match.replace(
         '/>',
