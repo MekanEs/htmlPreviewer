@@ -13,16 +13,22 @@ Handlebars.registerHelper('equals', function (orig: unknown, val: unknown, optio
     return options.fn(this);
   }
 });
-Handlebars.registerHelper('and', function (...args) {
-  // Удаляем последний аргумент (Handlebars options)
-  args.pop();
-  return args.every(Boolean);
+Handlebars.registerHelper('and', function (orig: unknown, val: unknown, options) {
+  console.log(orig, val);
+  if (orig && val) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
 });
 
-Handlebars.registerHelper('or', function (...args) {
-  // Удаляем последний аргумент (Handlebars options)
-  args.pop();
-  return args.some(Boolean);
+Handlebars.registerHelper('or', function (orig: unknown, val: unknown, options) {
+  console.log(Boolean(orig), val);
+  if (orig || val) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
 });
 export const compileHbs = (str: string, testData: string) => {
   try {
