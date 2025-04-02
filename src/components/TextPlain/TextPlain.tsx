@@ -19,7 +19,7 @@ export const TextPlain = () => {
   }, [compiledConvert, source]);
   return (
     <div>
-      <textarea value={text}></textarea>
+      <textarea style={{ minWidth: '600px', minHeight: '900px' }} readOnly value={text}></textarea>
     </div>
   );
 };
