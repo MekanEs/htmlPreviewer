@@ -4,6 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import { MultiReplacerContainer } from '../../components/MultiReplacer.tsx/MultiReplacerContainer';
+import { TextPlain } from '../../components/TextPlain/TextPlain';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { TabContainer } from '../../components/common/TabContainer';
@@ -27,6 +28,7 @@ const tabs = [
   { key: 'images', label: 'Images' },
   { key: 'source', label: 'Source' },
   { key: 'replacer', label: 'Replace' },
+  { key: 'textPlain', label: 'Plain Text' },
 ];
 
 const codeTabs = [
@@ -208,6 +210,7 @@ export const EditorPage: FC<EditorPageProps> = () => {
           )}
           {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
           {options.frameMode === 'images' && <Images />}
+          {options.frameMode === 'textPlain' && <TextPlain />}
           {options.frameMode === 'source' && (
             <Editor
               theme={localStorage.getItem(LS_MONACOTHEME) ?? 'vs-dark'}
