@@ -8,6 +8,10 @@ const replaceValues: Record<string, Record<string, string>> = {
 X - ( https://x.com/irwin_casino )
 VK - ( https://vk.com/irwin_casino )
 Email - ( irwin@support.win )`,
+    social_sport_ru: `Telegram - ( https://t.me/irwinsport )
+X - ( https://x.com/irwin_casino )
+VK - ( https://vk.com/irwin_casino )
+Email - ( irwin@support.win )`,
   },
   es: {
     autologin_es:

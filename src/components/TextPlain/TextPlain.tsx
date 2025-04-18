@@ -7,8 +7,8 @@ export const TextPlain = () => {
   const [text, setText] = useState('1');
   const options: HtmlToTextOptions = {
     selectors: [
-      { selector: 'img', format: 'skip' },
-      { selector: 'a', options: { linkBrackets: ['(', ')'] } },
+      // { selector: 'img', format: 'skip' },
+      // { selector: 'a', options: { linkBrackets: ['(', ')'] } },
     ],
 
     // ...
