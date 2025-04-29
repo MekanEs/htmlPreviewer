@@ -12,6 +12,8 @@ Email - ( irwin@support.win )`,
 X - ( https://x.com/irwin_casino )
 VK - ( https://vk.com/irwin_casino )
 Email - ( irwin@support.win )`,
+    responsible_gaming_ru:
+      'Азартные игры — это форма досуга, а не способ решения проблем. 18+. Играйте ответственно.',
   },
   es: {
     autologin_es:
@@ -22,6 +24,7 @@ Facebook - ( https://www.facebook.com/irwincasino.en/ )
 Instagram - ( https://www.instagram.com/irwincasino_en/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavHYV13WHTg5W5Ap60d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_es: '',
   },
   pt: {
     autologin_pt:
@@ -32,6 +35,7 @@ Facebook - ( https://www.facebook.com/irwincasino.en/ )
 Instagram - ( https://www.instagram.com/irwincasino_en/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavHYV13WHTg5W5Ap60d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_pt: '',
   },
   de: {
     autologin_de:
@@ -41,6 +45,8 @@ X - ( https://x.com/irwincasino_de )
 Instagram - ( https://www.instagram.com/irwincasino_de/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavaiphD38CJGvk73E2d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_de:
+      'Glücksspiel ist Unterhaltung — keine Lösung. 18+. Spielen Sie verantwortungsbewusst.',
   },
   fr: {
     autologin_fr:
@@ -51,6 +57,8 @@ Facebook - ( https://www.facebook.com/irwincasino.en/ )
 Instagram - ( https://www.instagram.com/irwincasino_en/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavHYV13WHTg5W5Ap60d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_fr:
+      'Le jeu est un divertissement — pas une solution. 18+. Jouez de façon responsable.',
   },
   pl: {
     autologin_pl:
@@ -61,6 +69,7 @@ Facebook - ( https://www.facebook.com/irwincasino.en/ )
 Instagram - ( https://www.instagram.com/irwincasino_en/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavHYV13WHTg5W5Ap60d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_pl: 'Hazard to rozrywka — nie rozwiązanie. 18+. Graj odpowiedzialnie.',
   },
   en: {
     autologin_en:
@@ -71,8 +80,10 @@ Facebook - ( https://www.facebook.com/irwincasino.en/ )
 Instagram - ( https://www.instagram.com/irwincasino_en/ )
 Whatsapp - ( https://whatsapp.com/channel/0029VavHYV13WHTg5W5Ap60d )
 Email - ( help-irwin@support.win )`,
+    responsible_gaming_en: 'Gambling is entertainment — not a solution. 18+. Play responsibly.',
   },
 };
+
 export const Replacer: FC = () => {
   const [sourceTXT, setSourceTXT] = useState('');
   const [replaced, setReplaced] = useState('');
