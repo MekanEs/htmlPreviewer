@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { findImages } from '../../constants';
 import { useAppSelector } from '../../store/store';
@@ -7,19 +7,22 @@ import styles from './Images.module.scss';
 
 export const Images: FC = () => {
   const source = useAppSelector(state => state.htmlReducer.source);
-  const src = [
-    ...new Set(
-      source.match(findImages.regexp)?.map(el => el.replace('src="', '').replaceAll('"', ''))
-    ),
-  ].filter(el => !el.startsWith('https://maxclientstatapi'));
-  const content = [
-    ...new Set(
+
+  const images = useMemo(() => {
+    const srcMatches =
+      source.match(findImages.regexp)?.map(el => el.replace('src="', '').replaceAll('"', '')) ?? [];
+    const contentMatches =
       source
         .match(/itemprop="image"\s+content="([^"]+)/g)
-        ?.map((el: string) => el.replace('itemprop="image" content=', '').replaceAll('"', ''))
-    ),
-  ];
-  const images = src.concat(content);
+        ?.map((el: string) => el.replace('itemprop="image" content=', '').replaceAll('"', '')) ??
+      [];
+
+    const uniqueImages = new Set(
+      srcMatches.concat(contentMatches).filter(el => !el.startsWith('https://maxclientstatapi'))
+    );
+    return Array.from(uniqueImages);
+  }, [source]); // Зависимость только от source
+
   return (
     <div className={styles.ImagesContainer}>
       <ul>

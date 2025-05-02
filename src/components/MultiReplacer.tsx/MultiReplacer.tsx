@@ -3,23 +3,30 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { editor } from '../../constants';
 import { useAppSelector } from '../../store/store';
+import { loadJSONFromLocalStorage } from '../../utils/localStorageUtils';
 import { Button } from '../common/Button';
+
 interface ReplaceValue {
+  // Определить интерфейс явно
   search: string;
   replace: string;
   isRegexp: boolean;
   isCaseSensitive: boolean;
 }
+const defaultReplaceValue: ReplaceValue = {
+  search: '',
+  replace: '',
+  isRegexp: false,
+  isCaseSensitive: false,
+};
+
 export const MultiReplacer: FC<{
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>;
   id: number;
 }> = ({ editorRef, id }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const saved = JSON.parse(localStorage?.getItem(`LS_REP_${id}`) ?? 'null');
-  const [values, setValues] = useState<ReplaceValue>(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    saved === null ? { search: '', replace: '', isRegexp: false, isCaseSensitive: false } : saved
-  );
+  const saved = loadJSONFromLocalStorage<ReplaceValue>(`LS_REP_${id}`, defaultReplaceValue);
+  const [values, setValues] = useState<ReplaceValue>(saved);
   const [error, setError] = useState('');
   const source = useAppSelector(state => state.htmlReducer.source);
   const [matches, setMatches] = useState<number>(0);
@@ -124,7 +131,12 @@ export const MultiReplacer: FC<{
             });
             localStorage.setItem(
               `LS_REP_${id}`,
-              JSON.stringify({ search: '', replace: '', isRegexp: false, isCaseSensitive: false })
+              JSON.stringify({
+                search: '',
+                replace: '',
+                isRegexp: false,
+                isCaseSensitive: false,
+              })
             );
           }}
         >
