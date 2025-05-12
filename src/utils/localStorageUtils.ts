@@ -4,11 +4,10 @@ export function loadJSONFromLocalStorage<T>(key: string, defaultValue: T): T {
     if (item === null) {
       return defaultValue;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return JSON.parse(item) as T; // Добавляем as T, но основной упор на try/catch
+    return JSON.parse(item) as T;
   } catch (error) {
     console.error(`Error parsing localStorage key "${key}":`, error);
-    localStorage.removeItem(key); // Очистить невалидное значение
+    localStorage.removeItem(key);
     return defaultValue;
   }
 }

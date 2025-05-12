@@ -5,7 +5,6 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 

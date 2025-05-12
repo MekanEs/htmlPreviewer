@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
-import { loadJSONFromLocalStorage } from '../..//utils/localStorageUtils';
 import { editor, initialJson, defaultTemplate } from '../../constants';
 import { LS_SOURCEHTML, LS_SOURCEJSON } from '../../constants';
 import { EditorSelection } from '../../types/types';
@@ -16,12 +15,12 @@ export interface IHtmlSlice {
   markers: Record<string, Omit<editor.IMarker, 'resource'>[]>;
 }
 const initialState: IHtmlSlice = {
-  json: loadJSONFromLocalStorage<string>(LS_SOURCEJSON, initialJson),
-  source: loadJSONFromLocalStorage<string>(LS_SOURCEHTML, defaultTemplate),
+  json: localStorage.getItem(LS_SOURCEJSON) ?? initialJson,
+  source: localStorage.getItem(LS_SOURCEHTML) ?? defaultTemplate,
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  activeLang: getLocalesFromJSONString(
-    loadJSONFromLocalStorage<string>(LS_SOURCEJSON, initialJson)
-  ),
+  activeLang: getLocalesFromJSONString(localStorage.getItem(LS_SOURCEJSON) ?? initialJson),
+
   selection: { from: 0, to: 0 },
   langs: [],
   images: [],
