@@ -5,7 +5,10 @@ import { editor } from '../../constants';
 import { useAppSelector } from '../../store/store';
 import { loadJSONFromLocalStorage } from '../../utils/localStorageUtils';
 import { Button } from '../common/Button';
-
+interface IFindController extends editor.IEditorContribution {
+  replaceAll(): void;
+  // добавьте сюда то, что реально используете (getState, start и т.д.)
+}
 interface ReplaceValue {
   // Определить интерфейс явно
   search: string;
@@ -120,6 +123,28 @@ export const MultiReplacer: FC<{
           }}
         >
           Trigger
+        </Button>
+        <Button
+          onClick={() => {
+            if (editorRef.current) {
+              const findController: IFindController | null = editorRef.current?.getContribution(
+                'editor.contrib.findController'
+              );
+              if (!findController) {
+                return;
+              }
+              editorRef.current.trigger('keyboard', 'editor.actions.findWithArgs', {
+                searchString: values.search,
+                replaceString: values.replace,
+                isRegex: values.isRegexp,
+                isCaseSensitive: values.isCaseSensitive,
+              });
+              editorRef.current.focus();
+              findController.replaceAll();
+            }
+          }}
+        >
+          Replace
         </Button>
         <Button
           onClick={() => {
