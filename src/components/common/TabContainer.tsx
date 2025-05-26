@@ -32,7 +32,7 @@ export const TabContainer: FC<TabContainerProps> = ({ tabs, activeTab, callBack,
       <div
         className={styles.tabIndicator}
         style={{
-          width: `${100 / tabs.length}%`,
+          width: `${99 / tabs.length}%`,
           transform: `translateX(${tabs.findIndex(t => t.key === activeTab) * 100}%)`,
         }}
       />
