@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
-  background: #222;
+  background: $dark-color; // Changed to variable
   border-radius: 8px;
   padding: 4px;
   position: relative;
@@ -36,6 +36,40 @@
 
   &:active {
     animation: tab-press 0.1s ease-in-out;
+  }
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  height: 2px;
+  background: $danger-color;
+  border-radius: 4px;
+  transition: transform 0.3s ease-out;
+  &:hover {
+    color: color.adjust($light-color, $lightness: - 20%);
+  }
+
+  &.active {
+    color: $light-color;
+    font-weight: bold;
+  }
+
+  &:active {
+    animation: tab-press 0.1s ease-in-out;
+  }
+}
+
+@keyframes tab-press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

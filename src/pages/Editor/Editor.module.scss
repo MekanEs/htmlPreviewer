@@ -50,7 +50,7 @@
 .tabContainer {
   @include flex-between;
   width: 100%;
-  background: #222;
+  background: $dark-color; // Changed to variable
   border-radius: 8px;
   padding: 4px;
   position: relative;
@@ -123,7 +123,7 @@
 .codeTab {
   @include flex-between;
   width: 150px;
-  background: #222;
+  background: $dark-color;
   border-radius: 8px;
   padding: 2px 4px;
   position: relative;
