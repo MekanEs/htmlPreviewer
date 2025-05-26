@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 // Flexbox mixins
 @mixin flex-center {
   display: flex;
@@ -29,7 +31,7 @@
   &::-webkit-scrollbar-thumb {
     background: rgba($dark-color, 0.8);
     border-radius: $border-radius-sm;
-    
+
     &:hover {
       background: $dark-color;
     }
@@ -109,7 +111,7 @@
   border-radius: $border-radius-md;
   cursor: pointer;
   @include transition;
-  
+
   &:hover {
     background-color: rgba($dark-color, 0.05);
   }
@@ -121,8 +123,8 @@
   border: 1px solid rgba($dark-color, 0.2);
   border-radius: $border-radius-md;
   @include transition;
-  
+
   &:focus {
     @include focus-outline;
   }
-} 
+}

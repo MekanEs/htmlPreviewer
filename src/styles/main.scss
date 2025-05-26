@@ -1,12 +1,12 @@
 // Abstracts
-@import 'abstracts/variables';
-@import 'abstracts/mixins';
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
 
 // Base
-@import 'base/reset';
-@import 'base/typography';
-@import 'base/_base.scss';
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/_base.scss';
 
 // Components
-@import 'components/buttons';
-@import 'components/forms';
+@use 'components/buttons';
+@use 'components/forms';

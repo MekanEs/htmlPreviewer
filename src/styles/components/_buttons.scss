@@ -1,4 +1,6 @@
 @use 'sass:color';
+@use '../abstracts/variables' as *;
+
 .btn {
   display: inline-flex;
   align-items: center;
