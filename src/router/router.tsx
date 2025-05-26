@@ -17,7 +17,6 @@ export const router = createBrowserRouter(
     >
       <Route index element={<EditorPage />} />
       <Route path="rep" element={<Replacer />} />
-      <Route path="/eee" element={<div>E page</div>} />
     </Route>
   )
 );
