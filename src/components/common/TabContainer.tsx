@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import styles from './TabContainer.module.scss';
 
@@ -32,7 +32,7 @@ export const TabContainer: FC<TabContainerProps> = ({ tabs, activeTab, callBack,
       <div
         className={styles.tabIndicator}
         style={{
-          width: `${100 / tabs.length}%`,
+          width: `${99 / tabs.length}%`,
           transform: `translateX(${tabs.findIndex(t => t.key === activeTab) * 100}%)`,
         }}
       />

@@ -25,7 +25,7 @@ const initialFrameSettings = {
   bordered: false,
   imagesMode: false,
   width: '320',
-  height: '800',
+  height: '500',
 };
 export const Frame: FC<FrameProps> = ({ testData, setSelection, source }) => {
   const htmlToRender = compileHandlebars(source, testData);

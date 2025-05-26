@@ -17,8 +17,10 @@ export interface IHtmlSlice {
 const initialState: IHtmlSlice = {
   json: localStorage.getItem(LS_SOURCEJSON) ?? initialJson,
   source: localStorage.getItem(LS_SOURCEHTML) ?? defaultTemplate,
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   activeLang: getLocalesFromJSONString(localStorage.getItem(LS_SOURCEJSON) ?? initialJson),
+
   selection: { from: 0, to: 0 },
   langs: [],
   images: [],

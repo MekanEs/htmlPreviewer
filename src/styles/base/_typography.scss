@@ -1,5 +1,12 @@
+@use '../abstracts/variables' as *;
+
 // Headings
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: $spacing-md;
   font-weight: 600;
   line-height: 1.2;
@@ -32,14 +39,15 @@ h6 {
 // Paragraphs
 p {
   margin-bottom: $spacing-md;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
 }
 
 // Lists
-ul, ol {
+ul,
+ol {
   margin-bottom: $spacing-md;
   padding-left: $spacing-lg;
 }
@@ -69,8 +77,8 @@ blockquote {
   padding: $spacing-md;
   border-left: 4px solid $primary-color;
   background-color: rgba($primary-color, 0.05);
-  
+
   p:last-child {
     margin-bottom: 0;
   }
-} 
+}

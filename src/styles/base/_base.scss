@@ -1,0 +1,18 @@
+@use '../abstracts/variables' as *;
+
+body {
+  background-color: $primary-color;
+  color: $secondary-color;
+}
+
+.errorBackground {
+  background-color: $error-background-color;
+}
+
+.errorDecoration {
+  text-decoration: underline 1px black;
+}
+
+.warningBackground {
+  background-color: $warning-background-color;
+}

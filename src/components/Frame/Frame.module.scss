@@ -1,6 +1,6 @@
-@import '../../styles/abstracts/variables';
-@import '../../styles/abstracts/mixins';
-
+@use '../../styles/main.scss' as *;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -103,7 +103,7 @@
     width: 80px;
     background: rgba($dark-color, 0.2);
     color: $light-color;
-    
+
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       opacity: 1;
