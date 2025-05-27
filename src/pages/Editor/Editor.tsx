@@ -1,6 +1,7 @@
 import { Editor } from '@monaco-editor/react';
 import classNames from 'classnames';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import { CodeEditor, Frame, JSONEditor, Stats, ThemeSwitcher, Images } from '../../components';
 import { MultiReplacerContainer } from '../../components/MultiReplacer.tsx/MultiReplacerContainer';
@@ -186,50 +187,54 @@ export const EditorPage: FC<EditorPageProps> = () => {
           </Button>
         </div>
       </div>
-      <div className={styles.container}>
-        <div className={styles.editorContainer}>
-          <div className={classNames(styles.CodeEditor)}>
-            {options.editors.mode === 'html' ? (
-              <CodeEditor selection={selection} editorRef={editorRef} />
-            ) : (
-              <JSONEditor />
-            )}
-          </div>
-        </div>
-
-        <div className={styles.frameContainer}>
-          <TabContainer
-            tabs={tabs}
-            activeTab={options.frameMode}
-            callBack={tabKey => dispatch(optionsActions.setFrameMode(tabKey))}
-            className={styles.tabContainer}
-          />
-
-          {options.frameMode === 'iframe' && (
-            <Frame testData={json} setSelection={setSelection} source={source} />
-          )}
-          {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
-          {options.frameMode === 'images' && <Images />}
-          {options.frameMode === 'textPlain' && <TextPlain />}
-          {options.frameMode === 'source' && (
-            <Editor
-              theme={localStorage.getItem(LS_MONACOTHEME) ?? 'vs-dark'}
-              width={'100%'}
-              height="100%"
-              defaultLanguage="html"
-              value={compileHandlebars(source, json, false)}
-              language="html"
-              options={{
-                wordWrap: 'on',
-                minimap: { enabled: false, size: 'proportional' },
-                fontSize: options.fontSize,
-                readOnly: true,
-              }}
+      <PanelGroup autoSaveId="persistence" direction="horizontal">
+        <div className={styles.container}>
+          <Panel defaultSize={60} minSize={20} className={styles.editorContainer}>
+            <div className={classNames(styles.CodeEditor)}>
+              {options.editors.mode === 'html' ? (
+                <CodeEditor selection={selection} editorRef={editorRef} />
+              ) : (
+                <JSONEditor />
+              )}
+            </div>
+          </Panel>
+          <PanelResizeHandle className={styles.resizeHandle}>
+            <p className={styles.resizeinner}></p>
+          </PanelResizeHandle>
+          <Panel defaultSize={40} minSize={20} className={styles.frameContainer}>
+            <TabContainer
+              tabs={tabs}
+              activeTab={options.frameMode}
+              callBack={tabKey => dispatch(optionsActions.setFrameMode(tabKey))}
+              className={styles.tabContainer}
             />
-          )}
-          {options.frameMode === 'replacer' && <MultiReplacerContainer editorRef={editorRef} />}
+
+            {options.frameMode === 'iframe' && (
+              <Frame testData={json} setSelection={setSelection} source={source} />
+            )}
+            {options.frameMode === 'stats' && <Stats source={source} revealLine={revealLine} />}
+            {options.frameMode === 'images' && <Images />}
+            {options.frameMode === 'textPlain' && <TextPlain />}
+            {options.frameMode === 'source' && (
+              <Editor
+                theme={localStorage.getItem(LS_MONACOTHEME) ?? 'vs-dark'}
+                width={'100%'}
+                height="100%"
+                defaultLanguage="html"
+                value={compileHandlebars(source, json, false)}
+                language="html"
+                options={{
+                  wordWrap: 'on',
+                  minimap: { enabled: false, size: 'proportional' },
+                  fontSize: options.fontSize,
+                  readOnly: true,
+                }}
+              />
+            )}
+            {options.frameMode === 'replacer' && <MultiReplacerContainer editorRef={editorRef} />}
+          </Panel>
         </div>
-      </div>
+      </PanelGroup>
     </div>
   );
 };
