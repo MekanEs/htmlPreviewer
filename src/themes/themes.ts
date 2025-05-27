@@ -1,7 +1,7 @@
 export const themes: Record<string, string> = {
   active4d: 'Active4D',
   'all-hallows-eve': 'All Hallows Eve',
-  amy: 'Amy',
+  amy: 'amy',
   'birds-of-paradise': 'Birds of Paradise',
   blackboard: 'Blackboard',
   'brilliance-black': 'Brilliance Black',
@@ -43,7 +43,7 @@ export const themes: Record<string, string> = {
   'tomorrow-night-eighties': 'Tomorrow-Night-Eighties',
   'tomorrow-night': 'Tomorrow-Night',
   tomorrow: 'Tomorrow',
-  twilight: 'Twilight',
+  twilight: 'twilight',
   'upstream-sunburst': 'Upstream Sunburst',
   'vibrant-ink': 'Vibrant Ink',
   'xcode-default': 'Xcode_default',
