@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { RegErrors, regExpsToFind } from '../../constants';
 import { IRange } from '../../constants';
 import { FindInText, useRegMatcher } from '../../utils';
+import { manageCustomerUrls } from '../../utils/templating/decodeBase64';
 import { HintList } from '../List/HintList';
 import { LangList } from '../List/LangList1';
 import { RedirList } from '../List/RedirList';
@@ -33,7 +34,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   }, [source]);
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
-
+  const customerDecoded = manageCustomerUrls(textMatches.regLinksCutomer);
   return (
     <div className={classNames(styles.Stats, className)}>
       <div className={styles.flex}>
@@ -64,11 +65,8 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
           matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
         />
       ) : (
-        <RedirectionsSection matches={[textMatches.regLinksCutomer]} />
+        <RedirectionsSection matches={[customerDecoded]} />
       )}
-      <RedirectionsSection
-        matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
-      />
       <LanguagesSection
         matches={[textMatches.regLocales, textMatches.langs2, textMatches.langs]}
         errors={err}
