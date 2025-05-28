@@ -19,6 +19,7 @@ interface StatsProps {
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   const [linksMode, setLinksMode] = useState<'SG' | 'Customer'>('SG');
+  const [customerMode, SetCustomerMode] = useState<boolean>(true);
   const [textMatches, setTextMatches] = useState<Record<string, Record<string, number>>>({});
   useEffect(() => {
     setTextMatches(
@@ -35,6 +36,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
   const customerDecoded = manageCustomerUrls(textMatches.regLinksCutomer);
+  const customerDecoded2 = manageCustomerUrls(textMatches.regLinksCutomer2);
   return (
     <div className={classNames(styles.Stats, className)}>
       <div className={styles.flex}>
@@ -65,7 +67,15 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
           matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
         />
       ) : (
-        <RedirectionsSection matches={[customerDecoded]} />
+        <>
+          <button onClick={() => SetCustomerMode(prev => !prev)}>
+            {customerMode ? 'Encode' : 'Decode'}
+          </button>
+
+          <RedirectionsSection
+            matches={[customerMode ? customerDecoded2 : textMatches.regLinksCutomer2]}
+          />
+        </>
       )}
       <LanguagesSection
         matches={[textMatches.regLocales, textMatches.langs2, textMatches.langs]}

@@ -34,6 +34,10 @@ export const findLinksCustomer: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^&"]+)/g,
   replace: 'href="',
 };
+export const findLinksCustomer2: FindPropsObject = {
+  regexp: /(?!.href=\{)href="https:\/([^"]+)/g,
+  replace: 'href="',
+};
 export const findLangs: FindPropsObject = {
   regexp: /lang=[^]{5}/g,
   replace: '&ui',
@@ -106,6 +110,7 @@ export const regExpsToFind: Record<string, FindPropsObject> = {
   regRedir: findRedirectsProps,
   regLinks: findLinks,
   regLinksCutomer: findLinksCustomer,
+  regLinksCutomer2: findLinksCustomer2,
   regSubscription: findSubscriptionProps,
   regLocales: findLocales,
 };

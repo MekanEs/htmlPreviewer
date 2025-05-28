@@ -98,14 +98,25 @@ export function getDecodedLink(encodedRParameter: string) {
 
   return decodedString;
 }
-
+const defineLastSymbol = (encodedRedirectArr: string[]) => {
+  let lastCh: number | undefined = undefined;
+  if (encodedRedirectArr[encodedRedirectArr.length - 1] === '{{ utm_params }}') {
+    lastCh = -1;
+  }
+  return lastCh;
+};
 export function manageCustomerUrls(regMatch: Record<string, number>) {
   const res: Record<string, number> = {};
   for (const key in regMatch) {
     const divided = key.split('?r=');
     if (divided.length > 1) {
-      const newSecondPart = getDecodedLink(divided[1]);
-      res[divided[0] + '?r=' + newSecondPart] = regMatch[key];
+      const encodedRedirectArr = divided[1].split('&');
+
+      const newSecondPart = getDecodedLink(encodedRedirectArr[0]);
+      const lastCh = defineLastSymbol(encodedRedirectArr);
+      const tail =
+        encodedRedirectArr.length > 1 ? '&' + encodedRedirectArr.slice(1, lastCh).join('&') : '';
+      res[divided[0] + '?r=' + newSecondPart + tail] = regMatch[key];
       continue;
     }
     res[key] = regMatch[key];
