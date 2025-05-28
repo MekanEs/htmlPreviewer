@@ -17,6 +17,7 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+  const [linksMode, setLinksMode] = useState<'SG' | 'Customer'>('SG');
   const [textMatches, setTextMatches] = useState<Record<string, Record<string, number>>>({});
   useEffect(() => {
     setTextMatches(
@@ -45,6 +46,26 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
           matches={[textMatches.regContent, textMatches.regContentPixel]}
         />
       </div>
+      <button
+        onClick={() =>
+          setLinksMode(prev => {
+            if (prev == 'SG') {
+              return 'Customer';
+            } else {
+              return 'SG';
+            }
+          })
+        }
+      >
+        {linksMode == 'SG' ? 'Customer' : 'SG'}
+      </button>
+      {linksMode === 'SG' ? (
+        <RedirectionsSection
+          matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
+        />
+      ) : (
+        <RedirectionsSection matches={[textMatches.regLinksCutomer]} />
+      )}
       <RedirectionsSection
         matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
       />

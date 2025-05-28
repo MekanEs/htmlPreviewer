@@ -4,6 +4,7 @@ export const findRedirectsProps: FindPropsObject = {
   regexp: /redirect_url=(.*?)utm/gm,
   replace: 'utm',
 };
+
 export const findSubscriptionProps: FindPropsObject = {
   regexp: /subscription_type=(.*?)"/gm,
   replace: '',
@@ -27,6 +28,10 @@ export const findUtmCampaignPixel: FindPropsObject = {
 
 export const findLinks: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^?"]+)/g,
+  replace: 'href="',
+};
+export const findLinksCustomer: FindPropsObject = {
+  regexp: /(?!.href=\{)href="https:\/([^&"]+)/g,
   replace: 'href="',
 };
 export const findLangs: FindPropsObject = {
@@ -100,6 +105,7 @@ export const regExpsToFind: Record<string, FindPropsObject> = {
   regCampaignPixel: findUtmCampaignPixel,
   regRedir: findRedirectsProps,
   regLinks: findLinks,
+  regLinksCutomer: findLinksCustomer,
   regSubscription: findSubscriptionProps,
   regLocales: findLocales,
 };
