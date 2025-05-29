@@ -35,7 +35,6 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   }, [source]);
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
-  const customerDecoded = manageCustomerUrls(textMatches.regLinksCutomer);
   const customerDecoded2 = manageCustomerUrls(textMatches.regLinksCutomer2);
   return (
     <div className={classNames(styles.Stats, className)}>
