@@ -3,6 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from 'react-rout
 
 import { Layout } from '../components';
 import { EditorPage } from '../pages';
+import { Customer } from '../pages/Customer/Customer';
 import { Replacer } from '../pages/Replacer/Replacer';
 
 export const router = createBrowserRouter(
@@ -17,6 +18,7 @@ export const router = createBrowserRouter(
     >
       <Route index element={<EditorPage />} />
       <Route path="rep" element={<Replacer />} />
+      <Route path="customer" element={<Customer />} />
     </Route>
   )
 );

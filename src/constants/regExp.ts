@@ -9,18 +9,22 @@ export const findSubscriptionProps: FindPropsObject = {
   regexp: /subscription_type=(.*?)"/gm,
   replace: '',
 };
+
 export const findUtmContent: FindPropsObject = {
   regexp: /utm_content%3D([^%&]+)/g,
   replace: 'utm_content',
 };
+
 export const findUtmContentPixel: FindPropsObject = {
   regexp: /utm_content=([^?&]+)/g,
   replace: 'utm_content',
 };
+
 export const findUtmCampaign: FindPropsObject = {
   regexp: /utm_campaign%3D([^%&]+)/g,
   replace: 'utm_campaign',
 };
+
 export const findUtmCampaignPixel: FindPropsObject = {
   regexp: /utm_campaign=([^?&]+)/g,
   replace: 'utm_campaign',
@@ -30,14 +34,17 @@ export const findLinks: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^?"]+)/g,
   replace: 'href="',
 };
+
 export const findLinksCustomer: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^&"]+)/g,
   replace: 'href="',
 };
+
 export const findLinksCustomer2: FindPropsObject = {
   regexp: /(?!.href=\{)href="https:\/([^"]+)/g,
   replace: 'href="',
 };
+
 export const findLangs: FindPropsObject = {
   regexp: /lang=[^]{5}/g,
   replace: '&ui',
