@@ -9,17 +9,24 @@ export const Customer: FC = () => {
 
   useEffect(() => {
     const utmReplaced = currentValue.replaceAll(/(%3F|%26)utm_source[^"]+"/g, '&{{ utm_params }}"');
+
     const urlEncodeed = utmReplaced
       .replaceAll(/(%3F)/g, '&')
       .replaceAll(/%3D/g, '=')
       .replaceAll(/%26/g, '&');
+    console.log(urlEncodeed);
     const newLinks = urlEncodeed.replaceAll(
       /href="([^"]+&redirect_url=\/)/g,
       'href="https://{{ select_mirror }}?r='
     );
     const paths = newLinks.match(/\?r=[^"&]+&/g);
+
     let encoded = newLinks;
+
+    encoded = encoded.replaceAll(/r=&/g, '');
+
     for (const path in paths) {
+      console.log(paths);
       const encodedPath = getEncodedLink(paths[+path].slice(3, -1));
       encoded = encoded.replace(paths[+path], `?r=${encodedPath}&`);
     }
