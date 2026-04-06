@@ -20,6 +20,16 @@ export const findUtmContentPixel: FindPropsObject = {
   replace: 'utm_content',
 };
 
+export const findUid: FindPropsObject = {
+  regexp: /uid%3D([^%:]+)/g,
+  replace: 'uid',
+};
+
+export const findUidPixel: FindPropsObject = {
+  regexp: /uid=([^?:]+)/g,
+  replace: 'uid',
+};
+
 export const findUtmCampaign: FindPropsObject = {
   regexp: /utm_campaign%3D([^%&]+)/g,
   replace: 'utm_campaign',
@@ -120,4 +130,6 @@ export const regExpsToFind: Record<string, FindPropsObject> = {
   regLinksCutomer2: findLinksCustomer2,
   regSubscription: findSubscriptionProps,
   regLocales: findLocales,
+  regUid: findUid,
+  regUidPixel: findUidPixel,
 };

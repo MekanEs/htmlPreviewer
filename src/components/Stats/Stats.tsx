@@ -63,7 +63,13 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
       </button>
       {linksMode === 'SG' ? (
         <RedirectionsSection
-          matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
+          matches={[
+            textMatches.regRedir,
+            textMatches.regSubscription,
+            textMatches.regLinks,
+            textMatches.regUid,
+            textMatches.regUidPixel,
+          ]}
         />
       ) : (
         <>
