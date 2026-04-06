@@ -15,7 +15,7 @@ import { optionsActions } from '../../store/editorOptions/editorOptions';
 import { htmlActions } from '../../store/sourceHtml/sourceHtml';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { EditorSelection } from '../../types/types';
-import { compileHandlebars } from '../../utils';
+import { compileHandlebars, themeSwitcher } from '../../utils';
 
 import styles from './Editor.module.scss';
 
@@ -217,12 +217,16 @@ export const EditorPage: FC<EditorPageProps> = () => {
             {options.frameMode === 'textPlain' && <TextPlain />}
             {options.frameMode === 'source' && (
               <Editor
-                theme={localStorage.getItem(LS_MONACOTHEME) ?? 'vs-dark'}
+                theme={localStorage.getItem(LS_MONACOTHEME) ?? 'all-hallows-eve'}
                 width={'100%'}
                 height="100%"
                 defaultLanguage="html"
                 value={compileHandlebars(source, json, false)}
                 language="html"
+                onMount={() => {
+                  const savedTheme = localStorage.getItem(LS_MONACOTHEME) ?? 'all-hallows-eve';
+                  themeSwitcher(savedTheme);
+                }}
                 options={{
                   wordWrap: 'on',
                   minimap: { enabled: false, size: 'proportional' },

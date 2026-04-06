@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { RegErrors, regExpsToFind } from '../../constants';
 import { IRange } from '../../constants';
 import { FindInText, useRegMatcher } from '../../utils';
+import { manageCustomerUrls } from '../../utils/templating/decodeBase64';
 import { HintList } from '../List/HintList';
 import { LangList } from '../List/LangList1';
 import { RedirList } from '../List/RedirList';
@@ -17,6 +18,8 @@ interface StatsProps {
 }
 
 export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
+  const [linksMode, setLinksMode] = useState<'SG' | 'Customer'>('SG');
+  const [customerMode, SetCustomerMode] = useState<boolean>(true);
   const [textMatches, setTextMatches] = useState<Record<string, Record<string, number>>>({});
   useEffect(() => {
     setTextMatches(
@@ -32,7 +35,7 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
   }, [source]);
 
   const err = useRegMatcher({ regs: RegErrors, text: source });
-
+  const customerDecoded2 = manageCustomerUrls(textMatches.regLinksCutomer2);
   return (
     <div className={classNames(styles.Stats, className)}>
       <div className={styles.flex}>
@@ -45,9 +48,40 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
           matches={[textMatches.regContent, textMatches.regContentPixel]}
         />
       </div>
-      <RedirectionsSection
-        matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
-      />
+      <button
+        onClick={() =>
+          setLinksMode(prev => {
+            if (prev == 'SG') {
+              return 'Customer';
+            } else {
+              return 'SG';
+            }
+          })
+        }
+      >
+        {linksMode == 'SG' ? 'Customer' : 'SG'}
+      </button>
+      {linksMode === 'SG' ? (
+        <RedirectionsSection
+          matches={[
+            textMatches.regRedir,
+            textMatches.regSubscription,
+            textMatches.regLinks,
+            textMatches.regUid,
+            textMatches.regUidPixel,
+          ]}
+        />
+      ) : (
+        <>
+          <button onClick={() => SetCustomerMode(prev => !prev)}>
+            {customerMode ? 'Encode' : 'Decode'}
+          </button>
+
+          <RedirectionsSection
+            matches={[customerMode ? customerDecoded2 : textMatches.regLinksCutomer2]}
+          />
+        </>
+      )}
       <LanguagesSection
         matches={[textMatches.regLocales, textMatches.langs2, textMatches.langs]}
         errors={err}

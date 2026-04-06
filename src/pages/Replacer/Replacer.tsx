@@ -1,6 +1,9 @@
 import { Editor } from '@monaco-editor/react';
 import { FC, useEffect, useState } from 'react';
-const replaceValues: Record<string, Record<string, string>> = {
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+
+type JSONOBJ = Record<string, Record<string, string | Record<string, string>>>;
+const initialReplaceValues: JSONOBJ = {
   ru: {
     autologin_ru:
       'Данное письмо предназначается только тебе и содержит токен авторизации в твой аккаунт. Пересылать и копировать содержимое запрещено.',
@@ -83,39 +86,250 @@ Email - ( help-irwin@support.win )`,
     responsible_gaming_en: 'Gambling is entertainment — not a solution. 18+. Play responsibly.',
   },
 };
-
+const LOCAL_STORAGE_KEY = 'replacerEditorReplaceValuesJson';
 export const Replacer: FC = () => {
-  const [sourceTXT, setSourceTXT] = useState('');
-  const [replaced, setReplaced] = useState('');
+  const [sourceTXT, setSourceTXT] = useState<string>('');
+  const [replaced, setReplaced] = useState<string>('');
+  const [replaceValuesJsonString, setReplaceValuesJsonString] = useState<string>(() => {
+    try {
+      const storedValue = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedValue) {
+        return storedValue;
+      }
+    } catch (error) {
+      console.error("Error reading 'replaceValues' from localStorage:", error);
+    }
+    return JSON.stringify(initialReplaceValues, null, 2); // Значение по умолчанию
+  });
+
+  // Используем initialReplaceValues как начальное безопасное значение.
+  // useEffect ниже обновит его, если replaceValuesJsonString (из localStorage или default) валиден.
+  const [parsedReplaceValues, setParsedReplaceValues] = useState<JSONOBJ>(
+    () => initialReplaceValues
+  );
+  const [jsonError, setJsonError] = useState<string | null>(null);
+
+  // 3. useEffect для сохранения JSON-строки в localStorage при ее изменении
+  useEffect(() => {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, replaceValuesJsonString);
+    } catch (error) {
+      console.error("Error saving 'replaceValues' to localStorage:", error);
+      // Можно добавить уведомление пользователю, если сохранение не удалось (например, закончилось место)
+    }
+  }, [replaceValuesJsonString]);
+
+  // useEffect для парсинга JSON строки и обновления parsedReplaceValues
+  useEffect(() => {
+    try {
+      const newParsedValues = JSON.parse(replaceValuesJsonString) as JSONOBJ;
+      // Простая проверка, что это объект и не null.
+      // Для более строгой валидации структуры (Record<string, Record<string, string>>)
+      // потребовалась бы более сложная проверка здесь.
+      if (typeof newParsedValues === 'object' && newParsedValues !== null) {
+        // Дополнительная проверка структуры для большей надежности
+        let isValidStructure = true;
+        for (const langKey in newParsedValues) {
+          if (Object.prototype.hasOwnProperty.call(newParsedValues, langKey)) {
+            const langValue = newParsedValues[langKey];
+            if (typeof langValue !== 'object' || langValue === null) {
+              isValidStructure = false;
+              break;
+            }
+            for (const itemKey in langValue) {
+              if (Object.prototype.hasOwnProperty.call(langValue, itemKey)) {
+                if (typeof langValue[itemKey] !== 'string') {
+                  isValidStructure = false;
+                  break;
+                }
+              }
+            }
+            if (!isValidStructure) break;
+          }
+        }
+
+        if (isValidStructure) {
+          setParsedReplaceValues(newParsedValues as Record<string, Record<string, string>>);
+          setJsonError(null);
+        } else {
+          setJsonError('Invalid JSON structure: Expected Record<string, Record<string, string>>.');
+          // Не обновляем parsedReplaceValues, если структура некорректна, чтобы сохранить последнее валидное состояние
+        }
+      } else {
+        setJsonError('Invalid JSON: root must be an object and not null.');
+        // Не обновляем parsedReplaceValues
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setJsonError(`JSON Parse Error: ${error.message}`);
+      } else {
+        setJsonError('An unknown error occurred during JSON parsing.');
+      }
+      // Не обновляем parsedReplaceValues при ошибке парсинга
+    }
+  }, [replaceValuesJsonString]);
+
+  // useEffect для обновления замененного текста
   useEffect(() => {
     let newTXT = sourceTXT;
-    for (const lang in replaceValues) {
-      for (const key in replaceValues[lang]) {
-        const reg = new RegExp(`{{{\\s*${key}\\s*}}}`, 'g');
-        newTXT = newTXT.replaceAll(reg, replaceValues[lang][key]);
+    // Применяем замены только если JSON валиден (нет ошибки) и parsedReplaceValues существует
+    if (parsedReplaceValues && !jsonError) {
+      try {
+        for (const lang in parsedReplaceValues) {
+          if (
+            Object.prototype.hasOwnProperty.call(parsedReplaceValues, lang) &&
+            typeof parsedReplaceValues[lang] === 'object' &&
+            parsedReplaceValues[lang] !== null
+          ) {
+            for (const key in parsedReplaceValues[lang]) {
+              if (
+                Object.prototype.hasOwnProperty.call(parsedReplaceValues[lang], key) &&
+                typeof parsedReplaceValues[lang][key] === 'string'
+              ) {
+                // Убедимся, что значение - строка
+                const reg = new RegExp(`{{{\\s*${key}\\s*}}}`, 'g');
+                newTXT = newTXT.replaceAll(reg, parsedReplaceValues[lang][key]);
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Error during replacement process:', e);
+        // В случае ошибки во время замены (маловероятно с текущими проверками, но возможно)
+        // можно откатиться к исходному тексту или показать сообщение.
+        // newTXT = sourceTXT; // или specific error message
       }
+    } else if (jsonError) {
+      // Если есть ошибка в JSON, не производим замену, чтобы избежать непредсказуемого поведения.
+      // Можно оставить newTXT равным sourceTXT или очистить поле результата.
+      // newTXT = sourceTXT; // Уже так по умолчанию
     }
     setReplaced(newTXT);
-  }, [sourceTXT]);
+  }, [sourceTXT, parsedReplaceValues, jsonError]); // jsonError добавлен в зависимости
+
   return (
-    <div style={{ width: '100%', height: '100vh', display: 'flex' }}>
-      <Editor
-        options={{
-          wordWrap: 'on',
-          minimap: { enabled: true },
+    <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Контейнер для редакторов */}
+      <PanelGroup
+        autoSaveId="persistence"
+        direction="horizontal"
+        style={{
+          display: 'flex',
+          flexGrow: 1,
+          borderTop: '1px solid #eee',
+          borderBottom: '1px solid #eee',
         }}
-        width={'50%'}
-        onChange={str => setSourceTXT(str ?? '')}
-        value={sourceTXT}
-      />
-      <Editor
-        options={{
-          wordWrap: 'on',
-          minimap: { enabled: true },
-        }}
-        width={'50%'}
-        value={replaced}
-      />
+      >
+        <Panel
+          minSize={20}
+          style={{
+            width: '33.33%',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRight: '1px solid #ccc',
+          }}
+        >
+          <h4
+            style={{
+              margin: '5px 0',
+              padding: '5px',
+              textAlign: 'center',
+              background: '#f0f0f0',
+              borderBottom: '1px solid #ccc',
+            }}
+          >
+            Replacement Rules (JSON)
+          </h4>
+          <div
+            style={{ flexGrow: 1, overflow: 'hidden' /* Для корректной работы высоты Editor */ }}
+          >
+            <Editor
+              options={{
+                wordWrap: 'on',
+                minimap: { enabled: true },
+              }}
+              height="100%"
+              language="json"
+              value={replaceValuesJsonString}
+              onChange={str => setReplaceValuesJsonString(str ?? '')}
+            />
+          </div>
+          {jsonError && (
+            <div
+              style={{
+                color: 'red',
+                padding: '8px',
+                backgroundColor: '#ffebeb',
+                borderTop: '1px solid red',
+                fontSize: '0.9em',
+                whiteSpace: 'pre-wrap',
+                overflowY: 'auto',
+                maxHeight: '100px',
+              }}
+            >
+              {jsonError}
+            </div>
+          )}
+        </Panel>
+        <PanelResizeHandle>&gt;</PanelResizeHandle>
+        <Panel
+          minSize={20}
+          style={{
+            width: '33.33%',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRight: '1px solid #ccc',
+          }}
+        >
+          <h4
+            style={{
+              margin: '5px 0',
+              padding: '5px',
+              textAlign: 'center',
+              background: '#f0f0f0',
+              borderBottom: '1px solid #ccc',
+            }}
+          >
+            Source Text (Шаблоны)
+          </h4>
+          <Editor
+            options={{
+              wordWrap: 'on',
+              minimap: { enabled: true },
+            }}
+            height="100%" // Занимает всю доступную высоту родителя
+            language="text" // или html, в зависимости от содержимого
+            onChange={str => setSourceTXT(str ?? '')}
+            value={sourceTXT}
+          />
+        </Panel>
+
+        <PanelResizeHandle>&gt;</PanelResizeHandle>
+
+        <Panel defaultSize={33} minSize={20} style={{ display: 'flex', flexDirection: 'column' }}>
+          <h4
+            style={{
+              margin: '5px 0',
+              padding: '5px',
+              textAlign: 'center',
+              background: '#f0f0f0',
+              borderBottom: '1px solid #ccc',
+            }}
+          >
+            Replaced Text (Результат)
+          </h4>
+          <Editor
+            options={{
+              wordWrap: 'on',
+              minimap: { enabled: true },
+              readOnly: true, // Результат только для чтения
+            }}
+            height="100%"
+            language="text" // или html
+            value={replaced}
+          />
+        </Panel>
+      </PanelGroup>
     </div>
   );
 };
