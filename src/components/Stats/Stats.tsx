@@ -46,7 +46,13 @@ export const Stats: FC<StatsProps> = ({ className, source, revealLine }) => {
         />
       </div>
       <RedirectionsSection
-        matches={[textMatches.regRedir, textMatches.regSubscription, textMatches.regLinks]}
+        matches={[
+          textMatches.regRedir,
+          textMatches.regSubscription,
+          textMatches.regLinks,
+          textMatches.regUid,
+          textMatches.regUidPixel,
+        ]}
       />
       <LanguagesSection
         matches={[textMatches.regLocales, textMatches.langs2, textMatches.langs]}
